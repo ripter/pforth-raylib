@@ -72,8 +72,8 @@ CPPFLAGS = -I. $(XCPPFLAGS)
 CFLAGS = $(XCFLAGS)
 LDFLAGS = $(XLDFLAGS)
 
-COMPILE = $(CC) $(CFLAGS) $(CPPFLAGS)
-LINK = $(CC) $(LDFLAGS)
+COMPILE = $(CC) $(CFLAGS) $(CPPFLAGS) $(shell pkg-config --cflags raylib)
+LINK = $(CC) $(LDFLAGS) $(shell pkg-config --libs raylib)
 
 .SUFFIXES: .c .o .eo
 

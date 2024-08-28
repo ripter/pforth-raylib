@@ -8,6 +8,7 @@
 **
 ** Author: Phil Burk
 ** Copyright 1994 3DO, Phil Burk, Larry Polansky, David Rosenboom
+** Modified by Chris Richards 2024.
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -22,6 +23,8 @@
 ** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 **
 ***************************************************************/
+
+#include "raylib.h"
 
 #if (defined(PF_NO_STDIO) || defined(PF_EMBEDDED))
     #define NULL  ((void *) 0)
