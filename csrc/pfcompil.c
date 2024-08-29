@@ -385,6 +385,10 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
     CreateDicEntryC( ID_XOR, "XOR", 0 );
     CreateDicEntryC( ID_ZERO_BRANCH, "0BRANCH", 0 );
 
+    /* Add the raylib words */
+    pfDebugMessage("pfBuildDictionary: Adding raylib words\n");
+    ADD_RAYLIB_WORDS_TO_DICTIONARY
+
     pfDebugMessage("pfBuildDictionary: FindSpecialXTs\n");
     if( FindSpecialXTs() < 0 ) goto error;
 

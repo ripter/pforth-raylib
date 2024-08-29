@@ -2,10 +2,13 @@
 #ifndef _pf_guts_h
 #define _pf_guts_h
 
+#include "raylib/pf_raylib.h"
+
 /***************************************************************
 ** Include file for PForth, a Forth based on 'C'
 **
 ** Author: Phil Burk
+** Modified by Chris Richards 2024.
 ** Copyright 1994 3DO, Phil Burk, Larry Polansky, David Rosenboom
 **
 ** Permission to use, copy, modify, and/or distribute this
@@ -353,6 +356,10 @@ enum cforth_primitive_ids
     ID_FP_FTANH,
     ID_FP_FPICK,
 #endif
+
+    /* Add the Raylib XT values */
+    RAYLIB_XT_VALUES,
+
 /* Add new IDs by replacing reserved IDs or extending FP routines. */
 /* Do NOT change the order of these IDs or dictionary files will break! */
     NUM_PRIMITIVES     /* This must always be LAST */
