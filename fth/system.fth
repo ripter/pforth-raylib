@@ -842,6 +842,7 @@ trace-include on
 trace-stack off
 
 include loadp4th.fth
+include raylib.fth
 
 decimal
 
