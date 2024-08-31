@@ -3,6 +3,7 @@
 ** Inner Interpreter for Forth based on 'C'
 **
 ** Author: Phil Burk
+** Modified by Chris Richards 2024.
 ** Copyright 1994 3DO, Phil Burk, Larry Polansky, David Rosenboom
 **
 ** Permission to use, copy, modify, and/or distribute this
@@ -29,7 +30,9 @@
 **
 ***************************************************************/
 
+#include "raylib.h"
 #include "pf_all.h"
+#include "raylib/pf_raylib.h"
 
 #if defined(WIN32) && !defined(__MINGW32__)
 #include <crtdbg.h>
@@ -1867,6 +1870,8 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
 
+        RAYLIB_WORDS
+
         default:
             ERR("pfCatch: Unrecognised token = 0x");
             ffDotHex(Token);
@@ -1875,7 +1880,7 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             EMIT_CR;
             InsPtr = 0;
             endcase;
-        }
+        } // switch(Token)
 
         if(InsPtr) Token = READ_CELL_DIC(InsPtr++);   /* Traverse to next token in secondary. */
 
