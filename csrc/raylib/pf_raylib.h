@@ -56,7 +56,6 @@
             pfCopyMemory(gScratch, CharPtr, len); \
             gScratch[len] = '\0'; \
             InitWindow(width, height, gScratch); \
-            printf( "\nInitWindow( %d, %d, %d, %s )\n", width, height, len, (char *)gScratch ); \
         } else { \
             fprintf(stderr, "\nError: Invalid string or length. Please use s\" to create a simple string.\n"); \
             break; \
@@ -69,55 +68,46 @@
     } \
     case ID_WINDOW_SHOULD_CLOSE: {  /* ( -- +n ) */ \
         int result = WindowShouldClose(); \
-        printf( "\nWindowShouldClose() = %d \n", result ); \
         M_PUSH(result); \
         break; \
     } \
     case ID_IS_WINDOW_READY: {  /* ( -- +n ) */ \
         int result = IsWindowReady(); \
-        printf( "\nIsWindowReady() = %d \n", result ); \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
         break; \
     } \
     case ID_IS_WINDOW_FULLSCREEN: {  /* ( -- +n ) */ \
         int result = IsWindowFullscreen(); \
-        printf( "\nIsWindowFullscreen() = %d \n", result ); \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
         break; \
     } \
     case ID_IS_WINDOW_HIDDEN: {  /* ( -- +n ) */ \
         int result = IsWindowHidden(); \
-        printf( "\nIsWindowHidden() = %d \n", result ); \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
         break; \
     } \
     case ID_IS_WINDOW_MINIMIZED: {  /* ( -- +n ) */ \
         int result = IsWindowMinimized(); \
-        printf( "\nIsWindowMinimized() = %d \n", result ); \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
         break; \
     } \
     case ID_IS_WINDOW_MAXIMIZED: {  /* ( -- +n ) */ \
         int result = IsWindowMaximized(); \
-        printf( "\nIsWindowMaximized() = %d \n", result ); \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
         break; \
     } \
     case ID_IS_WINDOW_FOCUSED: {  /* ( -- +n ) */ \
         int result = IsWindowFocused(); \
-        printf( "\nIsWindowFocused() = %d \n", result ); \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
         break; \
     } \
     case ID_IS_WINDOW_RESIZED: {  /* ( -- +n ) */ \
         int result = IsWindowResized(); \
-        printf( "\nIsWindowResized() = %d \n", result ); \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
         break; \
     } \
     case ID_IS_WINDOW_STATE: {  /* ( -- +n ) */ \
         int result = IsWindowState(TOS); \
-        printf( "\nIsWindowState( %d ) = %d \n", TOS, result ); \
         M_DROP; \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
         break; \

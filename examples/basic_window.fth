@@ -5,7 +5,7 @@
 screen-width screen-height s" Hello Raylib from Forth!" init-window
 target-fps set-target-fps
 
-: game-loop ( -- )
+: GAME-LOOP ( -- )
     BEGIN
         window-should-close 0=  \ Continue looping as long as the window should not close
     WHILE
