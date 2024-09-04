@@ -131,6 +131,9 @@ pfdicdat: $(PFDICDAT)
 
 pforthapp: $(PFORTHAPP)
 
+debug: CCOPTS = $(WIDTHOPT) -x c -O0 $(FULL_WARNINGS) $(EXTRA_CCOPTS) $(DEBUGOPTS) -fno-omit-frame-pointer
+debug: $(PFORTHAPP)
+
 help:
 	@echo "Use 'make all' to build standalone pForth executable."
 	@echo "PForth can be built in several stages using these targets:"
