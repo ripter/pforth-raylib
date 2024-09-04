@@ -26,3 +26,26 @@
 : BLANK 0 0 0 0 ;
 : MAGENTA 255 0 255 255 ;
 : RAYWHITE 245 245 245 255 ;
+
+
+\ System/Window config flags
+HEX  \ Switch to hexadecimal mode
+40 CONSTANT FLAG_VSYNC_HINT         \ Set to try enabling V-Sync on GPU
+02 CONSTANT FLAG_FULLSCREEN_MODE    \ Set to run program in fullscreen
+04 CONSTANT FLAG_WINDOW_RESIZABLE   \ Set to allow resizable window
+08 CONSTANT FLAG_WINDOW_UNDECORATED \ Set to disable window decoration (frame and buttons)
+80 CONSTANT FLAG_WINDOW_HIDDEN      \ Set to hide window
+200 CONSTANT FLAG_WINDOW_MINIMIZED  \ Set to minimize window (iconify)
+400 CONSTANT FLAG_WINDOW_MAXIMIZED  \ Set to maximize window (expanded to monitor)
+800 CONSTANT FLAG_WINDOW_UNFOCUSED  \ Set to window non focused
+1000 CONSTANT FLAG_WINDOW_TOPMOST   \ Set to window always on top
+100 CONSTANT FLAG_WINDOW_ALWAYS_RUN \ Set to allow windows running while minimized
+10 CONSTANT FLAG_WINDOW_TRANSPARENT \ Set to allow transparent framebuffer
+2000 CONSTANT FLAG_WINDOW_HIGHDPI   \ Set to support HighDPI
+4000 CONSTANT FLAG_WINDOW_MOUSE_PASSTHROUGH \ Set to support mouse passthrough
+8000 CONSTANT FLAG_BORDERLESS_WINDOWED_MODE \ Set to run program in borderless windowed mode
+20 CONSTANT FLAG_MSAA_4X_HINT       \ Set to try enabling MSAA 4X
+10000 CONSTANT FLAG_INTERLACED_HINT \ Set to try enabling interlaced video format (for V3D)
+DECIMAL  \ Switch back to decimal mode (optional)
+
+

@@ -30,6 +30,10 @@
 #include <sys/types.h>
 #endif
 
+/* Forth TRUE/FALSE values. */
+#define pfTRUE -1
+#define pfFALSE 0
+
 /* file_offset_t is used in place of off_t */
 typedef long file_offset_t;
 
