@@ -45,9 +45,9 @@
 ** TOS is cached in a register in pfCatch.
 ***************************************************************/
 
-#define STKPTR   (DataStackPtr)
-#define M_POP    (*(STKPTR++))
-#define M_PUSH(n) {*(--(STKPTR)) = (cell_t) (n);}
+#define STKPTR     (DataStackPtr)
+#define M_POP      (*(STKPTR++))
+#define M_PUSH(n)  {*(--(STKPTR)) = (cell_t) (n);}
 #define M_STACK(n) (STKPTR[n])
 
 #define TOS      (TopOfStack)
@@ -1009,7 +1009,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             endcase;
 
         case ID_FILE_OPEN: /* ( c-addr u fam -- fid ior ) */
-/* Build NUL terminated name string. */
+            /* Build NUL terminated name string. */
             Scratch = M_POP; /* u */
             Temp = M_POP;    /* caddr */
             if( Scratch < TIB_SIZE-2 )
@@ -1870,6 +1870,40 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
 
+
+        case ID_LOAD_IMAGE: {  /* ( c-addr u -- c-addr2 ior ) */ 
+            cell_t len = TOS;  /* length of the filename string. */ 
+            CharPtr = (char *) M_POP;  /* filename string, not null terminated. */ 
+            if (CharPtr == NULL) { 
+                M_PUSH(0);
+                TOS = -1; // null string pointer.
+                break; 
+            }
+            else if (len == 0) { 
+                M_PUSH(0);
+                TOS = -2; // empty string.
+                break; 
+            } 
+            else if (len > TIB_SIZE) { 
+                M_PUSH(0);
+                TOS = -3; // string too long.
+                break; 
+            } 
+
+            pfCopyMemory(gScratch, CharPtr, len); 
+            gScratch[len] = '\0'; 
+            Image image = LoadImage(gScratch); 
+
+            if (image.data == NULL) { 
+                M_PUSH(0);
+                TOS = -4; // image failed to load. 
+                break;
+            }
+
+            M_PUSH(&image);
+            TOS = 0;
+            break; 
+        } 
         RAYLIB_WORDS
 
         default:

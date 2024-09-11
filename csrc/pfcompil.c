@@ -394,8 +394,8 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
     if( CompileCustomFunctions() < 0 ) goto error; /* Call custom 'C' call builder. */
 
 #ifdef PF_DEBUG
-    DumpMemory( dic->dic_HeaderBase, 256 );
-    DumpMemory( dic->dic_CodeBase, 256 );
+    DumpMemory( (void *)dic->dic_HeaderBase, 256 );
+    DumpMemory( (void *)dic->dic_CodeBase, 256 );
 #endif
 
     pfDebugMessage("pfBuildDictionary: Finished adding dictionary entries.\n");

@@ -15,6 +15,18 @@
     ID_IS_WINDOW_FOCUSED, \
     ID_IS_WINDOW_RESIZED, \
     ID_IS_WINDOW_STATE, \
+    ID_SET_WINDOW_STATE, \
+    ID_CLEAR_WINDOW_STATE, \
+    ID_TOGGLE_FULLSCREEN, \
+    ID_TOGGLE_BORDERLESS_WINDOW, \
+    ID_MAXIMIZE_WINDOW, \
+    ID_MINIMIZE_WINDOW, \
+    ID_RESTORE_WINDOW, \
+    ID_SET_WINDOW_ICON, \
+    \
+    /* rtextures  */ \
+    ID_LOAD_IMAGE, \
+    \
     ID_SET_TARGET_FPS, \
     ID_BEGIN_DRAWING, \
     ID_CLEAR_BACKGROUND, \
@@ -37,6 +49,17 @@
     CreateDicEntryC( ID_IS_WINDOW_FOCUSED, "IS-WINDOW-FOCUSED", 0 ); \
     CreateDicEntryC( ID_IS_WINDOW_RESIZED, "IS-WINDOW-RESIZED", 0 ); \
     CreateDicEntryC( ID_IS_WINDOW_STATE, "IS-WINDOW-STATE", 0 ); \
+    CreateDicEntryC( ID_SET_WINDOW_STATE, "SET-WINDOW-STATE", 0 ); \
+    CreateDicEntryC( ID_CLEAR_WINDOW_STATE, "CLEAR-WINDOW-STATE", 0 ); \
+    CreateDicEntryC( ID_TOGGLE_FULLSCREEN, "TOGGLE-FULLSCREEN", 0 ); \
+    CreateDicEntryC( ID_TOGGLE_BORDERLESS_WINDOW, "TOGGLE-BORDERLESS-WINDOW", 0 ); \
+    CreateDicEntryC( ID_MAXIMIZE_WINDOW, "MAXIMIZE-WINDOW", 0 ); \
+    CreateDicEntryC( ID_MINIMIZE_WINDOW, "MINIMIZE-WINDOW", 0 ); \
+    CreateDicEntryC( ID_RESTORE_WINDOW, "RESTORE-WINDOW", 0 ); \
+    CreateDicEntryC( ID_SET_WINDOW_ICON, "SET-WINDOW-ICON", 0 ); \
+    \
+    CreateDicEntryC( ID_LOAD_IMAGE, "LOAD-IMAGE", 0 ); \
+    \
     CreateDicEntryC( ID_SET_TARGET_FPS, "SET-TARGET-FPS", 0 ); \
     CreateDicEntryC( ID_BEGIN_DRAWING, "BEGIN-DRAWING", 0 ); \
     CreateDicEntryC( ID_CLEAR_BACKGROUND, "CLEAR-BACKGROUND", 0 ); \
@@ -112,6 +135,51 @@
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
         break; \
     } \
+    case ID_SET_WINDOW_STATE: {  /* ( +n --  ) */ \
+        int flags = TOS; \
+        M_DROP; \
+        SetWindowState(flags); \
+        break; \
+    } \
+    case ID_CLEAR_WINDOW_STATE: {  /* ( +n --  ) */ \
+        int flags = TOS; \
+        M_DROP; \
+        ClearWindowState(flags); \
+        break; \
+    } \
+    case ID_TOGGLE_FULLSCREEN: {  /* ( --  ) */ \
+        ToggleFullscreen(); \
+        break; \
+    } \
+    case ID_TOGGLE_BORDERLESS_WINDOW: {  /* ( --  ) */ \
+        ToggleBorderlessWindowed(); \
+        break; \
+    } \
+    case ID_MAXIMIZE_WINDOW: {  /* ( --  ) */ \
+        MaximizeWindow(); \
+        break; \
+    } \
+    case ID_MINIMIZE_WINDOW: {  /* ( --  ) */ \
+        MinimizeWindow(); \
+        break; \
+    } \
+    case ID_RESTORE_WINDOW: {  /* ( --  ) */ \
+        RestoreWindow(); \
+        break; \
+    } \
+    case ID_SET_WINDOW_ICON: {  /* ( +n +n c-addr u --  ) */ \
+        printf(" Set the window Icon\n"); \
+        break; \
+    } \
+    \
+    \
+    \
+    \
+    \
+    /** \ 
+     * rtextures \ 
+     */ \
+    \
     case ID_SET_TARGET_FPS: {  /* ( +n --  ) */ \
         SetTargetFPS(TOS); \
         M_DROP; \
@@ -122,12 +190,12 @@
         break; \
     } \
     case ID_CLEAR_BACKGROUND: {  /* ( n n n n --  ) */ \
-        int red = M_POP; \
-        int green = M_POP; \
-        int blue = M_POP; \
         int alpha = TOS; \
+        int blue = M_POP; \
+        int green = M_POP; \
+        int red = M_POP; \
         M_DROP; \
-        ClearBackground((Color){ red, blue, green, alpha }); \
+        ClearBackground((Color){ red, green, blue, alpha }); \
         break; \
     } \
     case ID_DRAW_TEXT: {  /* ( +n +n c-addr u n n n n --  ) */ \
