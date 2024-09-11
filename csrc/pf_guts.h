@@ -2,7 +2,7 @@
 #ifndef _pf_guts_h
 #define _pf_guts_h
 
-#include "raylib/pf_raylib.h"
+#include "pf_raylib.h"
 
 /***************************************************************
 ** Include file for PForth, a Forth based on 'C'

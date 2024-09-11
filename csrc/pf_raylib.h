@@ -1,6 +1,8 @@
 #ifndef _raylib_pf_raylib_h
 #define _raylib_pf_raylib_h
 
+ThrowCode pfRaylibCatch( ExecToken XT );
+
 /* Define the XT values for the raylib words. */
 #define RAYLIB_XT_VALUES \
     /* rcore - Window-related functions */ \

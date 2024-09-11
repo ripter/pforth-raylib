@@ -32,7 +32,7 @@
 
 #include "raylib.h"
 #include "pf_all.h"
-#include "raylib/pf_raylib.h"
+#include "pf_raylib.h"
 
 #if defined(WIN32) && !defined(__MINGW32__)
 #include <crtdbg.h>
