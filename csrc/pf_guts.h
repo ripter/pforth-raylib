@@ -2,6 +2,8 @@
 #ifndef _pf_guts_h
 #define _pf_guts_h
 
+#include "pf_io.h"
+#include "pf_float.h"
 #include "pf_raylib.h"
 
 /***************************************************************

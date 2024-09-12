@@ -1,4 +1,4 @@
-/* @(#) pf_clib.c 96/12/18 1.12 */
+/* @(#) pf_clib.c 2024-09-12 Updated to C17 */
 /***************************************************************
 ** Duplicate functions from stdlib for PForth based on 'C'
 **
@@ -8,6 +8,7 @@
 **
 ** Author: Phil Burk
 ** Copyright 1994 3DO, Phil Burk, Larry Polansky, David Rosenboom
+** Updated by Chris Richards 2024 to C17 (C only)
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -27,41 +28,12 @@
 
 #include "pf_all.h"
 
-#ifdef PF_NO_CLIB
-/* Count chars until NUL.  Replace strlen() */
-#define  NUL  ((char) 0)
-cell_t pfCStringLength( const char *s )
-{
-    cell_t len = 0;
-    while( *s++ != NUL ) len++;
-    return len;
+/* Convert a character to uppercase */
+char pfCharToUpper(char c) {
+    return (c >= 'a' && c <= 'z') ? (c - ('a' - 'A')) : c;
 }
 
-/*    void *memset (void *s, cell_t c, size_t n); */
-void *pfSetMemory( void *s, cell_t c, cell_t n )
-{
-    uint8_t *p = s, byt = (uint8_t) c;
-    while( (n--) > 0) *p++ = byt;
-    return s;
-}
-
-/*  void *memccpy (void *s1, const void *s2, cell_t c, size_t n); */
-void *pfCopyMemory( void *s1, const void *s2, cell_t n)
-{
-    uint8_t *p1 = s1;
-    const uint8_t *p2 = s2;
-    while( (n--) > 0) *p1++ = *p2++;
-    return s1;
-}
-
-#endif  /* PF_NO_CLIB */
-
-char pfCharToUpper( char c )
-{
-    return (char) ( ((c>='a') && (c<='z')) ? (c - ('a' - 'A')) : c );
-}
-
-char pfCharToLower( char c )
-{
-    return (char) ( ((c>='A') && (c<='Z')) ? (c + ('a' - 'A')) : c );
+/* Convert a character to lowercase */
+char pfCharToLower(char c) {
+    return (c >= 'A' && c <= 'Z') ? (c + ('a' - 'A')) : c;
 }

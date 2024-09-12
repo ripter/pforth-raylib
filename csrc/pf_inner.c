@@ -281,8 +281,8 @@ static const char *pfSelectFileModeOpen( cell_t fam )
 /**************************************************************/
 ThrowCode pfCatch( ExecToken XT )
 {
-    register cell_t  TopOfStack;    /* Cache for faster execution. */
-    register cell_t *DataStackPtr;
+    cell_t  TopOfStack;    
+    register cell_t *DataStackPtr; /* Cache for faster execution. */
     register cell_t *ReturnStackPtr;
     register cell_t *InsPtr = NULL;
     register cell_t  Token;
@@ -1870,49 +1870,53 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
 
+            // case ID_LOAD_IMAGE: { /* ( c-addr u -- c-addr2 ior ) */
+            //     cell_t len = TOS;        /* length of the filename string. */
+            //     CharPtr = (char *)M_POP; /* filename string, not null terminated. */
+            //     if (CharPtr == NULL) {
+            //         M_PUSH(0);
+            //         TOS = -1; // null string pointer.
+            //         break;
+            //     } else if (len == 0) {
+            //         M_PUSH(0);
+            //         TOS = -2; // empty string.
+            //         break;
+            //     } else if (len > TIB_SIZE) {
+            //         M_PUSH(0);
+            //         TOS = -3; // string too long.
+            //         break;
+            //     }
 
-        case ID_LOAD_IMAGE: {  /* ( c-addr u -- c-addr2 ior ) */ 
-            cell_t len = TOS;  /* length of the filename string. */ 
-            CharPtr = (char *) M_POP;  /* filename string, not null terminated. */ 
-            if (CharPtr == NULL) { 
-                M_PUSH(0);
-                TOS = -1; // null string pointer.
-                break; 
+            //     pfCopyMemory(gScratch, CharPtr, len);
+            //     gScratch[len] = '\0';
+            //     Image image = LoadImage(gScratch);
+
+            //     if (image.data == NULL) {
+            //         M_PUSH(0);
+            //         TOS = -4; // image failed to load.
+            //         break;
+            //     }
+
+            //     M_PUSH(&image);
+            //     TOS = 0;
+            //     break;
+            // }
+
+          RAYLIB_WORDS
+
+            default: {
+                // See if it's a Raylib word.
+                ThrowCode raylibAttempt = pfRaylibCatch(XT, &TopOfStack, DataStackPtr, ReturnStackPtr);
+                // If Raylib doens't recognize the word, throw an error.
+                if (raylibAttempt == THROW_UNDEFINED_WORD) {
+                    ERR("pfCatch: Unrecognised token = 0x");
+                    ffDotHex(Token);
+                    ERR(" at 0x");
+                    ffDotHex((cell_t)InsPtr);
+                    EMIT_CR;
+                    InsPtr = 0;
+                }
             }
-            else if (len == 0) { 
-                M_PUSH(0);
-                TOS = -2; // empty string.
-                break; 
-            } 
-            else if (len > TIB_SIZE) { 
-                M_PUSH(0);
-                TOS = -3; // string too long.
-                break; 
-            } 
-
-            pfCopyMemory(gScratch, CharPtr, len); 
-            gScratch[len] = '\0'; 
-            Image image = LoadImage(gScratch); 
-
-            if (image.data == NULL) { 
-                M_PUSH(0);
-                TOS = -4; // image failed to load. 
-                break;
-            }
-
-            M_PUSH(&image);
-            TOS = 0;
-            break; 
-        } 
-        RAYLIB_WORDS
-
-        default:
-            ERR("pfCatch: Unrecognised token = 0x");
-            ffDotHex(Token);
-            ERR(" at 0x");
-            ffDotHex((cell_t) InsPtr);
-            EMIT_CR;
-            InsPtr = 0;
             endcase;
         } // switch(Token)
 

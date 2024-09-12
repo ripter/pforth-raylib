@@ -1,5 +1,6 @@
 {
   "files.associations": {
     "ios": "c"
-  }
+  },
+  "C_Cpp.default.compilerPath": "/usr/bin/clang"
 }

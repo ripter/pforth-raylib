@@ -1,12 +1,14 @@
-/* @(#) pf_clib.h 96/12/18 1.10 */
-#ifndef _pf_clib_h
-#define _pf_clib_h
+/* @(#) pf_clib.h 2024-09-12 Updated to C17 (C only) */
+#pragma once
+#ifndef _PF_CLIB_H
+#define _PF_CLIB_H
 
 /***************************************************************
 ** Include file for PForth tools
 **
 ** Author: Phil Burk
 ** Copyright 1994 3DO, Phil Burk, Larry Polansky, David Rosenboom
+** Updated by Chris Richards 2024 to C17 (C only)
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -22,45 +24,17 @@
 **
 ***************************************************************/
 
-#ifdef  PF_NO_CLIB
+#include <string.h>  // Include string.h for standard library memory functions
+#include <stdlib.h>  // Include for exit function
 
-    #ifdef __cplusplus
-    extern "C" {
-    #endif
+/* Use standard library functions */
+#define pfCStringLength strlen
+#define pfSetMemory     memset
+#define pfCopyMemory    memcpy
+#define EXIT(n)         exit(n)
 
-    cell_t pfCStringLength( const char *s );
-    void *pfSetMemory( void *s, cell_t c, cell_t n );
-    void *pfCopyMemory( void *s1, const void *s2, cell_t n);
-    #define EXIT(n)  {while(1);}
+/* Functions that perform character case conversion without triggering macro issues */
+char pfCharToUpper(char c);
+char pfCharToLower(char c);
 
-    #ifdef __cplusplus
-    }
-    #endif
-
-#else   /* PF_NO_CLIB */
-
-    #ifdef PF_USER_CLIB
-        #include PF_USER_CLIB
-    #else
-/* Use stdlib functions if available because they are probably faster. */
-        #define pfCStringLength strlen
-        #define pfSetMemory     memset
-        #define pfCopyMemory    memcpy
-        #define EXIT(n)  exit(n)
-    #endif /* PF_USER_CLIB */
-
-#endif  /* !PF_NO_CLIB */
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-/* Always use my own functions to avoid macro expansion problems with tolower(*s++) */
-char pfCharToUpper( char c );
-char pfCharToLower( char c );
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* _pf_clib_h */
+#endif /* _PF_CLIB_H */

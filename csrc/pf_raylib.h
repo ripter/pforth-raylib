@@ -1,7 +1,7 @@
 #ifndef _raylib_pf_raylib_h
 #define _raylib_pf_raylib_h
 
-ThrowCode pfRaylibCatch( ExecToken XT );
+ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr, cell_t *ReturnStackPtr );
 
 /* Define the XT values for the raylib words. */
 #define RAYLIB_XT_VALUES \

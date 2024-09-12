@@ -22,6 +22,7 @@
 **
 ***************************************************************/
 
+#include "pforth.h"
 #include "pf_types.h"
 
 #define PF_CHAR_XON    (0x11)
