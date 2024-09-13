@@ -155,7 +155,6 @@
     <ClCompile Include="..\..\..\csrc\pf_core.c" />
     <ClCompile Include="..\..\..\csrc\pf_inner.c" />
     <ClCompile Include="..\..\..\csrc\pf_io.c" />
-    <ClCompile Include="..\..\..\csrc\pf_io_none.c" />
     <ClCompile Include="..\..\..\csrc\pf_main.c" />
     <ClCompile Include="..\..\..\csrc\pf_mem.c" />
     <ClCompile Include="..\..\..\csrc\pf_save.c" />

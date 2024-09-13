@@ -19,9 +19,6 @@
     <ClCompile Include="..\..\..\csrc\pf_io.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\csrc\pf_io_none.c">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\csrc\win32_console\pf_io_win32_console.c">
       <Filter>Source</Filter>
     </ClCompile>

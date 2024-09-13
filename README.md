@@ -8,6 +8,17 @@ This is a C99 project that tries to match the coding guidelines set by Raylib.
 **This is a Work In Progress.**
 
 
+### Future Plans
+
+I intend to remove CMake and platforms that are not supported by Raylib in the future. The project will use Make as the build tool. For now, the only platform being tested is platforms/unix/Makefile.
+
+For now, the main Makefile can be run like this:
+
+```sh
+cd platforms/unix/
+make
+```
+
 
 ### Linking Raylib
 
@@ -19,6 +30,12 @@ You can check if `pkg-config` knows about Raylib by running:
 pkg-config --cflags raylib
 ```
 
+
+### Bugs
+
+* Lots of missing words.
+* file paths in .fth files are relative to the pforth executable location. They should be relative to the file location instead.
+* Segfaults instead of giving error or crash info.
 
 ---
 

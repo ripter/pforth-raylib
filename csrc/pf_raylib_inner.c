@@ -22,12 +22,13 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
 
   switch (XT) {
     case ID_TEST_WORD: {
+      printf("\nINFO: Test word\n");
       M_PUSH(42);
       M_PUSH(23);
-      M_PUSH(16);
-      M_PUSH(15);
-      M_PUSH(8);
-      M_PUSH(4);
+      // M_PUSH(16);
+      // M_PUSH(15);
+      // M_PUSH(8);
+      // M_PUSH(4);
       TOS = -19; 
     } break;
     default:

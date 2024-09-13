@@ -59,7 +59,7 @@ PFINCLUDES = pf_all.h pf_cglue.h pf_clib.h pf_core.h pf_float.h \
 	pfcompil.h pfinnrfp.h pforth.h \
 	pf_raylib.h 
 PFBASESOURCE = pf_cglue.c pf_clib.c pf_core.c pf_inner.c \
-	pf_io.c pf_io_none.c pf_main.c pf_mem.c pf_save.c \
+	pf_io.c pf_main.c pf_mem.c pf_save.c \
 	pf_text.c pf_words.c pfcompil.c pfcustom.c \
 	pf_raylib_inner.c
 PFSOURCE = $(PFBASESOURCE) $(IO_SOURCE)

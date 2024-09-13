@@ -23,7 +23,6 @@ pf_clib.c
 pf_core.c
 pf_inner.c
 pf_io.c
-pf_io_none.c
 pf_mem.c
 pf_save.c
 pf_text.c

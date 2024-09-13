@@ -446,14 +446,9 @@ ThrowCode pfDoForth( const char *DicFileName, const char *SourceName, cell_t IfI
     ThrowCode Result = 0;
     ExecToken  EntryPoint = 0;
 
-#ifdef PF_USER_INIT
-    Result = PF_USER_INIT;
-    if( Result < 0 ) goto error1;
-#endif
-
     pfInit();
 
-/* Allocate Task structure. */
+    /* Allocate Task structure. */
     pfDebugMessage("pfDoForth: call pfCreateTask()\n");
     cftd = pfCreateTask( DEFAULT_USER_DEPTH, DEFAULT_RETURN_DEPTH );
 
@@ -463,10 +458,14 @@ ThrowCode pfDoForth( const char *DicFileName, const char *SourceName, cell_t IfI
 
         if( !gVarQuiet )
         {
-            MSG( "PForth V"PFORTH_VERSION_NAME", " );
+            MSG( "rayForth V"PFORTH_VERSION_NAME", " );
 
-            if( IsHostLittleEndian() ) MSG("LE");
-            else MSG("BE");
+            if (IsHostLittleEndian()) {
+              MSG("LE");
+            } else {
+              MSG("BE");
+            }
+
 #if PF_BIG_ENDIAN_DIC
             MSG("/BE");
 #elif PF_LITTLE_ENDIAN_DIC
@@ -474,12 +473,13 @@ ThrowCode pfDoForth( const char *DicFileName, const char *SourceName, cell_t IfI
 #endif
 
 #if (PF_SIZEOF_CELL == 8)
-                MSG("/64");
+            MSG("/64");
 #elif (PF_SIZEOF_CELL  == 4)
-                MSG("/32");
+            MSG("/32");
 #endif
 
             MSG( ", built "__DATE__" "__TIME__ );
+            MSG( ", Forked from PForth V"PFORTH_FORKED_FROM_VERSION );
         }
 
 /* Don't use MSG before task set. */
@@ -582,10 +582,6 @@ error2:
     pfDeleteTask( cftd );
     /* Terminate so we restore normal shell tty mode. */
     pfTerm();
-
-#ifdef PF_USER_INIT
-error1:
-#endif
 
     return -1;
 }

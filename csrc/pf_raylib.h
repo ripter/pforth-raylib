@@ -29,6 +29,7 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
     \
     /* rtextures  */ \
     ID_LOAD_IMAGE, \
+    ID_LOAD_TEXTURE_FROM_IMAGE, \
     \
     ID_SET_TARGET_FPS, \
     ID_BEGIN_DRAWING, \
@@ -63,6 +64,7 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
     CreateDicEntryC( ID_SET_WINDOW_ICON, "SET-WINDOW-ICON", 0 ); \
     \
     CreateDicEntryC( ID_LOAD_IMAGE, "LOAD-IMAGE", 0 ); \
+    CreateDicEntryC( ID_LOAD_TEXTURE_FROM_IMAGE, "LOAD-TEXTURE-FROM-IMAGE", 0 ); \
     \
     CreateDicEntryC( ID_SET_TARGET_FPS, "SET-TARGET-FPS", 0 ); \
     CreateDicEntryC( ID_BEGIN_DRAWING, "BEGIN-DRAWING", 0 ); \
@@ -163,35 +165,22 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
      * rtextures \ 
      */ \
     \
-    case ID_LOAD_IMAGE: {      /* ( c-addr u -- c-addr2 ior ) */ \
+    case ID_LOAD_IMAGE: {      /* ( c-addr u -- c-addr2 ) */ \
         cell_t len = TOS;        /* length of the filename string. */ \
-        CharPtr = (char *)M_POP; /* filename string, not null terminated. */ \ 
-        if (CharPtr == NULL) { \
-            M_PUSH(0); \
-            TOS = -1; /* null string pointer. */ \
-            break; \
-        } else if (len == 0) { \
-            M_PUSH(0); \
-            TOS = -2; /* empty string. */ \
-            break; \
-        } else if (len > TIB_SIZE) { \
-            M_PUSH(0); \
-            TOS = -3; /* string too long. */ \
-            break; \
-        } \
-        \
+        CharPtr = (char *)M_POP; /* filename string, not null terminated. */ \
         pfCopyMemory(gScratch, CharPtr, len); \
         gScratch[len] = '\0'; \
         Image image = LoadImage(gScratch); \
-        \
-        if (image.data == NULL) { \
-            M_PUSH(0); \
-            TOS = -4; /* image failed to load. */ \
-            break; \
-        } \
-        \
-        M_PUSH(&image); \
-        TOS = 0; \
+        printf("\nSaving image = %p\n", image); \
+        TOS = (cell_t)&image; \
+    } break; \
+    /* Texture2D LoadTextureFromImage(Image image); */ \
+    case ID_LOAD_TEXTURE_FROM_IMAGE: {  /* ( c-addr -- c-addr ) */ \
+        Image image = *(Image *)TOS; \
+        printf("\nLoaded image = %p\n", image); \
+        Texture2D texture = LoadTextureFromImage(image); \
+        printf("\ntexture.id = %d\n", texture.id); \
+        TOS = (cell_t)&texture; \
     } break; \
     case ID_SET_TARGET_FPS: {  /* ( +n --  ) */ \
         SetTargetFPS(TOS); \

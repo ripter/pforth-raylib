@@ -81,12 +81,12 @@ cell_t ffSkip( char *AddrIn, cell_t Cnt, char c, char **AddrOut )
 
     s = AddrIn;
 
-    if( c == BLANK )
+    if( c == SPACE_CHARACTER )
     {
         while( ( Cnt > 0 ) &&
-            (( *s == BLANK) || ( *s == '\t')) )
+            (( *s == SPACE_CHARACTER) || ( *s == '\t')) )
         {
-DBUGX(("ffSkip BLANK: %c, %d\n", *s, Cnt ));
+DBUGX(("ffSkip EMPTY_SPACE: %c, %d\n", *s, Cnt ));
             s++;
             Cnt--;
         }
@@ -111,15 +111,15 @@ cell_t ffScan( char *AddrIn, cell_t Cnt, char c, char **AddrOut )
 
     s = AddrIn;
 
-    if( c == BLANK )
+    if( c == SPACE_CHARACTER )
     {
         while(( Cnt > 0 ) &&
-            ( *s != BLANK) &&
+            ( *s != SPACE_CHARACTER) &&
             ( *s != '\r') &&
             ( *s != '\n') &&
             ( *s != '\t'))
         {
-DBUGX(("ffScan BLANK: %c, %d\n", *s, Cnt ));
+DBUGX(("ffScan EMPTY_SPACE: %c, %d\n", *s, Cnt ));
             s++;
             Cnt--;
         }

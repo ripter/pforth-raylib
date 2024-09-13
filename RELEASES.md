@@ -137,7 +137,7 @@ Documentation at http://www.softsynth.com/pforth/
       so that it matches ANS standard.  2>R is now same as SWAP >R >R
       Thank you Leo Wong for reporting this bug.
 
-* Added PF_USER_INIT and PF_USER_TERM for user definable init and term calls.
+* Added PF_USER_INIT and PF_USER_TERM for user definable init and term calls. (PF_USER_INIT removed in 2024)
 
 * FIXED memory leak in pfDoForth()
 

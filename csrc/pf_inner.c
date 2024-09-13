@@ -308,6 +308,7 @@ ThrowCode pfCatch( ExecToken XT )
     FileStream    *FileID;
     uint8_t       *CodeBase = (uint8_t *) CODE_BASE;
     ThrowCode      ExceptionReturnCode = 0;
+    
 
 /* FIXME
     gExecutionDepth += 1;
@@ -1873,25 +1874,32 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
 
             RAYLIB_WORDS
 
-            default: {
-                // See if it's a Raylib word.
-                ThrowCode raylibAttempt = pfRaylibCatch(XT, &TopOfStack, DataStackPtr, ReturnStackPtr);
-                // If Raylib doens't recognize the word, throw an error.
-                if (raylibAttempt == THROW_UNDEFINED_WORD) {
-                    ERR("pfCatch: Unrecognised token = 0x");
-                    ffDotHex(Token);
-                    ERR(" at 0x");
-                    ffDotHex((cell_t)InsPtr);
-                    EMIT_CR;
-                    InsPtr = 0;
-                }
-            }
-            endcase;
+            default:
+                // ExceptionReturnCode = THROW_UNDEFINED_WORD;
+                ERR("pfCatch: Unrecognised token = 0x");
+                ffDotHex(Token);
+                ERR(" at 0x");
+                ffDotHex((cell_t)InsPtr);
+                EMIT_CR;
+                InsPtr = 0;
         } // switch(Token)
 
+        // Try Raylib words.
+        // ExceptionReturnCode = pfRaylibCatch(XT, &TopOfStack, DataStackPtr, ReturnStackPtr);
 
-        if(InsPtr) Token = READ_CELL_DIC(InsPtr++);   /* Traverse to next token in secondary. */
+        // if (ExceptionReturnCode == THROW_UNDEFINED_WORD) {
+        //   ERR("pfCatch: Unrecognised token = 0x");
+        //   ffDotHex(Token);
+        //   ERR(" at 0x");
+        //   ffDotHex((cell_t)InsPtr);
+        //   EMIT_CR;
+        //   InsPtr = 0;
+        // }
 
+        if (InsPtr) {
+          Token = READ_CELL_DIC(
+              InsPtr++); /* Traverse to next token in secondary. */
+        }
 
     } while( (InitialReturnStack - TORPTR) > 0 );
 

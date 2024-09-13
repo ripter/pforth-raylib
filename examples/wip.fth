@@ -1,3 +1,3 @@
 s" tilemap.png" load-image 
 
-CR .s
+load-texture-from-image

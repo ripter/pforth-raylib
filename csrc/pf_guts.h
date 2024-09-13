@@ -26,13 +26,27 @@
 ** OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 **
 ***************************************************************/
+// Macros to convert numbers to strings
+#define str(s) #s
+#define xstr(s) str(s)
+
 
 /*
 ** PFORTH_VERSION changes when PForth is modified.
 ** See README file for version info.
 */
-#define PFORTH_VERSION_CODE 31
-#define PFORTH_VERSION_NAME "2.0.2"
+// Define the version components
+#define PFORTH_FORKED_FROM_VERSION "2.0.2"
+#define PFORTH_VERSION_MAJOR 0
+#define PFORTH_VERSION_MINOR 0
+#define PFORTH_VERSION_PATCH 2
+
+// Construct the version name from the components
+#define PFORTH_VERSION_NAME xstr(PFORTH_VERSION_MAJOR) "." xstr(PFORTH_VERSION_MINOR) "." xstr(PFORTH_VERSION_PATCH)
+// Automatically calculate the version code as a single integer
+#define PFORTH_VERSION_CODE ((PFORTH_VERSION_MAJOR * 10000) + (PFORTH_VERSION_MINOR * 100) + PFORTH_VERSION_PATCH)
+
+
 
 /*
 ** PFORTH_FILE_VERSION changes when incompatible changes are made
@@ -65,7 +79,7 @@
 
 #define FFALSE (0)
 #define FTRUE (-1)
-#define BLANK (' ')
+#define SPACE_CHARACTER (' ')
 
 #define FLAG_PRECEDENCE (0x80)
 #define FLAG_IMMEDIATE  (0x40)

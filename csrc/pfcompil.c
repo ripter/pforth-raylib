@@ -595,7 +595,7 @@ void ffColon( void )
 
     gDepthAtColon = DATA_STACK_DEPTH;
 
-    FName = ffWord( BLANK );
+    FName = ffWord( SPACE_CHARACTER );
     if( *FName > 0 )
     {
         ffStringColon( FName );
@@ -634,7 +634,7 @@ void ffCreate( void )
 {
     char *FName;
 
-    FName = ffWord( BLANK );
+    FName = ffWord( SPACE_CHARACTER );
     if( *FName > 0 )
     {
         ffStringCreate( FName );
@@ -667,7 +667,7 @@ void ffDefer( void )
 {
     char *FName;
 
-    FName = ffWord( BLANK );
+    FName = ffWord( SPACE_CHARACTER );
     if( *FName > 0 )
     {
         ffStringDefer( FName, ID_QUIT_P );
@@ -845,7 +845,7 @@ ThrowCode ffInterpret( void )
     {
 
         pfDebugMessage("ffInterpret: calling ffWord(()\n");
-        theWord = ffLWord( BLANK );
+        theWord = ffLWord( SPACE_CHARACTER );
         DBUG(("ffInterpret: theWord = 0x%x, Len = %d\n", theWord, *theWord ));
 
         if( *theWord > 0 )

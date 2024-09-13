@@ -10,7 +10,7 @@
 screen-width screen-height s" raylib [textures] example - image loading" init-window
 
 \ Load the image and create texture
-s" resources/raylib_logo.png" load-image constant image
+s" ../../examples/resources/raylib_logo.png" load-image constant image
 variable texture
 image load-texture-from-image texture !
 image unload-image  \ Unload image from RAM after uploading to VRAM
