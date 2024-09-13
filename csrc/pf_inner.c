@@ -1870,39 +1870,8 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
 
-            // case ID_LOAD_IMAGE: { /* ( c-addr u -- c-addr2 ior ) */
-            //     cell_t len = TOS;        /* length of the filename string. */
-            //     CharPtr = (char *)M_POP; /* filename string, not null terminated. */
-            //     if (CharPtr == NULL) {
-            //         M_PUSH(0);
-            //         TOS = -1; // null string pointer.
-            //         break;
-            //     } else if (len == 0) {
-            //         M_PUSH(0);
-            //         TOS = -2; // empty string.
-            //         break;
-            //     } else if (len > TIB_SIZE) {
-            //         M_PUSH(0);
-            //         TOS = -3; // string too long.
-            //         break;
-            //     }
 
-            //     pfCopyMemory(gScratch, CharPtr, len);
-            //     gScratch[len] = '\0';
-            //     Image image = LoadImage(gScratch);
-
-            //     if (image.data == NULL) {
-            //         M_PUSH(0);
-            //         TOS = -4; // image failed to load.
-            //         break;
-            //     }
-
-            //     M_PUSH(&image);
-            //     TOS = 0;
-            //     break;
-            // }
-
-          RAYLIB_WORDS
+            RAYLIB_WORDS
 
             default: {
                 // See if it's a Raylib word.
@@ -1920,20 +1889,9 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
         } // switch(Token)
 
+
         if(InsPtr) Token = READ_CELL_DIC(InsPtr++);   /* Traverse to next token in secondary. */
 
-#ifdef PF_DEBUG
-        M_DOTS;
-#endif
-
-#if 0
-        if( _CrtCheckMemory() == 0 )
-        {
-            ERR("_CrtCheckMemory abort: InsPtr = 0x");
-            ffDotHex((int)InsPtr);
-            ERR("\n");
-        }
-#endif
 
     } while( (InitialReturnStack - TORPTR) > 0 );
 

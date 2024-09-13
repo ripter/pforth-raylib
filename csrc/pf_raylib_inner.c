@@ -21,16 +21,7 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
 
 
   switch (XT) {
-    case ID_LOAD_IMAGE: {      /* ( c-addr u -- c-addr2 ior ) */
-      cell_t len = TOS;        /* length of the filename string. */
-      CharPtr = (char *)M_POP; /* filename string, not null terminated. */
-      
-      pfCopyMemory(gScratch, CharPtr, len);
-      gScratch[len] = '\0';
-
-      printf("len: %lu\n", len);
-      printf("CharPtr: %s\n", gScratch);
-
+    case ID_TEST_WORD: {
       M_PUSH(42);
       M_PUSH(23);
       M_PUSH(16);
@@ -38,50 +29,9 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
       M_PUSH(8);
       M_PUSH(4);
       TOS = -19; 
-      // *(DataStackPtr - 1) = 42;
-      // *(DataStackPtr) = 23;
-      // *(DataStackPtr + 1) = 16;
-
-      // DataStackPtr[-1] = 42;
-      // DataStackPtr[0] = 23;
-      // DataStackPtr[1] = 16;
-      // DataStackPtr += 2; // Move the DataStackPtr to the next cell.
-      // *DataStackPtr = 42;
-      // *(DataStackPtr + 1) = 23;
-      // *(DataStackPtr + 2) = 16;
-
-      // cell_t len = TOS;        /* length of the filename string. */
-      // CharPtr = (char *)M_POP; /* filename string, not null terminated. */
-      // if (CharPtr == NULL) {
-      //   M_PUSH(0);
-      //   TOS = -1; // null string pointer.
-      //   break;
-      // } else if (len == 0) {
-      //   M_PUSH(0);
-      //   TOS = -2; // empty string.
-      //   break;
-      // } else if (len > TIB_SIZE) {
-      //   M_PUSH(0);
-      //   TOS = -3; // string too long.
-      //   break;
-      // }
-
-      // pfCopyMemory(gScratch, CharPtr, len);
-      // gScratch[len] = '\0';
-      // Image image = LoadImage(gScratch);
-
-      // if (image.data == NULL) {
-      //   M_PUSH(0);
-      //   TOS = -4; // image failed to load.
-      //   break;
-      // }
-
-      // M_PUSH(&image);
-      // TOS = 0;
-      break;
-    }
+    } break;
     default:
-      break;
+      return THROW_UNDEFINED_WORD;
   }
   return 0;
 }

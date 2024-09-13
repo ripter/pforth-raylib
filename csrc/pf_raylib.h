@@ -5,6 +5,7 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
 
 /* Define the XT values for the raylib words. */
 #define RAYLIB_XT_VALUES \
+    ID_TEST_WORD, \
     /* rcore - Window-related functions */ \
     ID_INIT_WINDOW, \
     ID_CLOSE_WINDOW, \
@@ -39,6 +40,7 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
 
 /* Macro to add all the XT tokens to the dictionary */
 #define ADD_RAYLIB_WORDS_TO_DICTIONARY \
+    CreateDicEntryC( ID_TEST_WORD, "TEST-WORD", 0 ); \
     pfDebugMessage("pfBuildDictionary: Adding raylib words\n"); \
     CreateDicEntryC( ID_INIT_WINDOW, "INIT-WINDOW", 0 ); \
     CreateDicEntryC( ID_CLOSE_WINDOW, "CLOSE-WINDOW", 0 ); \
@@ -85,37 +87,29 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
             fprintf(stderr, "\nError: Invalid string or length. Please use s\" to create a simple string.\n"); \
             break; \
         } \
-        break; \
-    } \
+    } break; \
     case ID_CLOSE_WINDOW: {  /* ( --  ) */ \
         CloseWindow(); \
-        break; \
-    } \
+    } break; \
     case ID_WINDOW_SHOULD_CLOSE: {  /* ( -- +n ) */ \
-        int result = WindowShouldClose(); \
-        M_PUSH(result); \
-        break; \
-    } \
+        TOS = WindowShouldClose(); \
+    } break; \
     case ID_IS_WINDOW_READY: {  /* ( -- +n ) */ \
         int result = IsWindowReady(); \
-        M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
-        break; \
-    } \
+        TOS = result == pfFALSE ? pfFALSE : pfTRUE; \
+    } break; \
     case ID_IS_WINDOW_FULLSCREEN: {  /* ( -- +n ) */ \
         int result = IsWindowFullscreen(); \
-        M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
-        break; \
-    } \
+        TOS = result == pfFALSE ? pfFALSE : pfTRUE; \
+    } break; \
     case ID_IS_WINDOW_HIDDEN: {  /* ( -- +n ) */ \
         int result = IsWindowHidden(); \
-        M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
-        break; \
-    } \
+        TOS = result == pfFALSE ? pfFALSE : pfTRUE; \
+    } break; \
     case ID_IS_WINDOW_MINIMIZED: {  /* ( -- +n ) */ \
         int result = IsWindowMinimized(); \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
-        break; \
-    } \
+    } break; \
     case ID_IS_WINDOW_MAXIMIZED: {  /* ( -- +n ) */ \
         int result = IsWindowMaximized(); \
         M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
@@ -182,6 +176,36 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
      * rtextures \ 
      */ \
     \
+    case ID_LOAD_IMAGE: {      /* ( c-addr u -- c-addr2 ior ) */ \
+        cell_t len = TOS;        /* length of the filename string. */ \
+        CharPtr = (char *)M_POP; /* filename string, not null terminated. */ \ 
+        if (CharPtr == NULL) { \
+            M_PUSH(0); \
+            TOS = -1; /* null string pointer. */ \
+            break; \
+        } else if (len == 0) { \
+            M_PUSH(0); \
+            TOS = -2; /* empty string. */ \
+            break; \
+        } else if (len > TIB_SIZE) { \
+            M_PUSH(0); \
+            TOS = -3; /* string too long. */ \
+            break; \
+        } \
+        \
+        pfCopyMemory(gScratch, CharPtr, len); \
+        gScratch[len] = '\0'; \
+        Image image = LoadImage(gScratch); \
+        \
+        if (image.data == NULL) { \
+            M_PUSH(0); \
+            TOS = -4; /* image failed to load. */ \
+            break; \
+        } \
+        \
+        M_PUSH(&image); \
+        TOS = 0; \
+    } break; \
     case ID_SET_TARGET_FPS: {  /* ( +n --  ) */ \
         SetTargetFPS(TOS); \
         M_DROP; \
