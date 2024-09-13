@@ -1,19 +1,40 @@
-# PForth Desktop Edition
+# PForth Raylib Edition
 ## A PForth Fork for desktop application development written in C
 
-A Forth implenetation that inlcudes Raylib and other C libraries used for desktop and game development.
+A Forth implementation that includes Raylib and other C libraries used for desktop and game development. Forked from the amazing [pForth](https://github.com/philburk/pforth).
+
+This is a C99 project that tries to match the coding guidelines set by Raylib.
+
+**This is a Work In Progress.**
+
+
+
+### Linking Raylib
+
+This project uses `pkg-config` to link to Raylib. If you encounter issues where Raylib functions (e.g., `EndDrawing`, `DrawText`) aren't found during linking, it may be due to `pkg-config` not correctly detecting your Raylib installation—especially if you built Raylib from source.
+
+You can check if `pkg-config` knows about Raylib by running:
+
+```
+pkg-config --cflags raylib
+```
+
+
+---
+
+---
 
 
 ## PForth Base
 This work was forked from the [pForth](https://github.com/philburk/pforth) created by Phil Burk with Larry Polansky, David Rosenboom and Darren Gibbs and Support for 64-bit cells by Aleksej Saushev.
 
-Last updated: November 27, 2022
+The PForth base was last updated on November 27, 2022
 
 PForth is based on ANSI-Forth but is not 100% compatible. https://forth-standard.org/standard/words
 
-Code for pForth is maintained on GitHub at: https://github.com/philburk/pforth
+Code for the base pForth is maintained on GitHub at: https://github.com/philburk/pforth
 
-Documentation for pForth at: http://www.softsynth.com/pforth/
+Documentation for base pForth at: http://www.softsynth.com/pforth/
 
   
 
