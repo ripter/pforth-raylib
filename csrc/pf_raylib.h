@@ -108,65 +108,52 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
     } break; \
     case ID_IS_WINDOW_MINIMIZED: {  /* ( -- +n ) */ \
         int result = IsWindowMinimized(); \
-        M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
+        TOS = result == pfFALSE ? pfFALSE : pfTRUE; \
     } break; \
     case ID_IS_WINDOW_MAXIMIZED: {  /* ( -- +n ) */ \
         int result = IsWindowMaximized(); \
-        M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
-        break; \
-    } \
+        TOS = result == pfFALSE ? pfFALSE : pfTRUE; \
+    } break; \
     case ID_IS_WINDOW_FOCUSED: {  /* ( -- +n ) */ \
         int result = IsWindowFocused(); \
-        M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
-        break; \
-    } \
+        TOS = result == pfFALSE ? pfFALSE : pfTRUE; \
+    } break; \
     case ID_IS_WINDOW_RESIZED: {  /* ( -- +n ) */ \
         int result = IsWindowResized(); \
-        M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
-        break; \
-    } \
+        TOS = result == pfFALSE ? pfFALSE : pfTRUE; \
+    } break; \
     case ID_IS_WINDOW_STATE: {  /* ( -- +n ) */ \
         int result = IsWindowState(TOS); \
-        M_DROP; \
-        M_PUSH(result == pfFALSE ? pfFALSE : pfTRUE); \
-        break; \
-    } \
+        TOS = result == pfFALSE ? pfFALSE : pfTRUE; \
+    } break; \
     case ID_SET_WINDOW_STATE: {  /* ( +n --  ) */ \
         int flags = TOS; \
         M_DROP; \
         SetWindowState(flags); \
-        break; \
-    } \
+    } break; \
     case ID_CLEAR_WINDOW_STATE: {  /* ( +n --  ) */ \
         int flags = TOS; \
         M_DROP; \
         ClearWindowState(flags); \
-        break; \
-    } \
+    } break; \
     case ID_TOGGLE_FULLSCREEN: {  /* ( --  ) */ \
         ToggleFullscreen(); \
-        break; \
-    } \
+    } break; \
     case ID_TOGGLE_BORDERLESS_WINDOW: {  /* ( --  ) */ \
         ToggleBorderlessWindowed(); \
-        break; \
-    } \
+    } break; \
     case ID_MAXIMIZE_WINDOW: {  /* ( --  ) */ \
         MaximizeWindow(); \
-        break; \
-    } \
+    } break; \
     case ID_MINIMIZE_WINDOW: {  /* ( --  ) */ \
         MinimizeWindow(); \
-        break; \
-    } \
+    } break; \
     case ID_RESTORE_WINDOW: {  /* ( --  ) */ \
         RestoreWindow(); \
-        break; \
-    } \
+    } break; \
     case ID_SET_WINDOW_ICON: {  /* ( +n +n c-addr u --  ) */ \
-        printf(" Set the window Icon\n"); \
-        break; \
-    } \
+        printf("TODO: Set the window Icon\n"); \
+    } break; \
     \
     \
     \
@@ -209,12 +196,10 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
     case ID_SET_TARGET_FPS: {  /* ( +n --  ) */ \
         SetTargetFPS(TOS); \
         M_DROP; \
-        break; \
-    } \
+    } break; \
     case ID_BEGIN_DRAWING: {  /* ( --  ) */ \
         BeginDrawing(); \
-        break; \
-    } \
+    } break; \
     case ID_CLEAR_BACKGROUND: {  /* ( n n n n --  ) */ \
         int alpha = TOS; \
         int blue = M_POP; \
@@ -222,8 +207,7 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
         int red = M_POP; \
         M_DROP; \
         ClearBackground((Color){ red, green, blue, alpha }); \
-        break; \
-    } \
+    } break; \
     case ID_DRAW_TEXT: {  /* ( +n +n c-addr u n n n n --  ) */ \
         int alpha = TOS; \
         int blue = M_POP; \
@@ -240,17 +224,9 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
             gScratch[len] = '\0'; \
             DrawText(gScratch, posX, posY, fontSize, (Color){ red, green, blue, alpha }); \
         } \
-        break; \
-    } \
+    } break; \
     case ID_END_DRAWING: {  /* ( --  ) */ \
         EndDrawing(); \
-        break; \
-    } \
+    } break; \
 
 #endif  /* _raylib_pf_raylib_h */
-
-            // void DrawText(const char *text, int posX, int posY, int fontSize, Color color); 
-            // DrawText(gScratch, x, y, fontSize, BLACK); 
-            // printf( "\nDrawText( %s, %d, %d, %d, (Color){ %d %d %d %d } )", (char *)gScratch, posX, posY, fontSize, red, green, blue, alpha ); 
-
-
