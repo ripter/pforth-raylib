@@ -2,7 +2,7 @@
 #define _raylib_pf_raylib_h
 #include <stdbool.h>
 
-bool pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t **DataStackPtr, cell_t *ReturnStackPtr );
+bool TryRaylibWord( ExecToken XT, cell_t *TopOfStack, cell_t **DataStackPtr, cell_t **ReturnStackPtr );
 
 /* Define the XT values for the raylib words. */
 #define RAYLIB_XT_VALUES \
@@ -76,21 +76,6 @@ bool pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t **DataStackPtr, cel
 
 /* Define the raylib words */
 #define RAYLIB_WORDS \
-    case ID_INIT_WINDOW: {  /* ( +n +n c-addr u --  ) */ \
-        cell_t len = TOS;  /* length of the title string. */ \
-        CharPtr = (char *) M_POP;  /* title string, not null terminated. */ \
-        cell_t height = M_POP; \
-        cell_t width = M_POP; \
-        if (CharPtr != NULL && len > 0 && len < TIB_SIZE) { \
-            M_DROP; \
-            pfCopyMemory(gScratch, CharPtr, len); \
-            gScratch[len] = '\0'; \
-            InitWindow(width, height, gScratch); \
-        } else { \
-            fprintf(stderr, "\nError: Invalid string or length. Please use s\" to create a simple string.\n"); \
-            break; \
-        } \
-    } break; \
     case ID_CLOSE_WINDOW: {  /* ( --  ) */ \
         CloseWindow(); \
     } break; \

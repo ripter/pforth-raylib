@@ -376,7 +376,7 @@ DBUG(("pfCatch: Token = 0x%x\n", Token ));
 #endif
 
         foundWord = true; // default to true, if we don't find the word, we'll set it to false
-/* Execute primitive Token. */
+        /* Execute primitive Token. */
         switch( Token )
         {
 
@@ -1880,27 +1880,12 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
 
             default:
                 foundWord = false;
-                // ExceptionReturnCode = THROW_UNDEFINED_WORD;
-                // ERR("pfCatch: Unrecognised token = 0x");
-                // ffDotHex(Token);
-                // ERR(" at 0x");
-                // ffDotHex((cell_t)InsPtr);
-                // EMIT_CR;
-                // InsPtr = 0;
         } // switch(Token)
 
+        // If the word was not found in the dictionary, try the Raylib words.
         if (foundWord == false) {
-            // printf("\npfRaylibCatch: Unrecognised token = %p", Token);
-            printf("\nBEFORE");
-            printf("\n\tDataStackPtr = \t%p", DataStackPtr);
-            printf("\n\tTopOfStack   = \t%lu", TopOfStack);
-            foundWord = pfRaylibCatch(XT, &TopOfStack, &DataStackPtr, ReturnStackPtr);
-            printf("\nAFTER");
-            printf("\n\tDataStackPtr = \t%p", DataStackPtr);
-            printf("\n\tTopOfStack   = \t%lu", TopOfStack);
-            EMIT_CR;
+          foundWord = TryRaylibWord(XT, &TopOfStack, &DataStackPtr, &ReturnStackPtr);
         }
-
 
         // No one handled the word.
         if (foundWord == false) {
@@ -1913,17 +1898,6 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
              InsPtr = 0;
         }
 
-        // Try Raylib words.
-        // ExceptionReturnCode = pfRaylibCatch(XT, &TopOfStack, DataStackPtr, ReturnStackPtr);
-
-        // if (ExceptionReturnCode == THROW_UNDEFINED_WORD) {
-        //   ERR("pfCatch: Unrecognised token = 0x");
-        //   ffDotHex(Token);
-        //   ERR(" at 0x");
-        //   ffDotHex((cell_t)InsPtr);
-        //   EMIT_CR;
-        //   InsPtr = 0;
-        // }
 
         if (InsPtr) {
           Token = READ_CELL_DIC(
