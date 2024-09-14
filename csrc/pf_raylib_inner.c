@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "pf_clib.h"
 #include "pf_guts.h"
 #include "pf_raylib.h"
@@ -6,7 +7,7 @@
 #include "raylib.h"
 
 
-#define STKPTR     (DataStackPtr)
+#define STKPTR     (*DataStackPtr)
 #define M_POP      (*(STKPTR++))
 #define M_PUSH(n)  {*(--(STKPTR)) = (cell_t) (n);}
 #define M_STACK(n) (STKPTR[n])
@@ -16,7 +17,7 @@
 
 
 // Raylib Primitive implementation of the Raylib words.
-ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr, cell_t *ReturnStackPtr ) {
+bool pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t **DataStackPtr, cell_t *ReturnStackPtr ) {
   char *CharPtr = NULL;
 
 
@@ -25,14 +26,14 @@ ThrowCode pfRaylibCatch( ExecToken XT, cell_t *TopOfStack, cell_t *DataStackPtr,
       printf("\nINFO: Test word\n");
       M_PUSH(42);
       M_PUSH(23);
-      // M_PUSH(16);
-      // M_PUSH(15);
-      // M_PUSH(8);
-      // M_PUSH(4);
+      M_PUSH(16);
+      M_PUSH(15);
+      M_PUSH(8);
+      M_PUSH(4);
       TOS = -19; 
     } break;
     default:
-      return THROW_UNDEFINED_WORD;
+      return false; // Didn't find the word.
   }
-  return 0;
+  return true; // Found the word!
 }

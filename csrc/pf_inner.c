@@ -30,7 +30,9 @@
 **
 ***************************************************************/
 
+#include <stdbool.h>
 #include "raylib.h"
+
 #include "pf_all.h"
 #include "pf_raylib.h"
 
@@ -282,11 +284,11 @@ static const char *pfSelectFileModeOpen( cell_t fam )
 ThrowCode pfCatch( ExecToken XT )
 {
     cell_t  TopOfStack;    
-    register cell_t *DataStackPtr; /* Cache for faster execution. */
-    register cell_t *ReturnStackPtr;
-    register cell_t *InsPtr = NULL;
-    register cell_t  Token;
-    cell_t           Scratch;
+    cell_t *DataStackPtr; 
+    cell_t *ReturnStackPtr;
+    cell_t *InsPtr = NULL;
+    cell_t  Token;
+    cell_t  Scratch;
 
 #ifdef PF_SUPPORT_FP
     PF_FLOAT       fpTopOfStack;
@@ -308,6 +310,7 @@ ThrowCode pfCatch( ExecToken XT )
     FileStream    *FileID;
     uint8_t       *CodeBase = (uint8_t *) CODE_BASE;
     ThrowCode      ExceptionReturnCode = 0;
+    bool           foundWord = false;
     
 
 /* FIXME
@@ -372,6 +375,7 @@ DBUG(("pfCatch: Token = 0x%x\n", Token ));
         TRACENAMES;
 #endif
 
+        foundWord = true; // default to true, if we don't find the word, we'll set it to false
 /* Execute primitive Token. */
         switch( Token )
         {
@@ -1875,14 +1879,39 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             RAYLIB_WORDS
 
             default:
+                foundWord = false;
                 // ExceptionReturnCode = THROW_UNDEFINED_WORD;
-                ERR("pfCatch: Unrecognised token = 0x");
-                ffDotHex(Token);
-                ERR(" at 0x");
-                ffDotHex((cell_t)InsPtr);
-                EMIT_CR;
-                InsPtr = 0;
+                // ERR("pfCatch: Unrecognised token = 0x");
+                // ffDotHex(Token);
+                // ERR(" at 0x");
+                // ffDotHex((cell_t)InsPtr);
+                // EMIT_CR;
+                // InsPtr = 0;
         } // switch(Token)
+
+        if (foundWord == false) {
+            // printf("\npfRaylibCatch: Unrecognised token = %p", Token);
+            printf("\nBEFORE");
+            printf("\n\tDataStackPtr = \t%p", DataStackPtr);
+            printf("\n\tTopOfStack   = \t%lu", TopOfStack);
+            foundWord = pfRaylibCatch(XT, &TopOfStack, &DataStackPtr, ReturnStackPtr);
+            printf("\nAFTER");
+            printf("\n\tDataStackPtr = \t%p", DataStackPtr);
+            printf("\n\tTopOfStack   = \t%lu", TopOfStack);
+            EMIT_CR;
+        }
+
+
+        // No one handled the word.
+        if (foundWord == false) {
+             foundWord = true;
+             ERR("\npfCatch: Unrecognised token = 0x");
+             ffDotHex(Token);
+             ERR(" at 0x");
+             ffDotHex((cell_t)InsPtr);
+             EMIT_CR;
+             InsPtr = 0;
+        }
 
         // Try Raylib words.
         // ExceptionReturnCode = pfRaylibCatch(XT, &TopOfStack, DataStackPtr, ReturnStackPtr);
