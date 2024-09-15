@@ -28,7 +28,7 @@ typedef int bool_t;
 /* Copy SIZE bytes from File FROM to File TO.  Return non-FALSE on error. */
 static bool_t CopyFile( FileStream *From, FileStream *To, long Size)
 {
-    bool_t Error = TRUE;
+    bool_t Error = true;
     size_t Diff = Size;
     size_t BufSize = 512;
     char *Buffer = pfAllocMem( BufSize );
@@ -41,7 +41,7 @@ static bool_t CopyFile( FileStream *From, FileStream *To, long Size)
 	    if( fwrite( Buffer, 1, N, To ) < N ) goto cleanup;
 	    Diff -= N;
 	}
-	Error = FALSE;
+	Error = false;
 
       cleanup:
 	pfFreeMem( Buffer );
@@ -68,7 +68,7 @@ static bool_t CopyFile( FileStream *From, FileStream *To, long Size)
  */
 static bool_t TruncateFile( FileStream *File, long Newsize )
 {
-    bool_t Error = TRUE;
+    bool_t Error = true;
     if( fseek( File, 0, SEEK_SET ) == 0)
     {
 	FileStream *TmpFile = tmpfile();
@@ -78,7 +78,7 @@ static bool_t TruncateFile( FileStream *File, long Newsize )
 	    if( fseek( TmpFile, 0, SEEK_SET ) != 0 ) goto cleanup;
 	    if( freopen( NULL, "w+b", File ) == NULL ) goto cleanup;
 	    if( CopyFile( TmpFile, File, Newsize )) goto cleanup;
-	    Error = FALSE;
+	    Error = false;
 
 	  cleanup:
 	    fclose( TmpFile );
@@ -90,7 +90,7 @@ static bool_t TruncateFile( FileStream *File, long Newsize )
 /* Write DIFF 0 bytes to FILE. Return non-FALSE on error. */
 static bool_t ExtendFile( FileStream *File, size_t Diff )
 {
-    bool_t Error = TRUE;
+    bool_t Error = true;
     size_t BufSize = 512;
     char * Buffer = pfAllocMem( BufSize );
     if( Buffer != 0 )
@@ -102,7 +102,7 @@ static bool_t ExtendFile( FileStream *File, size_t Diff )
 	    if( fwrite( Buffer, 1, N, File ) < N ) goto cleanup;
 	    Diff -= N;
 	}
-	Error = FALSE;
+	Error = false;
       cleanup:
 	pfFreeMem( Buffer );
     }
@@ -111,7 +111,7 @@ static bool_t ExtendFile( FileStream *File, size_t Diff )
 
 ThrowCode sdResizeFile( FileStream *File, uint64_t Size )
 {
-    bool_t Error = TRUE;
+    bool_t Error = true;
     if( Size <= LONG_MAX )
     {
 	long Newsize = (long) Size;

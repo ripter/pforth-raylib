@@ -36,6 +36,7 @@
 ** 970702 PLB Added STACK_SAFETY to FP stack size.
 ***************************************************************/
 
+#include <stdbool.h>
 #include "pf_all.h"
 
 /***************************************************************
@@ -421,7 +422,7 @@ void pfDebugMessage( const char *CString )
 */
 void pfDebugPrintDecimalNumber( int n )
 {
-    pfDebugMessage( ConvertNumberToText( n, 10, TRUE, 1 ) );
+    pfDebugMessage( ConvertNumberToText( n, 10, true, 1 ) );
 }
 
 

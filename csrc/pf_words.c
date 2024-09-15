@@ -22,6 +22,7 @@
 **
 ***************************************************************/
 
+#include <stdbool.h>
 #include "pf_all.h"
 
 
@@ -31,7 +32,7 @@
 */
 void ffDot( cell_t n )
 {
-    MSG( ConvertNumberToText( n, gVarBase, TRUE, 1 ) );
+    MSG( ConvertNumberToText( n, gVarBase, true, 1 ) );
     EMIT(' ');
 }
 
@@ -41,7 +42,7 @@ void ffDot( cell_t n )
 */
 void ffDotHex( cell_t n )
 {
-    MSG( ConvertNumberToText( n, 16, FALSE, 1 ) );
+    MSG( ConvertNumberToText( n, 16, false, 1 ) );
     EMIT(' ');
 }
 
@@ -52,7 +53,7 @@ void ffDotS( void )
     cell_t i, Depth;
 
     MSG("Stack<");
-    MSG( ConvertNumberToText( gVarBase, 10, TRUE, 1 ) ); /* Print base in decimal. */
+    MSG( ConvertNumberToText( gVarBase, 10, true, 1 ) ); /* Print base in decimal. */
     MSG("> ");
 
     Depth = gCurrentTask->td_StackBase - gCurrentTask->td_StackPtr;
@@ -243,11 +244,11 @@ DBUGX(("Word: s3=%c, %d\n", *s3, n3 ));
 /* ( char -- c-addr , parse word ) */
 char * ffWord( char c )
 {
-  return Word( c, TRUE );
+  return Word( c, true );
 }
 
 /* ( char -- c-addr , parse word, preserving case ) */
 char * ffLWord( char c )
 {
-  return Word( c, FALSE );
+  return Word( c, false );
 }

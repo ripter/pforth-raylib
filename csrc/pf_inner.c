@@ -219,7 +219,7 @@ static uint64_t UdToUint64( ucell_t Lo, ucell_t Hi )
 static int UdIsUint64( ucell_t Hi )
 {
     return (( 2 * sizeof(ucell_t) == sizeof(uint64_t) )
-        ? TRUE
+        ? true
         : Hi == 0);
 }
 
@@ -627,7 +627,7 @@ DBUGX(("After Branch: IP = 0x%x\n", InsPtr ));
             TOS = ( TOS == 0 ) ? FTRUE : FFALSE ;
             endcase;
         case ID_COMP_ZERO_NOT_EQUAL:
-            TOS = ( TOS != 0 ) ? FTRUE : FALSE ;
+            TOS = ( TOS != 0 ) ? FTRUE : FFALSE ;
             endcase;
         case ID_COMP_ZERO_GREATERTHAN:
             TOS = ( TOS > 0 ) ? FTRUE : FFALSE ;
@@ -804,7 +804,7 @@ DBUGX(("After Branch: IP = 0x%x\n", InsPtr ));
             }
             endcase;
 
-#define DULT(du1l,du1h,du2l,du2h) ( (du2h<du1h) ? FALSE : ( (du2h==du1h) ? (du1l<du2l) : TRUE) )
+#define DULT(du1l,du1h,du2l,du2h) ( (du2h<du1h) ? false : ( (du2h==du1h) ? (du1l<du2l) : true) )
 /* Perform 2 cell by 1 cell divide for 1 cell result and remainder, using shift and subtract. */
         case ID_D_UMSMOD:  /* UM/MOD ( al ah bdiv -- rem q ) */
             {
@@ -1874,9 +1874,6 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
             M_DROP;
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
-
-
-            RAYLIB_WORDS
 
             default:
                 foundWord = false;

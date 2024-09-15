@@ -36,6 +36,9 @@ pkg-config --cflags raylib
 * Lots of missing words.
 * file paths in .fth files are relative to the pforth executable location. They should be relative to the file location instead.
 * Segfaults instead of giving error or crash info.
+* Hexcode instead of word on unknown word.
+* TOS does not work if the stack is empty.
+* 
 
 ---
 

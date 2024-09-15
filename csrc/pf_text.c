@@ -134,10 +134,20 @@ void pfReportThrow( ThrowCode code )
 }
 #endif
 
-/**************************************************************
-** Copy a Forth String to a 'C' string.
-*/
-
+/**
+ * Convert a Forth string to a C string.
+ *
+ * The Forth string starts with a byte that represents the length of the string,
+ * followed by the actual string content. This function copies the content to 
+ * a destination buffer, ensuring the destination is null-terminated and the 
+ * length does not exceed the destination size.
+ *
+ * @param dst      Pointer to the destination buffer (C string).
+ * @param FString  Pointer to the Forth string (first byte represents the length).
+ * @param dstSize  Size of the destination buffer.
+ * 
+ * @return Pointer to the destination buffer (C string).
+ */
 char *ForthStringToC( char *dst, const char *FString, cell_t dstSize )
 {
     cell_t Len;
@@ -182,13 +192,13 @@ cell_t ffCompareText( const char *s1, const char *s2, cell_t len )
 {
     cell_t i, Result;
 
-    Result = TRUE;
+    Result = true;
     for( i=0; i<len; i++ )
     {
 DBUGX(("ffCompareText: *s1 = 0x%x, *s2 = 0x%x\n", *s1, *s2 ));
         if( *s1++ != *s2++ )
         {
-            Result = FALSE;
+            Result = false;
             break;
         }
     }
@@ -205,7 +215,7 @@ cell_t ffCompareTextCaseN( const char *s1, const char *s2, cell_t len )
     cell_t i, Result;
     char  c1,c2;
 
-    Result = TRUE;
+    Result = true;
     for( i=0; i<len; i++ )
     {
         c1 = pfCharToLower(*s1++);
@@ -213,7 +223,7 @@ cell_t ffCompareTextCaseN( const char *s1, const char *s2, cell_t len )
 DBUGX(("ffCompareText: c1 = 0x%x, c2 = 0x%x\n", c1, c2 ));
         if( c1 != c2 )
         {
-            Result = FALSE;
+            Result = false;
             break;
         }
     }
@@ -272,7 +282,7 @@ char *ConvertNumberToText( cell_t Num, cell_t Base, int32_t IfSigned, int32_t Mi
 /* Convert to positive and keep sign. */
         if( Num < 0 )
         {
-            IfNegative = TRUE;
+            IfNegative = true;
             uNum = -Num;
         }
     }
@@ -313,12 +323,12 @@ void DumpMemory( void *addr, cell_t cnt)
 
     for (ln=0; ln<nlines; ln++)
     {
-        MSG( ConvertNumberToText( (cell_t) ptr, 16, FALSE, 8 ) );
+        MSG( ConvertNumberToText( (cell_t) ptr, 16, false, 8 ) );
         MSG(": ");
         cptr = ptr;
         for (cn=0; cn<16; cn++)
         {
-            MSG( ConvertNumberToText( (cell_t) *cptr++, 16, FALSE, 2 ) );
+            MSG( ConvertNumberToText( (cell_t) *cptr++, 16, false, 2 ) );
             EMIT(' ');
         }
         EMIT(' ');

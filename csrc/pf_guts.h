@@ -70,15 +70,15 @@
 
 #define TIB_SIZE (256)
 
-#ifndef FALSE
-    #define FALSE (0)
-#endif
-#ifndef TRUE
-    #define TRUE (1)
-#endif
+// #ifndef FALSE
+//     #define FALSE (0)
+// #endif
+// #ifndef TRUE
+//     #define TRUE (1)
+// #endif
 
-#define FFALSE (0)
-#define FTRUE (-1)
+#define FFALSE (0) // Forth False is the same as C False
+#define FTRUE (-1) // Forth True is -1 instead of 1
 #define SPACE_CHARACTER (' ')
 
 #define FLAG_PRECEDENCE (0x80)

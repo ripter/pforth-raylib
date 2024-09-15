@@ -418,7 +418,7 @@ nomem:
 cell_t ffTokenToName( ExecToken XT, const ForthString **NFAPtr )
 {
     const ForthString *NameField;
-    cell_t Searching = TRUE;
+    cell_t Searching = true;
     cell_t Result = 0;
     ExecToken TempXT;
 
@@ -434,7 +434,7 @@ DBUGX(("\ffCodeToName: gVarContext = 0x%x\n", gVarContext));
 DBUGX(("ffCodeToName: NFA = 0x%x\n", NameField));
             *NFAPtr = NameField ;
             Result = 1;
-            Searching = FALSE;
+            Searching = false;
         }
         else
         {
@@ -442,7 +442,7 @@ DBUGX(("ffCodeToName: NFA = 0x%x\n", NameField));
             if( NameField == NULL )
             {
                 *NFAPtr = 0;
-                Searching = FALSE;
+                Searching = false;
             }
         }
     } while ( Searching);
@@ -460,7 +460,7 @@ cell_t ffFindNFA( const ForthString *WordName, const ForthString **NFAPtr )
     uint8_t WordLen;
     const char *NameField, *NameChar;
     int8_t NameLen;
-    cell_t Searching = TRUE;
+    cell_t Searching = true;
     cell_t Result = 0;
 
     WordLen = (uint8_t) ((ucell_t)*WordName & 0x1F);
@@ -481,7 +481,7 @@ DBUG(("\nffFindNFA: gVarContext = 0x%x\n", gVarContext));
 DBUG(("ffFindNFA: found it at NFA = 0x%x\n", NameField));
             *NFAPtr = NameField ;
             Result = ((*NameField) & FLAG_IMMEDIATE) ? 1 : -1;
-            Searching = FALSE;
+            Searching = false;
         }
         else
         {
@@ -489,7 +489,7 @@ DBUG(("ffFindNFA: found it at NFA = 0x%x\n", NameField));
             if( NameField == NULL )
             {
                 *NFAPtr = WordName;
-                Searching = FALSE;
+                Searching = false;
             }
         }
     } while ( Searching);
