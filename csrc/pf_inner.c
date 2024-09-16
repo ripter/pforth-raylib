@@ -1966,15 +1966,17 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         } break;
         // RAYLIB: void SetWindowIcon(Image image);
         case XT_SET_WINDOW_ICON: { /* ( +image -- ) */
-          ERR("SetWindowIcon not implemented\n");
+          Image image = *(Image *)TOS;
+          M_DROP;
+          SetWindowIcon(image);
         } break;
+        // RAYLIB: void SetWindowIcons(Image *images, int count);
         case XT_SET_WINDOW_ICONS: { /* ( +images +count -- ) */
-          // RAYLIB: void SetWindowIcons(Image *images, int count);
-          ERR("SetWindowIcons not implemented\n");
+          printf("SetWindowIcons not implemented\n");
         } break;
         case XT_SET_WINDOW_TITLE: { /* ( +title -- ) */
           // RAYLIB: void SetWindowTitle(const char *title);
-          ERR("SetWindowTitle not implemented\n");
+          printf("SetWindowTitle not implemented\n");
         } break;
         case XT_SET_WINDOW_POSITION: { /* ( +x +y -- ) */
           // RAYLIB: void SetWindowPosition(int x, int y);
@@ -2122,7 +2124,6 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
           int green = M_POP;
           int red = M_POP;
           M_DROP;
-          printf("Stack: %d %d %d %d\n", red, green, blue, alpha);
           ClearBackground((Color){red, green, blue, alpha});
         } break;
         // RAYLIB: void BeginDrawing(void);
@@ -2878,11 +2879,16 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         case XT_LOAD_IMAGE_FROM_SCREEN: { /* ( -- Image ) */
             // RAYLIB: Image LoadImageFromScreen(void);
         } break;
+        // RAYLIB: bool IsImageReady(Image image);
         case XT_IS_IMAGE_READY: { /* ( +image -- bool ) */
-            // RAYLIB: bool IsImageReady(Image image);
+          Image image = *(Image*)TOS;
+          M_SET_TOS_BOOL(IsImageReady(image));
         } break;
+        // RAYLIB: void UnloadImage(Image image);
         case XT_UNLOAD_IMAGE: { /* ( +image -- ) */
-            // RAYLIB: void UnloadImage(Image image);
+          Image image = *(Image*)TOS;
+          UnloadImage(image);
+          M_DROP;
         } break;
         case XT_EXPORT_IMAGE: { /* ( +image +fileName -- bool ) */
             // RAYLIB: bool ExportImage(Image image, const char *fileName);
@@ -3083,6 +3089,10 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         } break;
         // RAYLIB: Texture2D LoadTextureFromImage(Image image);
         case XT_LOAD_TEXTURE_FROM_IMAGE: { /* ( +image -- Texture2D ) */
+          if (IsWindowReady() == false) {
+            ERR("LoadTextureFromImage: window is not ready.");
+            break;
+          }
           Image image = *(Image *)TOS;
           Texture2D texture = LoadTextureFromImage(image);
           TOS = (cell_t)&texture;
@@ -3096,8 +3106,11 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         case XT_IS_TEXTURE_READY: { /* ( +texture -- bool ) */
             // RAYLIB: bool IsTextureReady(Texture2D texture);
         } break;
+        // RAYLIB: void UnloadTexture(Texture2D texture);
         case XT_UNLOAD_TEXTURE: { /* ( +texture -- ) */
-            // RAYLIB: void UnloadTexture(Texture2D texture);
+          Texture2D texture = *(Texture2D*)TOS;
+          UnloadTexture(texture);
+          M_DROP;
         } break;
         case XT_IS_RENDER_TEXTURE_READY: { /* ( +target -- bool ) */
             // RAYLIB: bool IsRenderTextureReady(RenderTexture2D target);
@@ -3116,16 +3129,29 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         case XT_GEN_TEXTURE_MIPMAPS: { /* ( +texture -- ) */
             // RAYLIB: void GenTextureMipmaps(Texture2D *texture);
         } break;
+        // RAYLIB: void SetTextureFilter(Texture2D texture, int filter);
         case XT_SET_TEXTURE_FILTER: { /* ( +texture +filter -- ) */
-            // RAYLIB: void SetTextureFilter(Texture2D texture, int filter);
+          ERR("SetTextureFilter: not implemented.");
         } break;
+        // RAYLIB: void SetTextureWrap(Texture2D texture, int wrap);
         case XT_SET_TEXTURE_WRAP: { /* ( +texture +wrap -- ) */
-            // RAYLIB: void SetTextureWrap(Texture2D texture, int wrap);
+          ERR("SetTextureWrap: not implemented.");
         } break;
         //
         // rtextures - Texture drawing functions
+        // RAYLIB: void DrawTexture(Texture2D texture, int posX, int posY, Color tint);
         case XT_DRAW_TEXTURE: { /* ( +texture +posX +posY +tint -- ) */
-            // RAYLIB: void DrawTexture(Texture2D texture, int posX, int posY, Color tint);
+          if (IsWindowReady() == false) {
+            ERR("DrawTexture: window is not ready.");
+            printf("DrawTexture: window is not ready.\n");
+            break;
+          }
+          Texture2D texture = *(Texture2D *)TOS;
+          int posY = M_POP;
+          int posX = M_POP;
+          Color tint = *(Color *)M_POP;
+          M_DROP;
+          DrawTexture(texture, posX, posY, tint);
         } break;
         case XT_DRAW_TEXTURE_V: { /* ( +texture +position +tint -- ) */
             // RAYLIB: void DrawTextureV(Texture2D texture, Vector2 position, Color tint);
@@ -3785,7 +3811,16 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         case XT_DETACH_AUDIO_MIXED_PROCESSOR: { /* ( +processor -- void ) */
             // RAYLIB: void DetachAudioMixedProcessor(AudioCallback processor);
         } break;
-
+        //
+        // Structs and Accessors
+        case XT_TEXTURE_GET_HEIGHT: { /* ( +texture -- int ) */
+          Texture texture = *(Texture *)TOS;
+          TOS = texture.height;
+        } break;
+        case XT_TEXTURE_GET_WIDTH: { /* ( +texture -- int ) */
+          Texture texture = *(Texture *)TOS;
+          TOS = texture.width;
+        } break;
 
 
 
@@ -3803,6 +3838,7 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         } // switch(Token)
 
         if (InsPtr) {
+          printf("\nInsPtr: %p\n", InsPtr);
           Token = READ_CELL_DIC(
               InsPtr++); /* Traverse to next token in secondary. */
         }

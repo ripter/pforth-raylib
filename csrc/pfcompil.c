@@ -919,14 +919,10 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
     CreateDicEntryC(XT_DETACH_AUDIO_STREAM_PROCESSOR, "DETACH-AUDIO-STREAM-PROCESSOR", 0);
     CreateDicEntryC(XT_ATTACH_AUDIO_MIXED_PROCESSOR, "ATTACH-AUDIO-MIXED-PROCESSOR", 0);
     CreateDicEntryC(XT_DETACH_AUDIO_MIXED_PROCESSOR, "DETACH-AUDIO-MIXED-PROCESSOR", 0);
-
-
-
-
-
-
-
-
+    //
+    // Structs and access methods
+    CreateDicEntryC(XT_TEXTURE_GET_WIDTH, "TEXTURE-GET-WIDTH", 0);
+    CreateDicEntryC(XT_TEXTURE_GET_HEIGHT, "TEXTURE-GET-HEIGHT", 0);
     // End raylib words
     //****************************************************************
 

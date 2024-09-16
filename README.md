@@ -10,7 +10,7 @@ This is a C99 project that tries to match the coding guidelines set by Raylib.
 
 ### Future Plans
 
-I intend to remove platforms that are not supported by Raylib in the future. ATM only platform being tested is platforms/unix/Makefile. I have not tested cmake in the root of the project but I intend on getting that working for all supported platforms. I am brand new to CMake, so it will take me a while to switch over.
+I intend to remove platforms that are not supported by Raylib in the future. ATM only platform being tested is platforms/unix/Makefile. I have not tested cmake in the root of the project but I intend on switching to that for all supported platforms. I am brand new to CMake, so it will take me a while to switch over.
 
 For now, the main Makefile can be run like this:
 
@@ -33,7 +33,8 @@ pkg-config --cflags raylib
 
 ### Bugs
 
-* Lots of missing words.
+* It crashes if you keep a window open too long.
+* Lots of missing words. While every word on the [cheatsheet](https://www.raylib.com/cheatsheet/cheatsheet.html) have been stubbed, most have not been implimented yet.
 * file paths in .fth files are relative to the pforth executable location. They should be relative to the file location instead.
 * Segfaults instead of giving error or crash info.
 * Hexcode instead of word on unknown word.

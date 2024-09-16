@@ -984,6 +984,13 @@ enum cforth_primitive_ids {
   XT_DETACH_AUDIO_STREAM_PROCESSOR,
   XT_ATTACH_AUDIO_MIXED_PROCESSOR,
   XT_DETACH_AUDIO_MIXED_PROCESSOR,
+  //
+  // Structures and data types
+  XT_TEXTURE_GET_WIDTH,
+  XT_TEXTURE_GET_HEIGHT,
+  // End of Raylib XT values
+  //**************************************
+  
 
   NUM_PRIMITIVES /* This must always be LAST */
 };
