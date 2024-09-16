@@ -4,7 +4,6 @@
 
 #include "pf_io.h"
 #include "pf_float.h"
-#include "pf_raylib.h"
 
 /***************************************************************
 ** Include file for PForth, a Forth based on 'C'

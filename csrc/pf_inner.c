@@ -30,6 +30,8 @@
 **
 ***************************************************************/
 
+#include <stdbool.h>
+#include "raylib.h"
 #include "pf_all.h"
 
 #if defined(WIN32) && !defined(__MINGW32__)
@@ -52,6 +54,8 @@
 #define PUSH_TOS M_PUSH(TOS)
 #define M_DUP    PUSH_TOS;
 #define M_DROP   { TOS = M_POP; }
+
+#define M_SET_TOS_BOOL(result)  (TOS = ((result) == false ? pfFALSE : pfTRUE))
 
 #define ASCII_EOT   (0x04)
 
@@ -1873,80 +1877,95 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         // Raylib words
         //************************************************************
         // rcore - Window-related functions
+        // RAYLIB: void InitWindow(int width, int height, const char *title);
         case XT_INIT_WINDOW: { /* ( +width +height +title -- ) */
-          // RAYLIB: void InitWindow(int width, int height, const char *title);
-          ERR("InitWindow not implemented\n");
+          cell_t len = TOS;        /* length of the title string. */
+          CharPtr = (char *)M_POP; /* title string, not null terminated. */
+          cell_t height = M_POP;
+          cell_t width = M_POP;
+          if (CharPtr != NULL && len > 0 && len < TIB_SIZE) {
+            M_DROP;
+            pfCopyMemory(gScratch, CharPtr, len);
+            gScratch[len] = '\0';
+            InitWindow(width, height, gScratch);
+          } else {
+            fprintf(stderr, "\nError: Invalid string or length. Please use s\" "
+                            "to create a simple string.\n");
+            break;
+          }
         } break;
+        // RAYLIB: void CloseWindow(void);
         case XT_CLOSE_WINDOW: { /* ( -- ) */
-          // RAYLIB: void CloseWindow(void);
-          ERR("CloseWindow not implemented\n");
+          CloseWindow();
         } break;
+        // RAYLIB: bool WindowShouldClose(void);
         case XT_WINDOW_SHOULD_CLOSE: { /* ( -- bool ) */
-          // RAYLIB: bool WindowShouldClose(void);
-          ERR("WindowShouldClose not implemented\n");
+          M_SET_TOS_BOOL(WindowShouldClose());
         } break;
+        // RAYLIB: bool IsWindowReady(void);
         case XT_IS_WINDOW_READY: { /* ( -- bool ) */
-          // RAYLIB: bool IsWindowReady(void);
-          ERR("IsWindowReady not implemented\n");
+          M_SET_TOS_BOOL(IsWindowReady());
         } break;
+        // RAYLIB: bool IsWindowFullscreen(void);
         case XT_IS_WINDOW_FULLSCREEN: { /* ( -- bool ) */
-          // RAYLIB: bool IsWindowFullscreen(void);
-          ERR("IsWindowFullscreen not implemented\n");
+          M_SET_TOS_BOOL(IsWindowFullscreen());
         } break;
+        // RAYLIB: bool IsWindowHidden(void);
         case XT_IS_WINDOW_HIDDEN: { /* ( -- bool ) */
-          // RAYLIB: bool IsWindowHidden(void);
-          ERR("IsWindowHidden not implemented\n");
+          M_SET_TOS_BOOL(IsWindowHidden());
         } break;
+        // RAYLIB: bool IsWindowMinimized(void);
         case XT_IS_WINDOW_MINIMIZED: { /* ( -- bool ) */
-          // RAYLIB: bool IsWindowMinimized(void);
-          ERR("IsWindowMinimized not implemented\n");
+          M_SET_TOS_BOOL(IsWindowMinimized());
         } break;
+        // RAYLIB: bool IsWindowMaximized(void);
         case XT_IS_WINDOW_MAXIMIZED: { /* ( -- bool ) */
-          // RAYLIB: bool IsWindowMaximized(void);
-          ERR("IsWindowMaximized not implemented\n");
+          M_SET_TOS_BOOL(IsWindowMaximized());
         } break;
+        // RAYLIB: bool IsWindowFocused(void);
         case XT_IS_WINDOW_FOCUSED: { /* ( -- bool ) */
-          // RAYLIB: bool IsWindowFocused(void);
-          ERR("IsWindowFocused not implemented\n");
+          M_SET_TOS_BOOL(IsWindowFocused());
         } break;
+        // RAYLIB: bool IsWindowResized(void);
         case XT_IS_WINDOW_RESIZED: { /* ( -- bool ) */
-          // RAYLIB: bool IsWindowResized(void);
-          ERR("IsWindowResized not implemented\n");
+          M_SET_TOS_BOOL(IsWindowResized());
         } break;
+        // RAYLIB: bool IsWindowState(unsigned int flag);
         case XT_IS_WINDOW_STATE: { /* ( +flag -- bool ) */
-          // RAYLIB: bool IsWindowState(unsigned int flag);
-          ERR("IsWindowState not implemented\n");
+          M_SET_TOS_BOOL(IsWindowState(TOS));
         } break;
+        // RAYLIB: void SetWindowState(unsigned int flags);
         case XT_SET_WINDOW_STATE: { /* ( +flags -- ) */
-          // RAYLIB: void SetWindowState(unsigned int flags);
-          ERR("SetWindowState not implemented\n");
+          SetWindowState(TOS);
+          M_DROP
         } break;
+        // RAYLIB: void ClearWindowState(unsigned int flags);
         case XT_CLEAR_WINDOW_STATE: { /* ( +flags -- ) */
-          // RAYLIB: void ClearWindowState(unsigned int flags);
-          ERR("ClearWindowState not implemented\n");
+          ClearWindowState(TOS);
+          M_DROP
         } break;
+        // RAYLIB: void ToggleFullscreen(void);
         case XT_TOGGLE_FULLSCREEN: { /* ( -- ) */
-          // RAYLIB: void ToggleFullscreen(void);
-          ERR("ToggleFullscreen not implemented\n");
+          ToggleFullscreen();
         } break;
+        // RAYLIB: void ToggleBorderlessWindowed(void);
         case XT_TOGGLE_BORDERLESS_WINDOWED: { /* ( -- ) */
-          // RAYLIB: void ToggleBorderlessWindowed(void);
-          ERR("ToggleBorderlessWindowed not implemented\n");
+          ToggleBorderlessWindowed();
         } break;
+        // RAYLIB: void MaximizeWindow(void);
         case XT_MAXIMIZE_WINDOW: { /* ( -- ) */
-          // RAYLIB: void MaximizeWindow(void);
-          ERR("MaximizeWindow not implemented\n");
+          MaximizeWindow();
         } break;
+        // RAYLIB: void MinimizeWindow(void);
         case XT_MINIMIZE_WINDOW: { /* ( -- ) */
-          // RAYLIB: void MinimizeWindow(void);
-          ERR("MinimizeWindow not implemented\n");
+          MinimizeWindow();
         } break;
+        // RAYLIB: void RestoreWindow(void);
         case XT_RESTORE_WINDOW: { /* ( -- ) */
-          // RAYLIB: void RestoreWindow(void);
-          ERR("RestoreWindow not implemented\n");
+          RestoreWindow();
         } break;
+        // RAYLIB: void SetWindowIcon(Image image);
         case XT_SET_WINDOW_ICON: { /* ( +image -- ) */
-          // RAYLIB: void SetWindowIcon(Image image);
           ERR("SetWindowIcon not implemented\n");
         } break;
         case XT_SET_WINDOW_ICONS: { /* ( +images +count -- ) */
@@ -2091,133 +2110,142 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
           break;
         }
         // rcore - Drawing-related functions
+        // RAYLIB: void ClearBackground(Color color);
         case XT_CLEAR_BACKGROUND: { /* ( +color -- ) */
-          // RAYLIB: void ClearBackground(Color color);
-          break;
-        }
+          if (!IsWindowReady()) {
+            ERR("Error: Window is not ready.\nClearBackground() requires a "
+                "window to be initialized.\n");
+            break;
+          }
+          int alpha = TOS;
+          int blue = M_POP;
+          int green = M_POP;
+          int red = M_POP;
+          M_DROP;
+          printf("Stack: %d %d %d %d\n", red, green, blue, alpha);
+          ClearBackground((Color){red, green, blue, alpha});
+        } break;
+        // RAYLIB: void BeginDrawing(void);
         case XT_BEGIN_DRAWING: { /* ( -- ) */
-          // RAYLIB: void BeginDrawing(void);
-          break;
-        }
+          BeginDrawing();
+        } break;
+        // RAYLIB: void EndDrawing(void);
         case XT_END_DRAWING: { /* ( -- ) */
-          // RAYLIB: void EndDrawing(void);
-          break;
-        }
+          EndDrawing();
+        } break;
+        // RAYLIB: void BeginMode2D(Camera2D camera);
         case XT_BEGIN_MODE2D: { /* ( +camera2D -- ) */
-          // RAYLIB: void BeginMode2D(Camera2D camera);
-          break;
-        }
+          ERR("BeginMode2D not implemented\n");
+        } break;
+        // RAYLIB: void EndMode2D(void);
         case XT_END_MODE2D: { /* ( -- ) */
-          // RAYLIB: void EndMode2D(void);
-          break;
-        }
+          EndMode2D();
+        } break;
+        // RAYLIB: void BeginMode3D(Camera3D camera);
         case XT_BEGIN_MODE3D: { /* ( +camera3D -- ) */
-          // RAYLIB: void BeginMode3D(Camera3D camera);
-          break;
-        }
+          ERR("BeginMode3D not implemented\n");
+        } break;
+        // RAYLIB: void EndMode3D(void);
         case XT_END_MODE3D: { /* ( -- ) */
-          // RAYLIB: void EndMode3D(void);
-          break;
-        }
+          EndMode3D();
+        } break;
+        // RAYLIB: void BeginTextureMode(RenderTexture2D target);
         case XT_BEGIN_TEXTURE_MODE: { /* ( +renderTexture2D -- ) */
-          // RAYLIB: void BeginTextureMode(RenderTexture2D target);
-          break;
-        }
+          ERR("BeginTextureMode not implemented\n");
+        } break;
+        // RAYLIB: void EndTextureMode(void);
         case XT_END_TEXTURE_MODE: { /* ( -- ) */
-          // RAYLIB: void EndTextureMode(void);
-          break;
-        }
+          EndTextureMode();
+        } break;
+        // RAYLIB: void BeginShaderMode(Shader shader);
         case XT_BEGIN_SHADER_MODE: { /* ( +shader -- ) */
-          // RAYLIB: void BeginShaderMode(Shader shader);
-          break;
-        }
+          ERR("BeginShaderMode not implemented\n");
+        } break;
+        // RAYLIB: void EndShaderMode(void);
         case XT_END_SHADER_MODE: { /* ( -- ) */
-          // RAYLIB: void EndShaderMode(void);
-          break;
-        }
+          EndShaderMode();
+        } break;
+        // RAYLIB: void BeginBlendMode(int mode);
         case XT_BEGIN_BLEND_MODE: { /* ( +mode -- ) */
-          // RAYLIB: void BeginBlendMode(int mode);
-          break;
-        }
+          BeginBlendMode(TOS);
+          M_DROP;
+        } break;
+        // RAYLIB: void EndBlendMode(void);
         case XT_END_BLEND_MODE: { /* ( -- ) */
-          // RAYLIB: void EndBlendMode(void);
-          break;
-        }
+          EndBlendMode();
+        } break;
+        // RAYLIB: void BeginScissorMode(int x, int y, int width, int height);
         case XT_BEGIN_SCISSOR_MODE: { /* ( +x +y +width +height -- ) */
-          // RAYLIB: void BeginScissorMode(int x, int y, int width, int height);
-          break;
-        }
+          // TODO: Human Check this, it was AI generated.
+          int height = TOS;
+          int width = M_POP;
+          int y = M_POP;
+          int x = M_POP;
+          M_DROP;
+          BeginScissorMode(x, y, width, height);
+        } break;
+        // RAYLIB: void EndScissorMode(void);
         case XT_END_SCISSOR_MODE: { /* ( -- ) */
-          // RAYLIB: void EndScissorMode(void);
-          break;
-        }
+          EndScissorMode();
+        } break;
+        // RAYLIB: void BeginVrStereoMode(VrStereoConfig config);
         case XT_BEGIN_VR_STEREO_MODE: { /* ( +vrStereoConfig -- ) */
-          // RAYLIB: void BeginVrStereoMode(VrStereoConfig config);
-          break;
-        }
+          ERR("BeginVrStereoMode not implemented\n");
+        } break;
+        // RAYLIB: void EndVrStereoMode(void);
         case XT_END_VR_STEREO_MODE: { /* ( -- ) */
-          // RAYLIB: void EndVrStereoMode(void);
-          break;
-        }
+          EndVrStereoMode();
+        } break;
         // rcore - VR stereo config functions for VR simulator
-        case XT_LOAD_VR_STEREO_CONFIG: { /* ( +vrDeviceInfo -- vrStereoConfig )
-                                          */
-          // RAYLIB: VrStereoConfig LoadVrStereoConfig(VrDeviceInfo device);
-          break;
-        }
+        // RAYLIB: VrStereoConfig LoadVrStereoConfig(VrDeviceInfo device);
+        case XT_LOAD_VR_STEREO_CONFIG: { /* ( +vrDeviceInfo -- vrStereoConfig ) */
+          ERR("LoadVrStereoConfig not implemented\n");
+        } break;
+        // RAYLIB: void UnloadVrStereoConfig(VrStereoConfig config);
         case XT_UNLOAD_VR_STEREO_CONFIG: { /* ( +vrStereoConfig -- ) */
-          // RAYLIB: void UnloadVrStereoConfig(VrStereoConfig config);
-          break;
-        }
+          ERR("UnloadVrStereoConfig not implemented\n");
+        } break;
           // rcore - Shader management functions
+        // RAYLIB: Shader LoadShader(const char *vsFileName, const char *fsFileName);
         case XT_LOAD_SHADER: { /* ( +vsFileName +fsFileName -- shader ) */
-          // RAYLIB: Shader LoadShader(const char *vsFileName, const char
-          // *fsFileName);
-          break;
-        }
+          ERR("LoadShader not implemented\n");
+        } break;
+        // RAYLIB: Shader LoadShaderFromMemory(const char *vsCode, const char *fsCode);
         case XT_LOAD_SHADER_FROM_MEMORY: { /* ( +vsCode +fsCode -- shader ) */
-          // RAYLIB: Shader LoadShaderFromMemory(const char *vsCode, const char
-          // *fsCode);
-          break;
-        }
+          ERR("LoadShaderFromMemory not implemented\n");
+        } break;
+        // RAYLIB: bool IsShaderReady(Shader shader);
         case XT_IS_SHADER_READY: { /* ( +shader -- bool ) */
-          // RAYLIB: bool IsShaderReady(Shader shader);
-          break;
-        }
+          ERR("IsShaderReady not implemented\n");
+        } break;
+        // RAYLIB: int GetShaderLocation(Shader shader, const char *uniformName);
         case XT_GET_SHADER_LOCATION: { /* ( +shader +uniformName -- int ) */
-          // RAYLIB: int GetShaderLocation(Shader shader, const char
-          // *uniformName);
-          break;
-        }
+          ERR("GetShaderLocation not implemented\n");
+        } break;
+        // RAYLIB: int GetShaderLocationAttrib(Shader shader, const char *attribName);
         case XT_GET_SHADER_LOCATION_ATTRIB: { /* ( +shader +attribName -- int ) */
-          // RAYLIB: int GetShaderLocationAttrib(Shader shader, const char
-          // *attribName);
-          break;
-        }
+          ERR("GetShaderLocationAttrib not implemented\n");
+        } break;
+        // RAYLIB: void SetShaderValue(Shader shader, int locIndex, const void *value, int uniformType);
         case XT_SET_SHADER_VALUE: { /* ( +shader +locIndex +value +uniformType  -- ) */
-          // RAYLIB: void SetShaderValue(Shader shader, int locIndex, const void
-          // *value, int uniformType);
-          break;
-        }
+          ERR("SetShaderValue not implemented\n");
+        } break;
+        // RAYLIB: void SetShaderValueV(Shader shader, int locIndex, const void *value, int uniformType, int count);
         case XT_SET_SHADER_VALUE_V: { /* ( +shader +locIndex +value +uniformType +count -- ) */
-          // RAYLIB: void SetShaderValueV(Shader shader, int locIndex, const
-          // void *value, int uniformType, int count);
-          break;
-        }
+          ERR("SetShaderValueV not implemented\n");
+        } break;
+        // RAYLIB: void SetShaderValueMatrix(Shader shader, int locIndex, Matrix mat);
         case XT_SET_SHADER_VALUE_MATRIX: { /* ( +shader +locIndex +mat -- ) */
-          // RAYLIB: void SetShaderValueMatrix(Shader shader, int locIndex,
-          // Matrix mat);
-          break;
-        }
+          ERR("SetShaderValueMatrix not implemented\n");
+        } break;
+        // RAYLIB: void SetShaderValueTexture(Shader shader, int locIndex, Texture2D texture);
         case XT_SET_SHADER_VALUE_TEXTURE: { /* ( +shader +locIndex +texture -- ) */
-          // RAYLIB: void SetShaderValueTexture(Shader shader, int locIndex,
-          // Texture2D texture);
-          break;
-        }
+          ERR("SetShaderValueTexture not implemented\n");
+        } break;
+        // RAYLIB: void UnloadShader(Shader shader);
         case XT_UNLOAD_SHADER: { /* ( +shader -- ) */
-          // RAYLIB: void UnloadShader(Shader shader);
-          break;
-        }
+          ERR("UnloadShader not implemented\n");
+        } break;
         // rcore - Screen-space-related functions
         case XT_GET_MOUSE_RAY: { /* ( +mousePosition +camera -- ray ) */
           // RAYLIB: Ray GetMouseRay(Vector2 mousePosition, Camera camera);
@@ -2251,8 +2279,10 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
           // RAYLIB: Vector2 GetWorldToScreen2D(Vector2 position, Camera2D camera);
         } break; 
         // rcore - Timing-related functions
+        // RAYLIB: void SetTargetFPS(int fps);
         case XT_SET_TARGET_FPS: { /* ( +fps -- ) */
-          // RAYLIB: void SetTargetFPS(int fps);
+          SetTargetFPS(TOS);
+          M_DROP;
         } break; 
         case XT_GET_FRAME_TIME: { /* ( -- float ) */
           // RAYLIB: float GetFrameTime(void);
@@ -2821,8 +2851,14 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         } break;
         //
         // rtextures - Image loading functions
+        // RAYLIB: Image LoadImage(const char *fileName);
         case XT_LOAD_IMAGE: { /* ( +fileName -- Image ) */
-            // RAYLIB: Image LoadImage(const char *fileName);
+          cell_t len = TOS; /* length of the filename string. */
+          CharPtr = (char *)M_POP; /* filename string, not null terminated. */
+          pfCopyMemory(gScratch, CharPtr, len);
+          gScratch[len] = '\0';
+          Image image = LoadImage(gScratch);
+          TOS = (cell_t)&image;
         } break;
         case XT_LOAD_IMAGE_RAW: { /* ( +fileName +width +height +format +headerSize -- Image ) */
             // RAYLIB: Image LoadImageRaw(const char *fileName, int width, int height, int format, int headerSize);
@@ -3045,8 +3081,11 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         case XT_LOAD_TEXTURE: { /* ( +fileName -- Texture2D ) */
             // RAYLIB: Texture2D LoadTexture(const char *fileName);
         } break;
+        // RAYLIB: Texture2D LoadTextureFromImage(Image image);
         case XT_LOAD_TEXTURE_FROM_IMAGE: { /* ( +image -- Texture2D ) */
-            // RAYLIB: Texture2D LoadTextureFromImage(Image image);
+          Image image = *(Image *)TOS;
+          Texture2D texture = LoadTextureFromImage(image);
+          TOS = (cell_t)&texture;
         } break;
         case XT_LOAD_TEXTURE_CUBEMAP: { /* ( +image +layout -- TextureCubemap ) */
             // RAYLIB: TextureCubemap LoadTextureCubemap(Image image, int layout);
@@ -3190,8 +3229,24 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         case XT_DRAW_FPS: { /* ( +posX +posY -- ) */
             // RAYLIB: void DrawFPS(int posX, int posY);
         } break;
+        // RAYLIB: void DrawText(const char *text, int posX, int posY, int fontSize, Color color);
         case XT_DRAW_TEXT: { /* ( +text +posX +posY +fontSize +color -- ) */
-            // RAYLIB: void DrawText(const char *text, int posX, int posY, int fontSize, Color color);
+          int alpha = TOS;
+          int blue = M_POP;
+          int green = M_POP;
+          int red = M_POP;
+          int fontSize = M_POP;
+          int posY = M_POP;
+          int posX = M_POP;
+          int len = M_POP;
+          CharPtr = (char *)M_POP; /* not null terminated. */
+          M_DROP; // drops the TOS since we won't return it.
+          if (CharPtr != NULL && len > 0 && len < TIB_SIZE) {
+            pfCopyMemory(gScratch, CharPtr, len);
+            gScratch[len] = '\0';
+            DrawText(gScratch, posX, posY, fontSize,
+                     (Color){red, green, blue, alpha});
+          }
         } break;
         case XT_DRAW_TEXT_EX: { /* ( +font +text +position +fontSize +spacing +tint -- ) */
             // RAYLIB: void DrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint);
