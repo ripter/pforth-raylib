@@ -10,7 +10,7 @@ This is a C99 project that tries to match the coding guidelines set by Raylib.
 
 ### Future Plans
 
-I intend to remove CMake and platforms that are not supported by Raylib in the future. The project will use Make as the build tool. For now, the only platform being tested is platforms/unix/Makefile.
+I intend to remove platforms that are not supported by Raylib in the future. ATM only platform being tested is platforms/unix/Makefile. I have not tested cmake in the root of the project but I intend on getting that working for all supported platforms. I am brand new to CMake, so it will take me a while to switch over.
 
 For now, the main Makefile can be run like this:
 
@@ -36,6 +36,9 @@ pkg-config --cflags raylib
 * Lots of missing words.
 * file paths in .fth files are relative to the pforth executable location. They should be relative to the file location instead.
 * Segfaults instead of giving error or crash info.
+* Hexcode instead of word on unknown word.
+* TOS does not work if the stack is empty.
+* 
 
 ---
 
@@ -101,16 +104,6 @@ On Unix and MacOS using Makefile:
     
 For more details, see the [Wiki](https://github.com/philburk/pforth/wiki/Compiling-on-Unix)
 
-Using CMake:
-
-    cmake .
-    make
-    cd fth
-    ./pforth_standalone
-
-For embedded systems, see the pForth reference manual at:
-
-  http://www.softsynth.com/pforth/pf_ref.php
 
 ## How to Run pForth
 
@@ -154,15 +147,6 @@ On Unix and MacOS using Makefile:
 
     cd platforms/unix
     make test
-
-Using CMake:
-
-    cmake .
-    make
-    cd fth
-    ./pforth
-    include tester.fth
-    include coretest.fth
 
 To run the other tests, enter:
 

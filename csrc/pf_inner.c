@@ -30,9 +30,7 @@
 **
 ***************************************************************/
 
-#include "raylib.h"
 #include "pf_all.h"
-#include "pf_raylib.h"
 
 #if defined(WIN32) && !defined(__MINGW32__)
 #include <crtdbg.h>
@@ -1871,30 +1869,1883 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
 
+        //************************************************************ 
+        // Raylib words
+        //************************************************************
+        // rcore - Window-related functions
+        case XT_INIT_WINDOW: { /* ( +width +height +title -- ) */
+          // RAYLIB: void InitWindow(int width, int height, const char *title);
+          ERR("InitWindow not implemented\n");
+        } break;
+        case XT_CLOSE_WINDOW: { /* ( -- ) */
+          // RAYLIB: void CloseWindow(void);
+          ERR("CloseWindow not implemented\n");
+        } break;
+        case XT_WINDOW_SHOULD_CLOSE: { /* ( -- bool ) */
+          // RAYLIB: bool WindowShouldClose(void);
+          ERR("WindowShouldClose not implemented\n");
+        } break;
+        case XT_IS_WINDOW_READY: { /* ( -- bool ) */
+          // RAYLIB: bool IsWindowReady(void);
+          ERR("IsWindowReady not implemented\n");
+        } break;
+        case XT_IS_WINDOW_FULLSCREEN: { /* ( -- bool ) */
+          // RAYLIB: bool IsWindowFullscreen(void);
+          ERR("IsWindowFullscreen not implemented\n");
+        } break;
+        case XT_IS_WINDOW_HIDDEN: { /* ( -- bool ) */
+          // RAYLIB: bool IsWindowHidden(void);
+          ERR("IsWindowHidden not implemented\n");
+        } break;
+        case XT_IS_WINDOW_MINIMIZED: { /* ( -- bool ) */
+          // RAYLIB: bool IsWindowMinimized(void);
+          ERR("IsWindowMinimized not implemented\n");
+        } break;
+        case XT_IS_WINDOW_MAXIMIZED: { /* ( -- bool ) */
+          // RAYLIB: bool IsWindowMaximized(void);
+          ERR("IsWindowMaximized not implemented\n");
+        } break;
+        case XT_IS_WINDOW_FOCUSED: { /* ( -- bool ) */
+          // RAYLIB: bool IsWindowFocused(void);
+          ERR("IsWindowFocused not implemented\n");
+        } break;
+        case XT_IS_WINDOW_RESIZED: { /* ( -- bool ) */
+          // RAYLIB: bool IsWindowResized(void);
+          ERR("IsWindowResized not implemented\n");
+        } break;
+        case XT_IS_WINDOW_STATE: { /* ( +flag -- bool ) */
+          // RAYLIB: bool IsWindowState(unsigned int flag);
+          ERR("IsWindowState not implemented\n");
+        } break;
+        case XT_SET_WINDOW_STATE: { /* ( +flags -- ) */
+          // RAYLIB: void SetWindowState(unsigned int flags);
+          ERR("SetWindowState not implemented\n");
+        } break;
+        case XT_CLEAR_WINDOW_STATE: { /* ( +flags -- ) */
+          // RAYLIB: void ClearWindowState(unsigned int flags);
+          ERR("ClearWindowState not implemented\n");
+        } break;
+        case XT_TOGGLE_FULLSCREEN: { /* ( -- ) */
+          // RAYLIB: void ToggleFullscreen(void);
+          ERR("ToggleFullscreen not implemented\n");
+        } break;
+        case XT_TOGGLE_BORDERLESS_WINDOWED: { /* ( -- ) */
+          // RAYLIB: void ToggleBorderlessWindowed(void);
+          ERR("ToggleBorderlessWindowed not implemented\n");
+        } break;
+        case XT_MAXIMIZE_WINDOW: { /* ( -- ) */
+          // RAYLIB: void MaximizeWindow(void);
+          ERR("MaximizeWindow not implemented\n");
+        } break;
+        case XT_MINIMIZE_WINDOW: { /* ( -- ) */
+          // RAYLIB: void MinimizeWindow(void);
+          ERR("MinimizeWindow not implemented\n");
+        } break;
+        case XT_RESTORE_WINDOW: { /* ( -- ) */
+          // RAYLIB: void RestoreWindow(void);
+          ERR("RestoreWindow not implemented\n");
+        } break;
+        case XT_SET_WINDOW_ICON: { /* ( +image -- ) */
+          // RAYLIB: void SetWindowIcon(Image image);
+          ERR("SetWindowIcon not implemented\n");
+        } break;
+        case XT_SET_WINDOW_ICONS: { /* ( +images +count -- ) */
+          // RAYLIB: void SetWindowIcons(Image *images, int count);
+          ERR("SetWindowIcons not implemented\n");
+        } break;
+        case XT_SET_WINDOW_TITLE: { /* ( +title -- ) */
+          // RAYLIB: void SetWindowTitle(const char *title);
+          ERR("SetWindowTitle not implemented\n");
+        } break;
+        case XT_SET_WINDOW_POSITION: { /* ( +x +y -- ) */
+          // RAYLIB: void SetWindowPosition(int x, int y);
+          ERR("SetWindowPosition not implemented\n");
+        } break;
+        case XT_SET_WINDOW_MONITOR: { /* ( +monitor -- ) */
+          // RAYLIB: void SetWindowMonitor(int monitor);
+          ERR("SetWindowMonitor not implemented\n");
+        } break;
+        case XT_SET_WINDOW_MIN_SIZE: { /* ( +width +height -- ) */
+          // RAYLIB: void SetWindowMinSize(int width, int height);
+          ERR("SetWindowMinSize not implemented\n");
+        } break;
+        case XT_SET_WINDOW_MAX_SIZE: { /* ( +width +height -- ) */
+          // RAYLIB: void SetWindowMaxSize(int width, int height);
+          ERR("SetWindowMaxSize not implemented\n");
+        } break;
+        case XT_SET_WINDOW_SIZE: { /* ( +width +height -- ) */
+          // RAYLIB: void SetWindowSize(int width, int height);
+          ERR("SetWindowSize not implemented\n");
+        } break;
+        case XT_SET_WINDOW_OPACITY: { /* ( +opacity -- ) */
+          // RAYLIB: void SetWindowOpacity(float opacity);
+          ERR("SetWindowOpacity not implemented\n");
+        } break;
+        case XT_SET_WINDOW_FOCUSED: { /* ( -- ) */
+            // RAYLIB: void SetWindowFocused(void);
+            break;
+        }
+        case XT_GET_WINDOW_HANDLE: { /* ( -- void* ) */
+            // RAYLIB: void *GetWindowHandle(void);
+            break;
+        }
+        case XT_GET_SCREEN_WIDTH: { /* ( -- int ) */
+            // RAYLIB: int GetScreenWidth(void);
+            break;
+        }
+        case XT_GET_SCREEN_HEIGHT: { /* ( -- int ) */
+            // RAYLIB: int GetScreenHeight(void);
+            break;
+        }
+        case XT_GET_RENDER_WIDTH: { /* ( -- int ) */
+            // RAYLIB: int GetRenderWidth(void);
+            break;
+        }
+        case XT_GET_RENDER_HEIGHT: { /* ( -- int ) */
+            // RAYLIB: int GetRenderHeight(void);
+            break;
+        }
+        case XT_GET_MONITOR_COUNT: { /* ( -- int ) */
+            // RAYLIB: int GetMonitorCount(void);
+            break;
+        }
+        case XT_GET_CURRENT_MONITOR: { /* ( -- int ) */
+            // RAYLIB: int GetCurrentMonitor(void);
+            break;
+        }
+        case XT_GET_MONITOR_POSITION: { /* ( +monitor -- Vector2 ) */
+            // RAYLIB: Vector2 GetMonitorPosition(int monitor);
+            break;
+        }
+        case XT_GET_MONITOR_WIDTH: { /* ( +monitor -- int ) */
+            // RAYLIB: int GetMonitorWidth(int monitor);
+            break;
+        }
+        case XT_GET_MONITOR_HEIGHT: { /* ( +monitor -- int ) */
+            // RAYLIB: int GetMonitorHeight(int monitor);
+            break;
+        }
+        case XT_GET_MONITOR_PHYSICAL_WIDTH: { /* ( +monitor -- int ) */
+            // RAYLIB: int GetMonitorPhysicalWidth(int monitor);
+            break;
+        }
+        case XT_GET_MONITOR_PHYSICAL_HEIGHT: { /* ( +monitor -- int ) */
+            // RAYLIB: int GetMonitorPhysicalHeight(int monitor);
+            break;
+        }
+        case XT_GET_MONITOR_REFRESH_RATE: { /* ( +monitor -- int ) */
+            // RAYLIB: int GetMonitorRefreshRate(int monitor);
+            break;
+        }
+        case XT_GET_WINDOW_POSITION: { /* ( -- Vector2 ) */
+            // RAYLIB: Vector2 GetWindowPosition(void);
+            break;
+        }
+        case XT_GET_WINDOW_SCALE_DPI: { /* ( -- Vector2 ) */
+            // RAYLIB: Vector2 GetWindowScaleDPI(void);
+            break;
+        }
+        case XT_GET_MONITOR_NAME: { /* ( +monitor -- const char* ) */
+            // RAYLIB: const char *GetMonitorName(int monitor);
+            break;
+        }
+        case XT_SET_CLIPBOARD_TEXT: { /* ( +text -- ) */
+            // RAYLIB: void SetClipboardText(const char *text);
+            break;
+        }
+        case XT_GET_CLIPBOARD_TEXT: { /* ( -- const char* ) */
+            // RAYLIB: const char *GetClipboardText(void);
+            break;
+        }
+        case XT_ENABLE_EVENT_WAITING: { /* ( -- ) */
+            // RAYLIB: void EnableEventWaiting(void);
+            break;
+        }
+        case XT_DISABLE_EVENT_WAITING: { /* ( -- ) */
+            // RAYLIB: void DisableEventWaiting(void);
+            break;
+        }
+        // rcore - Cursor-related functions
+        case XT_SHOW_CURSOR: { /* ( -- ) */
+          // RAYLIB: void ShowCursor(void);
+          break;
+        }
+        case XT_HIDE_CURSOR: { /* ( -- ) */
+          // RAYLIB: void HideCursor(void);
+          break;
+        }
+        case XT_IS_CURSOR_HIDDEN: { /* ( -- bool ) */
+          // RAYLIB: bool IsCursorHidden(void);
+          break;
+        }
+        case XT_ENABLE_CURSOR: { /* ( -- ) */
+          // RAYLIB: void EnableCursor(void);
+          break;
+        }
+        case XT_DISABLE_CURSOR: { /* ( -- ) */
+          // RAYLIB: void DisableCursor(void);
+          break;
+        }
+        case XT_IS_CURSOR_ON_SCREEN: { /* ( -- bool ) */
+          // RAYLIB: bool IsCursorOnScreen(void);
+          break;
+        }
+        // rcore - Drawing-related functions
+        case XT_CLEAR_BACKGROUND: { /* ( +color -- ) */
+          // RAYLIB: void ClearBackground(Color color);
+          break;
+        }
+        case XT_BEGIN_DRAWING: { /* ( -- ) */
+          // RAYLIB: void BeginDrawing(void);
+          break;
+        }
+        case XT_END_DRAWING: { /* ( -- ) */
+          // RAYLIB: void EndDrawing(void);
+          break;
+        }
+        case XT_BEGIN_MODE2D: { /* ( +camera2D -- ) */
+          // RAYLIB: void BeginMode2D(Camera2D camera);
+          break;
+        }
+        case XT_END_MODE2D: { /* ( -- ) */
+          // RAYLIB: void EndMode2D(void);
+          break;
+        }
+        case XT_BEGIN_MODE3D: { /* ( +camera3D -- ) */
+          // RAYLIB: void BeginMode3D(Camera3D camera);
+          break;
+        }
+        case XT_END_MODE3D: { /* ( -- ) */
+          // RAYLIB: void EndMode3D(void);
+          break;
+        }
+        case XT_BEGIN_TEXTURE_MODE: { /* ( +renderTexture2D -- ) */
+          // RAYLIB: void BeginTextureMode(RenderTexture2D target);
+          break;
+        }
+        case XT_END_TEXTURE_MODE: { /* ( -- ) */
+          // RAYLIB: void EndTextureMode(void);
+          break;
+        }
+        case XT_BEGIN_SHADER_MODE: { /* ( +shader -- ) */
+          // RAYLIB: void BeginShaderMode(Shader shader);
+          break;
+        }
+        case XT_END_SHADER_MODE: { /* ( -- ) */
+          // RAYLIB: void EndShaderMode(void);
+          break;
+        }
+        case XT_BEGIN_BLEND_MODE: { /* ( +mode -- ) */
+          // RAYLIB: void BeginBlendMode(int mode);
+          break;
+        }
+        case XT_END_BLEND_MODE: { /* ( -- ) */
+          // RAYLIB: void EndBlendMode(void);
+          break;
+        }
+        case XT_BEGIN_SCISSOR_MODE: { /* ( +x +y +width +height -- ) */
+          // RAYLIB: void BeginScissorMode(int x, int y, int width, int height);
+          break;
+        }
+        case XT_END_SCISSOR_MODE: { /* ( -- ) */
+          // RAYLIB: void EndScissorMode(void);
+          break;
+        }
+        case XT_BEGIN_VR_STEREO_MODE: { /* ( +vrStereoConfig -- ) */
+          // RAYLIB: void BeginVrStereoMode(VrStereoConfig config);
+          break;
+        }
+        case XT_END_VR_STEREO_MODE: { /* ( -- ) */
+          // RAYLIB: void EndVrStereoMode(void);
+          break;
+        }
+        // rcore - VR stereo config functions for VR simulator
+        case XT_LOAD_VR_STEREO_CONFIG: { /* ( +vrDeviceInfo -- vrStereoConfig )
+                                          */
+          // RAYLIB: VrStereoConfig LoadVrStereoConfig(VrDeviceInfo device);
+          break;
+        }
+        case XT_UNLOAD_VR_STEREO_CONFIG: { /* ( +vrStereoConfig -- ) */
+          // RAYLIB: void UnloadVrStereoConfig(VrStereoConfig config);
+          break;
+        }
+          // rcore - Shader management functions
+        case XT_LOAD_SHADER: { /* ( +vsFileName +fsFileName -- shader ) */
+          // RAYLIB: Shader LoadShader(const char *vsFileName, const char
+          // *fsFileName);
+          break;
+        }
+        case XT_LOAD_SHADER_FROM_MEMORY: { /* ( +vsCode +fsCode -- shader ) */
+          // RAYLIB: Shader LoadShaderFromMemory(const char *vsCode, const char
+          // *fsCode);
+          break;
+        }
+        case XT_IS_SHADER_READY: { /* ( +shader -- bool ) */
+          // RAYLIB: bool IsShaderReady(Shader shader);
+          break;
+        }
+        case XT_GET_SHADER_LOCATION: { /* ( +shader +uniformName -- int ) */
+          // RAYLIB: int GetShaderLocation(Shader shader, const char
+          // *uniformName);
+          break;
+        }
+        case XT_GET_SHADER_LOCATION_ATTRIB: { /* ( +shader +attribName -- int ) */
+          // RAYLIB: int GetShaderLocationAttrib(Shader shader, const char
+          // *attribName);
+          break;
+        }
+        case XT_SET_SHADER_VALUE: { /* ( +shader +locIndex +value +uniformType  -- ) */
+          // RAYLIB: void SetShaderValue(Shader shader, int locIndex, const void
+          // *value, int uniformType);
+          break;
+        }
+        case XT_SET_SHADER_VALUE_V: { /* ( +shader +locIndex +value +uniformType +count -- ) */
+          // RAYLIB: void SetShaderValueV(Shader shader, int locIndex, const
+          // void *value, int uniformType, int count);
+          break;
+        }
+        case XT_SET_SHADER_VALUE_MATRIX: { /* ( +shader +locIndex +mat -- ) */
+          // RAYLIB: void SetShaderValueMatrix(Shader shader, int locIndex,
+          // Matrix mat);
+          break;
+        }
+        case XT_SET_SHADER_VALUE_TEXTURE: { /* ( +shader +locIndex +texture -- ) */
+          // RAYLIB: void SetShaderValueTexture(Shader shader, int locIndex,
+          // Texture2D texture);
+          break;
+        }
+        case XT_UNLOAD_SHADER: { /* ( +shader -- ) */
+          // RAYLIB: void UnloadShader(Shader shader);
+          break;
+        }
+        // rcore - Screen-space-related functions
+        case XT_GET_MOUSE_RAY: { /* ( +mousePosition +camera -- ray ) */
+          // RAYLIB: Ray GetMouseRay(Vector2 mousePosition, Camera camera);
+          break;
+        }
+        case XT_GET_CAMERA_MATRIX: { /* ( +camera -- matrix ) */
+          // RAYLIB: Matrix GetCameraMatrix(Camera camera);
+          break;
+        }
+        case XT_GET_CAMERA_MATRIX_2D: { /* ( +camera2D -- matrix ) */
+          // RAYLIB: Matrix GetCameraMatrix2D(Camera2D camera);
+          break;
+        }
+        case XT_GET_WORLD_TO_SCREEN: { /* ( +position3D +camera -- vector2 ) */
+          // RAYLIB: Vector2 GetWorldToScreen(Vector3 position, Camera camera);
+          break;
+        }
+        case XT_GET_SCREEN_TO_WORLD_2D: { /* ( +position2D +camera2D -- vector2
+                                             ) */
+          // RAYLIB: Vector2 GetScreenToWorld2D(Vector2 position, Camera2D
+          // camera);
+          break;
+        }
+        case XT_GET_WORLD_TO_SCREEN_EX: { /* ( +position3D +camera +width
+                                             +height -- vector2 ) */
+          // RAYLIB: Vector2 GetWorldToScreenEx(Vector3 position, Camera camera,
+          // int width, int height);
+          break;
+        }
+        case XT_GET_WORLD_TO_SCREEN_2D: { /* ( +position2D +camera2D -- vector2 ) */
+          // RAYLIB: Vector2 GetWorldToScreen2D(Vector2 position, Camera2D camera);
+        } break; 
+        // rcore - Timing-related functions
+        case XT_SET_TARGET_FPS: { /* ( +fps -- ) */
+          // RAYLIB: void SetTargetFPS(int fps);
+        } break; 
+        case XT_GET_FRAME_TIME: { /* ( -- float ) */
+          // RAYLIB: float GetFrameTime(void);
+        } break; 
+        case XT_GET_TIME: { /* ( -- double ) */
+          // RAYLIB: double GetTime(void);
+        } break; 
+        case XT_GET_FPS: { /* ( -- int ) */
+          // RAYLIB: int GetFPS(void);
+        } break; 
+        // rcore - Custom frame control functions
+        case XT_SWAP_SCREEN_BUFFER: { /* ( -- ) */
+          // RAYLIB: void SwapScreenBuffer(void);
+        } break;
+        case XT_POLL_INPUT_EVENTS: { /* ( -- ) */
+          // RAYLIB: void PollInputEvents(void);
+        } break;
+        case XT_WAIT_TIME: { /* ( +seconds -- ) */
+          // RAYLIB: void WaitTime(double seconds);
+        } break;
+        // rcore - Random values generation functions
+        case XT_SET_RANDOM_SEED: { /* ( +seed -- ) */
+          // RAYLIB: void SetRandomSeed(unsigned int seed);
+        } break;
+        case XT_GET_RANDOM_VALUE: { /* ( +min +max -- int ) */
+          // RAYLIB: int GetRandomValue(int min, int max);
+        } break;
+        case XT_LOAD_RANDOM_SEQUENCE: { /* ( +count +min +max -- int* ) */
+          // RAYLIB: int *LoadRandomSequence(unsigned int count, int min, int
+          // max);
+        } break;
+        case XT_UNLOAD_RANDOM_SEQUENCE: { /* ( +sequence -- ) */
+          // RAYLIB: void UnloadRandomSequence(int *sequence);
+        } break;
+        // rcore - Misc. functions
+        case XT_TAKE_SCREENSHOT: { /* ( +fileName -- ) */
+          // RAYLIB: void TakeScreenshot(const char *fileName);
+        } break;
+        case XT_SET_CONFIG_FLAGS: { /* ( +flags -- ) */
+          // RAYLIB: void SetConfigFlags(unsigned int flags);
+        } break;
+        case XT_OPEN_URL: { /* ( +url -- ) */
+          // RAYLIB: void OpenURL(const char *url);
+        } break;
+        case XT_TRACE_LOG: { /* ( +logLevel +text ... -- ) */
+          // RAYLIB: void TraceLog(int logLevel, const char *text, ...);
+        } break;
+        case XT_SET_TRACE_LOG_LEVEL: { /* ( +logLevel -- ) */
+          // RAYLIB: void SetTraceLogLevel(int logLevel);
+        } break;
+        case XT_MEM_ALLOC: { /* ( +size -- void* ) */
+                             // RAYLIB: void *MemAlloc(unsigned int size);
+        } break;
+        case XT_MEM_REALLOC: { /* ( +ptr +size -- void* ) */
+          // RAYLIB: void *MemRealloc(void *ptr, unsigned int size);
+        } break;
+        case XT_MEM_FREE: { /* ( +ptr -- ) */
+                            // RAYLIB: void MemFree(void *ptr);
+        } break;
+        //
+        // rcore - Set custom callbacks
+        case XT_SET_TRACE_LOG_CALLBACK: { /* ( +callback -- ) */
+          // RAYLIB: void SetTraceLogCallback(TraceLogCallback callback);
+        } break;
+        case XT_SET_LOAD_FILE_DATA_CALLBACK: { /* ( +callback -- ) */
+          // RAYLIB: void SetLoadFileDataCallback(LoadFileDataCallback
+          // callback);
+        } break;
+        case XT_SET_SAVE_FILE_DATA_CALLBACK: { /* ( +callback -- ) */
+          // RAYLIB: void SetSaveFileDataCallback(SaveFileDataCallback
+          // callback);
+        } break;
+        case XT_SET_LOAD_FILE_TEXT_CALLBACK: { /* ( +callback -- ) */
+          // RAYLIB: void SetLoadFileTextCallback(LoadFileTextCallback
+          // callback);
+        } break;
+        case XT_SET_SAVE_FILE_TEXT_CALLBACK: { /* ( +callback -- ) */
+          // RAYLIB: void SetSaveFileTextCallback(SaveFileTextCallback
+          // callback);
+        } break;
+        //
+        // rcore - Files management functions
+        case XT_LOAD_FILE_DATA: { /* ( +fileName +dataSize -- unsigned char* )
+                                   */
+          // RAYLIB: unsigned char *LoadFileData(const char *fileName, int
+          // *dataSize);
+        } break;
+        case XT_UNLOAD_FILE_DATA: { /* ( +data -- ) */
+          // RAYLIB: void UnloadFileData(unsigned char *data);
+        } break;
+        case XT_SAVE_FILE_DATA: { /* ( +fileName +data +dataSize -- bool ) */
+          // RAYLIB: bool SaveFileData(const char *fileName, void *data, int
+          // dataSize);
+        } break;
+        case XT_EXPORT_DATA_AS_CODE: { /* ( +data +dataSize +fileName -- bool )
+                                        */
+          // RAYLIB: bool ExportDataAsCode(const unsigned char *data, int
+          // dataSize, const char *fileName);
+        } break;
+        case XT_LOAD_FILE_TEXT: { /* ( +fileName -- char* ) */
+          // RAYLIB: char *LoadFileText(const char *fileName);
+        } break;
+        case XT_UNLOAD_FILE_TEXT: { /* ( +text -- ) */
+                                    // RAYLIB: void UnloadFileText(char *text);
+        } break;
+        case XT_SAVE_FILE_TEXT: { /* ( +fileName +text -- bool ) */
+          // RAYLIB: bool SaveFileText(const char *fileName, char *text);
+        } break;
+        case XT_FILE_EXISTS: { /* ( +fileName -- bool ) */
+                               // RAYLIB: bool FileExists(const char *fileName);
+        } break;
+        case XT_DIRECTORY_EXISTS: { /* ( +dirPath -- bool ) */
+          // RAYLIB: bool DirectoryExists(const char *dirPath);
+        } break;
+        case XT_IS_FILE_EXTENSION: { /* ( +fileName +ext -- bool ) */
+          // RAYLIB: bool IsFileExtension(const char *fileName, const char
+          // *ext);
+        } break;
+        case XT_GET_FILE_LENGTH: { /* ( +fileName -- int ) */
+          // RAYLIB: int GetFileLength(const char *fileName);
+        } break;
+        case XT_GET_FILE_EXTENSION: { /* ( +fileName -- const char* ) */
+          // RAYLIB: const char *GetFileExtension(const char *fileName);
+        } break;
+        case XT_GET_FILE_NAME: { /* ( +filePath -- const char* ) */
+          // RAYLIB: const char *GetFileName(const char *filePath);
+        } break;
+        case XT_GET_FILE_NAME_WITHOUT_EXT: { /* ( +filePath -- const char* ) */
+          // RAYLIB: const char *GetFileNameWithoutExt(const char *filePath);
+        } break;
+        case XT_GET_DIRECTORY_PATH: { /* ( +filePath -- const char* ) */
+          // RAYLIB: const char *GetDirectoryPath(const char *filePath);
+        } break;
+        case XT_GET_PREV_DIRECTORY_PATH: { /* ( +dirPath -- const char* ) */
+          // RAYLIB: const char *GetPrevDirectoryPath(const char *dirPath);
+        } break;
+        case XT_GET_WORKING_DIRECTORY: { /* ( -- const char* ) */
+          // RAYLIB: const char *GetWorkingDirectory(void);
+        } break;
+        case XT_GET_APPLICATION_DIRECTORY: { /* ( -- const char* ) */
+          // RAYLIB: const char *GetApplicationDirectory(void);
+        } break;
+        case XT_CHANGE_DIRECTORY: { /* ( +dir -- bool ) */
+          // RAYLIB: bool ChangeDirectory(const char *dir);
+        } break;
+        case XT_IS_PATH_FILE: { /* ( +path -- bool ) */
+                                // RAYLIB: bool IsPathFile(const char *path);
+        } break;
+        case XT_LOAD_DIRECTORY_FILES: { /* ( +dirPath -- FilePathList ) */
+          // RAYLIB: FilePathList LoadDirectoryFiles(const char *dirPath);
+        } break;
+        case XT_LOAD_DIRECTORY_FILES_EX: { /* ( +basePath +filter +scanSubdirs
+                                              -- FilePathList ) */
+          // RAYLIB: FilePathList LoadDirectoryFilesEx(const char *basePath,
+          // const char *filter, bool scanSubdirs);
+        } break;
+        case XT_UNLOAD_DIRECTORY_FILES: { /* ( +files -- ) */
+          // RAYLIB: void UnloadDirectoryFiles(FilePathList files);
+        } break;
+        case XT_IS_FILE_DROPPED: { /* ( -- bool ) */
+                                   // RAYLIB: bool IsFileDropped(void);
+        } break;
+        case XT_LOAD_DROPPED_FILES: { /* ( -- FilePathList ) */
+          // RAYLIB: FilePathList LoadDroppedFiles(void);
+        } break;
+        case XT_UNLOAD_DROPPED_FILES: { /* ( +files -- ) */
+          // RAYLIB: void UnloadDroppedFiles(FilePathList files);
+        } break;
+        case XT_GET_FILE_MOD_TIME: { /* ( +fileName -- long ) */
+          // RAYLIB: long GetFileModTime(const char *fileName);
+        } break;
+        //
+        // rcore - Compression/Encoding functionality
+        case XT_COMPRESS_DATA: { /* ( +data +dataSize -- unsigned char*
+                                    +compDataSize ) */
+          // RAYLIB: unsigned char *CompressData(const unsigned char *data, int
+          // dataSize, int *compDataSize);
+        } break;
+        case XT_DECOMPRESS_DATA: { /* ( +compData +compDataSize -- unsigned
+                                      char* +dataSize ) */
+          // RAYLIB: unsigned char *DecompressData(const unsigned char
+          // *compData, int compDataSize, int *dataSize);
+        } break;
+        case XT_ENCODE_DATA_BASE64: { /* ( +data +dataSize -- char* +outputSize
+                                         ) */
+          // RAYLIB: char *EncodeDataBase64(const unsigned char *data, int
+          // dataSize, int *outputSize);
+        } break;
+        case XT_DECODE_DATA_BASE64: { /* ( +data -- unsigned char* +outputSize )
+                                       */
+          // RAYLIB: unsigned char *DecodeDataBase64(const unsigned char *data,
+          // int *outputSize);
+        } break;
+        //
+        // rcore - Automation events functionality
+        case XT_LOAD_AUTOMATION_EVENT_LIST: { /* ( +fileName -- AutomationEventList ) */
+            // RAYLIB: AutomationEventList LoadAutomationEventList(const char *fileName);
+        } break;
+        case XT_UNLOAD_AUTOMATION_EVENT_LIST: { /* ( +list -- ) */
+            // RAYLIB: void UnloadAutomationEventList(AutomationEventList *list);
+        } break;
+        case XT_EXPORT_AUTOMATION_EVENT_LIST: { /* ( +list +fileName -- bool ) */
+            // RAYLIB: bool ExportAutomationEventList(AutomationEventList list, const char *fileName);
+        } break;
+        case XT_SET_AUTOMATION_EVENT_LIST: { /* ( +list -- ) */
+            // RAYLIB: void SetAutomationEventList(AutomationEventList *list);
+        } break;
+        case XT_SET_AUTOMATION_EVENT_BASE_FRAME: { /* ( +frame -- ) */
+            // RAYLIB: void SetAutomationEventBaseFrame(int frame);
+        } break;
+        case XT_START_AUTOMATION_EVENT_RECORDING: { /* ( -- ) */
+            // RAYLIB: void StartAutomationEventRecording(void);
+        } break;
+        case XT_STOP_AUTOMATION_EVENT_RECORDING: { /* ( -- ) */
+            // RAYLIB: void StopAutomationEventRecording(void);
+        } break;
+        case XT_PLAY_AUTOMATION_EVENT: { /* ( +event -- ) */
+            // RAYLIB: void PlayAutomationEvent(AutomationEvent event);
+        } break;
+        //
+        // rcore - Input-related functions: keyboard
+        case XT_IS_KEY_PRESSED: { /* ( +key -- bool ) */
+            // RAYLIB: bool IsKeyPressed(int key);
+        } break;
+        case XT_IS_KEY_PRESSED_REPEAT: { /* ( +key -- bool ) */
+            // RAYLIB: bool IsKeyPressedRepeat(int key);
+        } break;
+        case XT_IS_KEY_DOWN: { /* ( +key -- bool ) */
+            // RAYLIB: bool IsKeyDown(int key);
+        } break;
+        case XT_IS_KEY_RELEASED: { /* ( +key -- bool ) */
+            // RAYLIB: bool IsKeyReleased(int key);
+        } break;
+        case XT_IS_KEY_UP: { /* ( +key -- bool ) */
+            // RAYLIB: bool IsKeyUp(int key);
+        } break;
+        case XT_GET_KEY_PRESSED: { /* ( -- int ) */
+            // RAYLIB: int GetKeyPressed(void);
+        } break;
+        case XT_GET_CHAR_PRESSED: { /* ( -- int ) */
+            // RAYLIB: int GetCharPressed(void);
+        } break;
+        case XT_SET_EXIT_KEY: { /* ( +key -- ) */
+            // RAYLIB: void SetExitKey(int key);
+        } break;
+        //
+        // rcore - Input-related functions: gamepads
+        case XT_IS_GAMEPAD_AVAILABLE: { /* ( +gamepad -- bool ) */
+            // RAYLIB: bool IsGamepadAvailable(int gamepad);
+        } break;
+        case XT_GET_GAMEPAD_NAME: { /* ( +gamepad -- const char* ) */
+            // RAYLIB: const char *GetGamepadName(int gamepad);
+        } break;
+        case XT_IS_GAMEPAD_BUTTON_PRESSED: { /* ( +gamepad +button -- bool ) */
+            // RAYLIB: bool IsGamepadButtonPressed(int gamepad, int button);
+        } break;
+        case XT_IS_GAMEPAD_BUTTON_DOWN: { /* ( +gamepad +button -- bool ) */
+            // RAYLIB: bool IsGamepadButtonDown(int gamepad, int button);
+        } break;
+        case XT_IS_GAMEPAD_BUTTON_RELEASED: { /* ( +gamepad +button -- bool ) */
+            // RAYLIB: bool IsGamepadButtonReleased(int gamepad, int button);
+        } break;
+        case XT_IS_GAMEPAD_BUTTON_UP: { /* ( +gamepad +button -- bool ) */
+            // RAYLIB: bool IsGamepadButtonUp(int gamepad, int button);
+        } break;
+        case XT_GET_GAMEPAD_BUTTON_PRESSED: { /* ( -- int ) */
+            // RAYLIB: int GetGamepadButtonPressed(void);
+        } break;
+        case XT_GET_GAMEPAD_AXIS_COUNT: { /* ( +gamepad -- int ) */
+            // RAYLIB: int GetGamepadAxisCount(int gamepad);
+        } break;
+        case XT_GET_GAMEPAD_AXIS_MOVEMENT: { /* ( +gamepad +axis -- float ) */
+            // RAYLIB: float GetGamepadAxisMovement(int gamepad, int axis);
+        } break;
+        case XT_SET_GAMEPAD_MAPPINGS: { /* ( +mappings -- int ) */
+            // RAYLIB: int SetGamepadMappings(const char *mappings);
+        } break;
+        //
+        // rcore - Input-related functions: mouse
+        case XT_IS_MOUSE_BUTTON_PRESSED: { /* ( +button -- bool ) */
+            // RAYLIB: bool IsMouseButtonPressed(int button);
+        } break;
+        case XT_IS_MOUSE_BUTTON_DOWN: { /* ( +button -- bool ) */
+            // RAYLIB: bool IsMouseButtonDown(int button);
+        } break;
+        case XT_IS_MOUSE_BUTTON_RELEASED: { /* ( +button -- bool ) */
+            // RAYLIB: bool IsMouseButtonReleased(int button);
+        } break;
+        case XT_IS_MOUSE_BUTTON_UP: { /* ( +button -- bool ) */
+            // RAYLIB: bool IsMouseButtonUp(int button);
+        } break;
+        case XT_GET_MOUSE_X: { /* ( -- int ) */
+            // RAYLIB: int GetMouseX(void);
+        } break;
+        case XT_GET_MOUSE_Y: { /* ( -- int ) */
+            // RAYLIB: int GetMouseY(void);
+        } break;
+        case XT_GET_MOUSE_POSITION: { /* ( -- Vector2 ) */
+            // RAYLIB: Vector2 GetMousePosition(void);
+        } break;
+        case XT_GET_MOUSE_DELTA: { /* ( -- Vector2 ) */
+            // RAYLIB: Vector2 GetMouseDelta(void);
+        } break;
+        case XT_SET_MOUSE_POSITION: { /* ( +x +y -- ) */
+            // RAYLIB: void SetMousePosition(int x, int y);
+        } break;
+        case XT_SET_MOUSE_OFFSET: { /* ( +offsetX +offsetY -- ) */
+            // RAYLIB: void SetMouseOffset(int offsetX, int offsetY);
+        } break;
+        case XT_SET_MOUSE_SCALE: { /* ( +scaleX +scaleY -- ) */
+            // RAYLIB: void SetMouseScale(float scaleX, float scaleY);
+        } break;
+        case XT_GET_MOUSE_WHEEL_MOVE: { /* ( -- float ) */
+            // RAYLIB: float GetMouseWheelMove(void);
+        } break;
+        case XT_GET_MOUSE_WHEEL_MOVE_V: { /* ( -- Vector2 ) */
+            // RAYLIB: Vector2 GetMouseWheelMoveV(void);
+        } break;
+        case XT_SET_MOUSE_CURSOR: { /* ( +cursor -- ) */
+            // RAYLIB: void SetMouseCursor(int cursor);
+        } break;
+        //
+        // rcore - Input-related functions: touch
+        case XT_GET_TOUCH_X: { /* ( -- int ) */
+            // RAYLIB: int GetTouchX(void);
+        } break;
+        case XT_GET_TOUCH_Y: { /* ( -- int ) */
+            // RAYLIB: int GetTouchY(void);
+        } break;
+        case XT_GET_TOUCH_POSITION: { /* ( +index -- Vector2 ) */
+            // RAYLIB: Vector2 GetTouchPosition(int index);
+        } break;
+        case XT_GET_TOUCH_POINT_ID: { /* ( +index -- int ) */
+            // RAYLIB: int GetTouchPointId(int index);
+        } break;
+        case XT_GET_TOUCH_POINT_COUNT: { /* ( -- int ) */
+            // RAYLIB: int GetTouchPointCount(void);
+        } break;
+        //
+        // Gestures and Touch Handling Functions (Module: rgestures)
+        case XT_SET_GESTURES_ENABLED: { /* ( +flags -- ) */
+            // RAYLIB: void SetGesturesEnabled(unsigned int flags);
+        } break;
+        case XT_IS_GESTURE_DETECTED: { /* ( +gesture -- bool ) */
+            // RAYLIB: bool IsGestureDetected(unsigned int gesture);
+        } break;
+        case XT_GET_GESTURE_DETECTED: { /* ( -- int ) */
+            // RAYLIB: int GetGestureDetected(void);
+        } break;
+        case XT_GET_GESTURE_HOLD_DURATION: { /* ( -- float ) */
+            // RAYLIB: float GetGestureHoldDuration(void);
+        } break;
+        case XT_GET_GESTURE_DRAG_VECTOR: { /* ( -- Vector2 ) */
+            // RAYLIB: Vector2 GetGestureDragVector(void);
+        } break;
+        case XT_GET_GESTURE_DRAG_ANGLE: { /* ( -- float ) */
+            // RAYLIB: float GetGestureDragAngle(void);
+        } break;
+        case XT_GET_GESTURE_PINCH_VECTOR: { /* ( -- Vector2 ) */
+            // RAYLIB: Vector2 GetGesturePinchVector(void);
+        } break;
+        case XT_GET_GESTURE_PINCH_ANGLE: { /* ( -- float ) */
+            // RAYLIB: float GetGesturePinchAngle(void);
+        } break;
+        //
+        // rcore - Camera System Functions (Module: rcamera)
+        case XT_UPDATE_CAMERA: { /* ( +camera +mode -- ) */
+            // RAYLIB: void UpdateCamera(Camera *camera, int mode);
+        } break;
+        case XT_UPDATE_CAMERA_PRO: { /* ( +camera +movement +rotation +zoom -- ) */
+            // RAYLIB: void UpdateCameraPro(Camera *camera, Vector3 movement, Vector3 rotation, float zoom);
+        } break;
+        //
+        // rshape - Basic shapes drawing functions
+        case XT_SET_SHAPES_TEXTURE: { /* ( +texture +source -- ) */
+          // RAYLIB: void SetShapesTexture(Texture2D texture, Rectangle source);
+        } break;
+        case XT_DRAW_PIXEL: { /* ( +posX +posY +color -- ) */
+            // RAYLIB: void DrawPixel(int posX, int posY, Color color);
+        } break;
+        case XT_DRAW_PIXEL_V: { /* ( +position +color -- ) */
+            // RAYLIB: void DrawPixelV(Vector2 position, Color color);
+        } break;
+        case XT_DRAW_LINE: { /* ( +startPosX +startPosY +endPosX +endPosY +color -- ) */
+            // RAYLIB: void DrawLine(int startPosX, int startPosY, int endPosX, int endPosY, Color color);
+        } break;
+        case XT_DRAW_LINE_V: { /* ( +startPos +endPos +color -- ) */
+            // RAYLIB: void DrawLineV(Vector2 startPos, Vector2 endPos, Color color);
+        } break;
+        case XT_DRAW_LINE_EX: { /* ( +startPos +endPos +thick +color -- ) */
+            // RAYLIB: void DrawLineEx(Vector2 startPos, Vector2 endPos, float thick, Color color);
+        } break;
+        case XT_DRAW_LINE_STRIP: { /* ( +points +pointCount +color -- ) */
+            // RAYLIB: void DrawLineStrip(Vector2 *points, int pointCount, Color color);
+        } break;
+        case XT_DRAW_LINE_BEZIER: { /* ( +startPos +endPos +thick +color -- ) */
+            // RAYLIB: void DrawLineBezier(Vector2 startPos, Vector2 endPos, float thick, Color color);
+        } break;
+        case XT_DRAW_CIRCLE: { /* ( +centerX +centerY +radius +color -- ) */
+            // RAYLIB: void DrawCircle(int centerX, int centerY, float radius, Color color);
+        } break;
+        case XT_DRAW_CIRCLE_SECTOR: { /* ( +center +radius +startAngle +endAngle +segments +color -- ) */
+            // RAYLIB: void DrawCircleSector(Vector2 center, float radius, float startAngle, float endAngle, int segments, Color color);
+        } break;
+        case XT_DRAW_CIRCLE_SECTOR_LINES: { /* ( +center +radius +startAngle +endAngle +segments +color -- ) */
+            // RAYLIB: void DrawCircleSectorLines(Vector2 center, float radius, float startAngle, float endAngle, int segments, Color color);
+        } break;
+        case XT_DRAW_CIRCLE_GRADIENT: { /* ( +centerX +centerY +radius +color1 +color2 -- ) */
+            // RAYLIB: void DrawCircleGradient(int centerX, int centerY, float radius, Color color1, Color color2);
+        } break;
+        case XT_DRAW_CIRCLE_V: { /* ( +center +radius +color -- ) */
+            // RAYLIB: void DrawCircleV(Vector2 center, float radius, Color color);
+        } break;
+        case XT_DRAW_CIRCLE_LINES: { /* ( +centerX +centerY +radius +color -- ) */
+            // RAYLIB: void DrawCircleLines(int centerX, int centerY, float radius, Color color);
+        } break;
+        case XT_DRAW_CIRCLE_LINES_V: { /* ( +center +radius +color -- ) */
+            // RAYLIB: void DrawCircleLinesV(Vector2 center, float radius, Color color);
+        } break;
+        case XT_DRAW_ELLIPSE: { /* ( +centerX +centerY +radiusH +radiusV +color -- ) */
+            // RAYLIB: void DrawEllipse(int centerX, int centerY, float radiusH, float radiusV, Color color);
+        } break;
+        case XT_DRAW_ELLIPSE_LINES: { /* ( +centerX +centerY +radiusH +radiusV +color -- ) */
+            // RAYLIB: void DrawEllipseLines(int centerX, int centerY, float radiusH, float radiusV, Color color);
+        } break;
+        case XT_DRAW_RING: { /* ( +center +innerRadius +outerRadius +startAngle +endAngle +segments +color -- ) */
+            // RAYLIB: void DrawRing(Vector2 center, float innerRadius, float outerRadius, float startAngle, float endAngle, int segments, Color color);
+        } break;
+        case XT_DRAW_RING_LINES: { /* ( +center +innerRadius +outerRadius +startAngle +endAngle +segments +color -- ) */
+            // RAYLIB: void DrawRingLines(Vector2 center, float innerRadius, float outerRadius, float startAngle, float endAngle, int segments, Color color);
+        } break;
+        case XT_DRAW_RECTANGLE: { /* ( +posX +posY +width +height +color -- ) */
+            // RAYLIB: void DrawRectangle(int posX, int posY, int width, int height, Color color);
+        } break;
+        case XT_DRAW_RECTANGLE_V: { /* ( +position +size +color -- ) */
+            // RAYLIB: void DrawRectangleV(Vector2 position, Vector2 size, Color color);
+        } break;
+        case XT_DRAW_RECTANGLE_REC: { /* ( +rec +color -- ) */
+            // RAYLIB: void DrawRectangleRec(Rectangle rec, Color color);
+        } break;
+        case XT_DRAW_RECTANGLE_PRO: { /* ( +rec +origin +rotation +color -- ) */
+            // RAYLIB: void DrawRectanglePro(Rectangle rec, Vector2 origin, float rotation, Color color);
+        } break;
+        case XT_DRAW_RECTANGLE_GRADIENT_V: { /* ( +posX +posY +width +height +color1 +color2 -- ) */
+            // RAYLIB: void DrawRectangleGradientV(int posX, int posY, int width, int height, Color color1, Color color2);
+        } break;
+        case XT_DRAW_RECTANGLE_GRADIENT_H: { /* ( +posX +posY +width +height +color1 +color2 -- ) */
+            // RAYLIB: void DrawRectangleGradientH(int posX, int posY, int width, int height, Color color1, Color color2);
+        } break;
+        case XT_DRAW_RECTANGLE_GRADIENT_EX: { /* ( +rec +col1 +col2 +col3 +col4 -- ) */
+            // RAYLIB: void DrawRectangleGradientEx(Rectangle rec, Color col1, Color col2, Color col3, Color col4);
+        } break;
+        case XT_DRAW_RECTANGLE_LINES: { /* ( +posX +posY +width +height +color -- ) */
+            // RAYLIB: void DrawRectangleLines(int posX, int posY, int width, int height, Color color);
+        } break;
+        case XT_DRAW_RECTANGLE_LINES_EX: { /* ( +rec +lineThick +color -- ) */
+            // RAYLIB: void DrawRectangleLinesEx(Rectangle rec, float lineThick, Color color);
+        } break;
+        case XT_DRAW_RECTANGLE_ROUNDED: { /* ( +rec +roundness +segments +color -- ) */
+            // RAYLIB: void DrawRectangleRounded(Rectangle rec, float roundness, int segments, Color color);
+        } break;
+        case XT_DRAW_RECTANGLE_ROUNDED_LINES: { /* ( +rec +roundness +segments +lineThick +color -- ) */
+            // RAYLIB: void DrawRectangleRoundedLines(Rectangle rec, float roundness, int segments, float lineThick, Color color);
+        } break;
+        case XT_DRAW_TRIANGLE: { /* ( +v1 +v2 +v3 +color -- ) */
+            // RAYLIB: void DrawTriangle(Vector2 v1, Vector2 v2, Vector2 v3, Color color);
+        } break;
+        case XT_DRAW_TRIANGLE_LINES: { /* ( +v1 +v2 +v3 +color -- ) */
+            // RAYLIB: void DrawTriangleLines(Vector2 v1, Vector2 v2, Vector2 v3, Color color);
+        } break;
+        case XT_DRAW_TRIANGLE_FAN: { /* ( +points +pointCount +color -- ) */
+            // RAYLIB: void DrawTriangleFan(Vector2 *points, int pointCount, Color color);
+        } break;
+        case XT_DRAW_TRIANGLE_STRIP: { /* ( +points +pointCount +color -- ) */
+            // RAYLIB: void DrawTriangleStrip(Vector2 *points, int pointCount, Color color);
+        } break;
+        case XT_DRAW_POLY: { /* ( +center +sides +radius +rotation +color -- ) */
+            // RAYLIB: void DrawPoly(Vector2 center, int sides, float radius, float rotation, Color color);
+        } break;
+        case XT_DRAW_POLY_LINES: { /* ( +center +sides +radius +rotation +color -- ) */
+            // RAYLIB: void DrawPolyLines(Vector2 center, int sides, float radius, float rotation, Color color);
+        } break;
+        case XT_DRAW_POLY_LINES_EX: { /* ( +center +sides +radius +rotation +lineThick +color -- ) */
+            // RAYLIB: void DrawPolyLinesEx(Vector2 center, int sides, float radius, float rotation, float lineThick, Color color);
+        } break;
+        //
+        // rshapes - Splines drawing functions
+        case XT_DRAW_SPLINE_LINEAR: { /* ( +points +pointCount +thick +color -- ) */
+            // RAYLIB: void DrawSplineLinear(Vector2 *points, int pointCount, float thick, Color color);
+        } break;
+        case XT_DRAW_SPLINE_BASIS: { /* ( +points +pointCount +thick +color -- ) */
+            // RAYLIB: void DrawSplineBasis(Vector2 *points, int pointCount, float thick, Color color);
+        } break;
+        case XT_DRAW_SPLINE_CATMULL_ROM: { /* ( +points +pointCount +thick +color -- ) */
+            // RAYLIB: void DrawSplineCatmullRom(Vector2 *points, int pointCount, float thick, Color color);
+        } break;
+        case XT_DRAW_SPLINE_BEZIER_QUADRATIC: { /* ( +points +pointCount +thick +color -- ) */
+            // RAYLIB: void DrawSplineBezierQuadratic(Vector2 *points, int pointCount, float thick, Color color);
+        } break;
+        case XT_DRAW_SPLINE_BEZIER_CUBIC: { /* ( +points +pointCount +thick +color -- ) */
+            // RAYLIB: void DrawSplineBezierCubic(Vector2 *points, int pointCount, float thick, Color color);
+        } break;
+        case XT_DRAW_SPLINE_SEGMENT_LINEAR: { /* ( +p1 +p2 +thick +color -- ) */
+            // RAYLIB: void DrawSplineSegmentLinear(Vector2 p1, Vector2 p2, float thick, Color color);
+        } break;
+        case XT_DRAW_SPLINE_SEGMENT_BASIS: { /* ( +p1 +p2 +p3 +p4 +thick +color -- ) */
+            // RAYLIB: void DrawSplineSegmentBasis(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, float thick, Color color);
+        } break;
+        case XT_DRAW_SPLINE_SEGMENT_CATMULL_ROM: { /* ( +p1 +p2 +p3 +p4 +thick +color -- ) */
+            // RAYLIB: void DrawSplineSegmentCatmullRom(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, float thick, Color color);
+        } break;
+        case XT_DRAW_SPLINE_SEGMENT_BEZIER_QUADRATIC: { /* ( +p1 +c2 +p3 +thick +color -- ) */
+            // RAYLIB: void DrawSplineSegmentBezierQuadratic(Vector2 p1, Vector2 c2, Vector2 p3, float thick, Color color);
+        } break;
+        case XT_DRAW_SPLINE_SEGMENT_BEZIER_CUBIC: { /* ( +p1 +c2 +c3 +p4 +thick +color -- ) */
+            // RAYLIB: void DrawSplineSegmentBezierCubic(Vector2 p1, Vector2 c2, Vector2 c3, Vector2 p4, float thick, Color color);
+        } break;
+        //
+        // rshapes - Spline segment point evaluation functions, for a given t [0.0f .. 1.0f]
+        case XT_GET_SPLINE_POINT_LINEAR: { /* ( +startPos +endPos +t -- Vector2 ) */
+            // RAYLIB: Vector2 GetSplinePointLinear(Vector2 startPos, Vector2 endPos, float t);
+        } break;
+        case XT_GET_SPLINE_POINT_BASIS: { /* ( +p1 +p2 +p3 +p4 +t -- Vector2 ) */
+            // RAYLIB: Vector2 GetSplinePointBasis(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, float t);
+        } break;
+        case XT_GET_SPLINE_POINT_CATMULL_ROM: { /* ( +p1 +p2 +p3 +p4 +t -- Vector2 ) */
+            // RAYLIB: Vector2 GetSplinePointCatmullRom(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, float t);
+        } break;
+        case XT_GET_SPLINE_POINT_BEZIER_QUAD: { /* ( +p1 +c2 +p3 +t -- Vector2 ) */
+            // RAYLIB: Vector2 GetSplinePointBezierQuad(Vector2 p1, Vector2 c2, Vector2 p3, float t);
+        } break;
+        case XT_GET_SPLINE_POINT_BEZIER_CUBIC: { /* ( +p1 +c2 +c3 +p4 +t -- Vector2 ) */
+            // RAYLIB: Vector2 GetSplinePointBezierCubic(Vector2 p1, Vector2 c2, Vector2 c3, Vector2 p4, float t);
+        } break;
+        //
+        // rshapes - Basic shapes collision detection functions
+        case XT_CHECK_COLLISION_RECS: { /* ( +rec1 +rec2 -- bool ) */
+            // RAYLIB: bool CheckCollisionRecs(Rectangle rec1, Rectangle rec2);
+        } break;
+        case XT_CHECK_COLLISION_CIRCLES: { /* ( +center1 +radius1 +center2 +radius2 -- bool ) */
+            // RAYLIB: bool CheckCollisionCircles(Vector2 center1, float radius1, Vector2 center2, float radius2);
+        } break;
+        case XT_CHECK_COLLISION_CIRCLE_REC: { /* ( +center +radius +rec -- bool ) */
+            // RAYLIB: bool CheckCollisionCircleRec(Vector2 center, float radius, Rectangle rec);
+        } break;
+        case XT_CHECK_COLLISION_POINT_REC: { /* ( +point +rec -- bool ) */
+            // RAYLIB: bool CheckCollisionPointRec(Vector2 point, Rectangle rec);
+        } break;
+        case XT_CHECK_COLLISION_POINT_CIRCLE: { /* ( +point +center +radius -- bool ) */
+            // RAYLIB: bool CheckCollisionPointCircle(Vector2 point, Vector2 center, float radius);
+        } break;
+        case XT_CHECK_COLLISION_POINT_TRIANGLE: { /* ( +point +p1 +p2 +p3 -- bool ) */
+            // RAYLIB: bool CheckCollisionPointTriangle(Vector2 point, Vector2 p1, Vector2 p2, Vector2 p3);
+        } break;
+        case XT_CHECK_COLLISION_POINT_POLY: { /* ( +point +points +pointCount -- bool ) */
+            // RAYLIB: bool CheckCollisionPointPoly(Vector2 point, Vector2 *points, int pointCount);
+        } break;
+        case XT_CHECK_COLLISION_LINES: { /* ( +startPos1 +endPos1 +startPos2 +endPos2 +collisionPoint -- bool ) */
+            // RAYLIB: bool CheckCollisionLines(Vector2 startPos1, Vector2 endPos1, Vector2 startPos2, Vector2 endPos2, Vector2 *collisionPoint);
+        } break;
+        case XT_CHECK_COLLISION_POINT_LINE: { /* ( +point +p1 +p2 +threshold -- bool ) */
+            // RAYLIB: bool CheckCollisionPointLine(Vector2 point, Vector2 p1, Vector2 p2, int threshold);
+        } break;
+        case XT_GET_COLLISION_REC: { /* ( +rec1 +rec2 -- Rectangle ) */
+            // RAYLIB: Rectangle GetCollisionRec(Rectangle rec1, Rectangle rec2);
+        } break;
+        //
+        // rtextures - Image loading functions
+        case XT_LOAD_IMAGE: { /* ( +fileName -- Image ) */
+            // RAYLIB: Image LoadImage(const char *fileName);
+        } break;
+        case XT_LOAD_IMAGE_RAW: { /* ( +fileName +width +height +format +headerSize -- Image ) */
+            // RAYLIB: Image LoadImageRaw(const char *fileName, int width, int height, int format, int headerSize);
+        } break;
+        case XT_LOAD_IMAGE_SVG: { /* ( +fileNameOrString +width +height -- Image ) */
+            // RAYLIB: Image LoadImageSvg(const char *fileNameOrString, int width, int height);
+        } break;
+        case XT_LOAD_IMAGE_ANIM: { /* ( +fileName +frames -- Image ) */
+            // RAYLIB: Image LoadImageAnim(const char *fileName, int *frames);
+        } break;
+        case XT_LOAD_IMAGE_FROM_MEMORY: { /* ( +fileType +fileData +dataSize -- Image ) */
+            // RAYLIB: Image LoadImageFromMemory(const char *fileType, const unsigned char *fileData, int dataSize);
+        } break;
+        case XT_LOAD_IMAGE_FROM_TEXTURE: { /* ( +texture -- Image ) */
+            // RAYLIB: Image LoadImageFromTexture(Texture2D texture);
+        } break;
+        case XT_LOAD_IMAGE_FROM_SCREEN: { /* ( -- Image ) */
+            // RAYLIB: Image LoadImageFromScreen(void);
+        } break;
+        case XT_IS_IMAGE_READY: { /* ( +image -- bool ) */
+            // RAYLIB: bool IsImageReady(Image image);
+        } break;
+        case XT_UNLOAD_IMAGE: { /* ( +image -- ) */
+            // RAYLIB: void UnloadImage(Image image);
+        } break;
+        case XT_EXPORT_IMAGE: { /* ( +image +fileName -- bool ) */
+            // RAYLIB: bool ExportImage(Image image, const char *fileName);
+        } break;
+        case XT_EXPORT_IMAGE_TO_MEMORY: { /* ( +image +fileType +fileSize -- unsigned char* ) */
+            // RAYLIB: unsigned char *ExportImageToMemory(Image image, const char *fileType, int *fileSize);
+        } break;
+        case XT_EXPORT_IMAGE_AS_CODE: { /* ( +image +fileName -- bool ) */
+            // RAYLIB: bool ExportImageAsCode(Image image, const char *fileName);
+        } break;
+        //
+        // rtextures - Image generation functions
+        case XT_GEN_IMAGE_COLOR: { /* ( +width +height +color -- Image ) */
+            // RAYLIB: Image GenImageColor(int width, int height, Color color);
+        } break;
+        case XT_GEN_IMAGE_GRADIENT_LINEAR: { /* ( +width +height +direction +start +end -- Image ) */
+            // RAYLIB: Image GenImageGradientLinear(int width, int height, int direction, Color start, Color end);
+        } break;
+        case XT_GEN_IMAGE_GRADIENT_RADIAL: { /* ( +width +height +density +inner +outer -- Image ) */
+            // RAYLIB: Image GenImageGradientRadial(int width, int height, float density, Color inner, Color outer);
+        } break;
+        case XT_GEN_IMAGE_GRADIENT_SQUARE: { /* ( +width +height +density +inner +outer -- Image ) */
+            // RAYLIB: Image GenImageGradientSquare(int width, int height, float density, Color inner, Color outer);
+        } break;
+        case XT_GEN_IMAGE_CHECKED: { /* ( +width +height +checksX +checksY +col1 +col2 -- Image ) */
+            // RAYLIB: Image GenImageChecked(int width, int height, int checksX, int checksY, Color col1, Color col2);
+        } break;
+        case XT_GEN_IMAGE_WHITE_NOISE: { /* ( +width +height +factor -- Image ) */
+            // RAYLIB: Image GenImageWhiteNoise(int width, int height, float factor);
+        } break;
+        case XT_GEN_IMAGE_PERLIN_NOISE: { /* ( +width +height +offsetX +offsetY +scale -- Image ) */
+            // RAYLIB: Image GenImagePerlinNoise(int width, int height, int offsetX, int offsetY, float scale);
+        } break;
+        case XT_GEN_IMAGE_CELLULAR: { /* ( +width +height +tileSize -- Image ) */
+            // RAYLIB: Image GenImageCellular(int width, int height, int tileSize);
+        } break;
+        case XT_GEN_IMAGE_TEXT: { /* ( +width +height +text -- Image ) */
+            // RAYLIB: Image GenImageText(int width, int height, const char *text);
+        } break;
+        //
+        // rtextures - Image manipulation functions
+        case XT_IMAGE_COPY: { /* ( +image -- Image ) */
+          // RAYLIB: Image ImageCopy(Image image);
+        } break;
+        case XT_IMAGE_FROM_IMAGE: { /* ( +image +rec -- Image ) */
+          // RAYLIB: Image ImageFromImage(Image image, Rectangle rec);
+        } break;
+        case XT_IMAGE_TEXT: { /* ( +text +fontSize +color -- Image ) */
+            // RAYLIB: Image ImageText(const char *text, int fontSize, Color color);
+        } break;
+        case XT_IMAGE_TEXT_EX: { /* ( +font +text +fontSize +spacing +tint -- Image ) */
+            // RAYLIB: Image ImageTextEx(Font font, const char *text, float fontSize, float spacing, Color tint);
+        } break;
+        case XT_IMAGE_FORMAT: { /* ( +image +newFormat -- ) */
+            // RAYLIB: void ImageFormat(Image *image, int newFormat);
+        } break;
+        case XT_IMAGE_TO_POT: { /* ( +image +fill -- ) */
+            // RAYLIB: void ImageToPOT(Image *image, Color fill);
+        } break;
+        case XT_IMAGE_CROP: { /* ( +image +crop -- ) */
+            // RAYLIB: void ImageCrop(Image *image, Rectangle crop);
+        } break;
+        case XT_IMAGE_ALPHA_CROP: { /* ( +image +threshold -- ) */
+            // RAYLIB: void ImageAlphaCrop(Image *image, float threshold);
+        } break;
+        case XT_IMAGE_ALPHA_CLEAR: { /* ( +image +color +threshold -- ) */
+            // RAYLIB: void ImageAlphaClear(Image *image, Color color, float threshold);
+        } break;
+        case XT_IMAGE_ALPHA_MASK: { /* ( +image +alphaMask -- ) */
+            // RAYLIB: void ImageAlphaMask(Image *image, Image alphaMask);
+        } break;
+        case XT_IMAGE_ALPHA_PREMULTIPLY: { /* ( +image -- ) */
+            // RAYLIB: void ImageAlphaPremultiply(Image *image);
+        } break;
+        case XT_IMAGE_BLUR_GAUSSIAN: { /* ( +image +blurSize -- ) */
+            // RAYLIB: void ImageBlurGaussian(Image *image, int blurSize);
+        } break;
+        case XT_IMAGE_RESIZE: { /* ( +image +newWidth +newHeight -- ) */
+            // RAYLIB: void ImageResize(Image *image, int newWidth, int newHeight);
+        } break;
+        case XT_IMAGE_RESIZE_NN: { /* ( +image +newWidth +newHeight -- ) */
+            // RAYLIB: void ImageResizeNN(Image *image, int newWidth, int newHeight);
+        } break;
+        case XT_IMAGE_RESIZE_CANVAS: { /* ( +image +newWidth +newHeight +offsetX +offsetY +fill -- ) */
+            // RAYLIB: void ImageResizeCanvas(Image *image, int newWidth, int newHeight, int offsetX, int offsetY, Color fill);
+        } break;
+        case XT_IMAGE_MIPMAPS: { /* ( +image -- ) */
+            // RAYLIB: void ImageMipmaps(Image *image);
+        } break;
+        case XT_IMAGE_DITHER: { /* ( +image +rBpp +gBpp +bBpp +aBpp -- ) */
+            // RAYLIB: void ImageDither(Image *image, int rBpp, int gBpp, int bBpp, int aBpp);
+        } break;
+        case XT_IMAGE_FLIP_VERTICAL: { /* ( +image -- ) */
+            // RAYLIB: void ImageFlipVertical(Image *image);
+        } break;
+        case XT_IMAGE_FLIP_HORIZONTAL: { /* ( +image -- ) */
+            // RAYLIB: void ImageFlipHorizontal(Image *image);
+        } break;
+        case XT_IMAGE_ROTATE: { /* ( +image +degrees -- ) */
+            // RAYLIB: void ImageRotate(Image *image, int degrees);
+        } break;
+        case XT_IMAGE_ROTATE_CW: { /* ( +image -- ) */
+            // RAYLIB: void ImageRotateCW(Image *image);
+        } break;
+        case XT_IMAGE_ROTATE_CCW: { /* ( +image -- ) */
+            // RAYLIB: void ImageRotateCCW(Image *image);
+        } break;
+        case XT_IMAGE_COLOR_TINT: { /* ( +image +color -- ) */
+            // RAYLIB: void ImageColorTint(Image *image, Color color);
+        } break;
+        case XT_IMAGE_COLOR_INVERT: { /* ( +image -- ) */
+            // RAYLIB: void ImageColorInvert(Image *image);
+        } break;
+        case XT_IMAGE_COLOR_GRAYSCALE: { /* ( +image -- ) */
+            // RAYLIB: void ImageColorGrayscale(Image *image);
+        } break;
+        case XT_IMAGE_COLOR_CONTRAST: { /* ( +image +contrast -- ) */
+            // RAYLIB: void ImageColorContrast(Image *image, float contrast);
+        } break;
+        case XT_IMAGE_COLOR_BRIGHTNESS: { /* ( +image +brightness -- ) */
+            // RAYLIB: void ImageColorBrightness(Image *image, int brightness);
+        } break;
+        case XT_IMAGE_COLOR_REPLACE: { /* ( +image +color +replace -- ) */
+            // RAYLIB: void ImageColorReplace(Image *image, Color color, Color replace);
+        } break;
+        case XT_LOAD_IMAGE_COLORS: { /* ( +image -- Color* ) */
+            // RAYLIB: Color *LoadImageColors(Image image);
+        } break;
+        case XT_LOAD_IMAGE_PALETTE: { /* ( +image +maxPaletteSize +colorCount -- Color* ) */
+            // RAYLIB: Color *LoadImagePalette(Image image, int maxPaletteSize, int *colorCount);
+        } break;
+        case XT_UNLOAD_IMAGE_COLORS: { /* ( +colors -- ) */
+            // RAYLIB: void UnloadImageColors(Color *colors);
+        } break;
+        case XT_UNLOAD_IMAGE_PALETTE: { /* ( +colors -- ) */
+            // RAYLIB: void UnloadImagePalette(Color *colors);
+        } break;
+        case XT_GET_IMAGE_ALPHA_BORDER: { /* ( +image +threshold -- Rectangle ) */
+            // RAYLIB: Rectangle GetImageAlphaBorder(Image image, float threshold);
+        } break;
+        case XT_GET_IMAGE_COLOR: { /* ( +image +x +y -- Color ) */
+            // RAYLIB: Color GetImageColor(Image image, int x, int y);
+        } break;
+        //
+        // rtextures - Image drawing functions
+        case XT_IMAGE_CLEAR_BACKGROUND: { /* ( +dst +color -- ) */
+            // RAYLIB: void ImageClearBackground(Image *dst, Color color);
+        } break;
+        case XT_IMAGE_DRAW_PIXEL: { /* ( +dst +posX +posY +color -- ) */
+            // RAYLIB: void ImageDrawPixel(Image *dst, int posX, int posY, Color color);
+        } break;
+        case XT_IMAGE_DRAW_PIXEL_V: { /* ( +dst +position +color -- ) */
+            // RAYLIB: void ImageDrawPixelV(Image *dst, Vector2 position, Color color);
+        } break;
+        case XT_IMAGE_DRAW_LINE: { /* ( +dst +startPosX +startPosY +endPosX +endPosY +color -- ) */
+            // RAYLIB: void ImageDrawLine(Image *dst, int startPosX, int startPosY, int endPosX, int endPosY, Color color);
+        } break;
+        case XT_IMAGE_DRAW_LINE_V: { /* ( +dst +start +end +color -- ) */
+            // RAYLIB: void ImageDrawLineV(Image *dst, Vector2 start, Vector2 end, Color color);
+        } break;
+        case XT_IMAGE_DRAW_CIRCLE: { /* ( +dst +centerX +centerY +radius +color -- ) */
+            // RAYLIB: void ImageDrawCircle(Image *dst, int centerX, int centerY, int radius, Color color);
+        } break;
+        case XT_IMAGE_DRAW_CIRCLE_V: { /* ( +dst +center +radius +color -- ) */
+            // RAYLIB: void ImageDrawCircleV(Image *dst, Vector2 center, int radius, Color color);
+        } break;
+        case XT_IMAGE_DRAW_CIRCLE_LINES: { /* ( +dst +centerX +centerY +radius +color -- ) */
+            // RAYLIB: void ImageDrawCircleLines(Image *dst, int centerX, int centerY, int radius, Color color);
+        } break;
+        case XT_IMAGE_DRAW_CIRCLE_LINES_V: { /* ( +dst +center +radius +color -- ) */
+            // RAYLIB: void ImageDrawCircleLinesV(Image *dst, Vector2 center, int radius, Color color);
+        } break;
+        case XT_IMAGE_DRAW_RECTANGLE: { /* ( +dst +posX +posY +width +height +color -- ) */
+            // RAYLIB: void ImageDrawRectangle(Image *dst, int posX, int posY, int width, int height, Color color);
+        } break;
+        case XT_IMAGE_DRAW_RECTANGLE_V: { /* ( +dst +position +size +color -- ) */
+            // RAYLIB: void ImageDrawRectangleV(Image *dst, Vector2 position, Vector2 size, Color color);
+        } break;
+        case XT_IMAGE_DRAW_RECTANGLE_REC: { /* ( +dst +rec +color -- ) */
+            // RAYLIB: void ImageDrawRectangleRec(Image *dst, Rectangle rec, Color color);
+        } break;
+        case XT_IMAGE_DRAW_RECTANGLE_LINES: { /* ( +dst +rec +thick +color -- ) */
+            // RAYLIB: void ImageDrawRectangleLines(Image *dst, Rectangle rec, int thick, Color color);
+        } break;
+        case XT_IMAGE_DRAW: { /* ( +dst +src +srcRec +dstRec +tint -- ) */
+            // RAYLIB: void ImageDraw(Image *dst, Image src, Rectangle srcRec, Rectangle dstRec, Color tint);
+        } break;
+        case XT_IMAGE_DRAW_TEXT: { /* ( +dst +text +posX +posY +fontSize +color -- ) */
+            // RAYLIB: void ImageDrawText(Image *dst, const char *text, int posX, int posY, int fontSize, Color color);
+        } break;
+        case XT_IMAGE_DRAW_TEXT_EX: { /* ( +dst +font +text +position +fontSize +spacing +tint -- ) */
+            // RAYLIB: void ImageDrawTextEx(Image *dst, Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint);
+        } break;
+        //
+        // rtextures - Texture loading functions
+        case XT_LOAD_TEXTURE: { /* ( +fileName -- Texture2D ) */
+            // RAYLIB: Texture2D LoadTexture(const char *fileName);
+        } break;
+        case XT_LOAD_TEXTURE_FROM_IMAGE: { /* ( +image -- Texture2D ) */
+            // RAYLIB: Texture2D LoadTextureFromImage(Image image);
+        } break;
+        case XT_LOAD_TEXTURE_CUBEMAP: { /* ( +image +layout -- TextureCubemap ) */
+            // RAYLIB: TextureCubemap LoadTextureCubemap(Image image, int layout);
+        } break;
+        case XT_LOAD_RENDER_TEXTURE: { /* ( +width +height -- RenderTexture2D ) */
+            // RAYLIB: RenderTexture2D LoadRenderTexture(int width, int height);
+        } break;
+        case XT_IS_TEXTURE_READY: { /* ( +texture -- bool ) */
+            // RAYLIB: bool IsTextureReady(Texture2D texture);
+        } break;
+        case XT_UNLOAD_TEXTURE: { /* ( +texture -- ) */
+            // RAYLIB: void UnloadTexture(Texture2D texture);
+        } break;
+        case XT_IS_RENDER_TEXTURE_READY: { /* ( +target -- bool ) */
+            // RAYLIB: bool IsRenderTextureReady(RenderTexture2D target);
+        } break;
+        case XT_UNLOAD_RENDER_TEXTURE: { /* ( +target -- ) */
+            // RAYLIB: void UnloadRenderTexture(RenderTexture2D target);
+        } break;
+        case XT_UPDATE_TEXTURE: { /* ( +texture +pixels -- ) */
+            // RAYLIB: void UpdateTexture(Texture2D texture, const void *pixels);
+        } break;
+        case XT_UPDATE_TEXTURE_REC: { /* ( +texture +rec +pixels -- ) */
+            // RAYLIB: void UpdateTextureRec(Texture2D texture, Rectangle rec, const void *pixels);
+        } break;
+        //
+        // rtextures - Texture configuration functions
+        case XT_GEN_TEXTURE_MIPMAPS: { /* ( +texture -- ) */
+            // RAYLIB: void GenTextureMipmaps(Texture2D *texture);
+        } break;
+        case XT_SET_TEXTURE_FILTER: { /* ( +texture +filter -- ) */
+            // RAYLIB: void SetTextureFilter(Texture2D texture, int filter);
+        } break;
+        case XT_SET_TEXTURE_WRAP: { /* ( +texture +wrap -- ) */
+            // RAYLIB: void SetTextureWrap(Texture2D texture, int wrap);
+        } break;
+        //
+        // rtextures - Texture drawing functions
+        case XT_DRAW_TEXTURE: { /* ( +texture +posX +posY +tint -- ) */
+            // RAYLIB: void DrawTexture(Texture2D texture, int posX, int posY, Color tint);
+        } break;
+        case XT_DRAW_TEXTURE_V: { /* ( +texture +position +tint -- ) */
+            // RAYLIB: void DrawTextureV(Texture2D texture, Vector2 position, Color tint);
+        } break;
+        case XT_DRAW_TEXTURE_EX: { /* ( +texture +position +rotation +scale +tint -- ) */
+            // RAYLIB: void DrawTextureEx(Texture2D texture, Vector2 position, float rotation, float scale, Color tint);
+        } break;
+        case XT_DRAW_TEXTURE_REC: { /* ( +texture +source +position +tint -- ) */
+            // RAYLIB: void DrawTextureRec(Texture2D texture, Rectangle source, Vector2 position, Color tint);
+        } break;
+        case XT_DRAW_TEXTURE_PRO: { /* ( +texture +source +dest +origin +rotation +tint -- ) */
+            // RAYLIB: void DrawTexturePro(Texture2D texture, Rectangle source, Rectangle dest, Vector2 origin, float rotation, Color tint);
+        } break;
+        case XT_DRAW_TEXTURE_NPATCH: { /* ( +texture +nPatchInfo +dest +origin +rotation +tint -- ) */
+            // RAYLIB: void DrawTextureNPatch(Texture2D texture, NPatchInfo nPatchInfo, Rectangle dest, Vector2 origin, float rotation, Color tint);
+        } break;
+        //
+        // rtextures - Color/pixel related functions
+        case XT_FADE: { /* ( +color +alpha -- Color ) */
+            // RAYLIB: Color Fade(Color color, float alpha);
+        } break;
+        case XT_COLOR_TO_INT: { /* ( +color -- int ) */
+            // RAYLIB: int ColorToInt(Color color);
+        } break;
+        case XT_COLOR_NORMALIZE: { /* ( +color -- Vector4 ) */
+            // RAYLIB: Vector4 ColorNormalize(Color color);
+        } break;
+        case XT_COLOR_FROM_NORMALIZED: { /* ( +normalized -- Color ) */
+            // RAYLIB: Color ColorFromNormalized(Vector4 normalized);
+        } break;
+        case XT_COLOR_TO_HSV: { /* ( +color -- Vector3 ) */
+            // RAYLIB: Vector3 ColorToHSV(Color color);
+        } break;
+        case XT_COLOR_FROM_HSV: { /* ( +hue +saturation +value -- Color ) */
+            // RAYLIB: Color ColorFromHSV(float hue, float saturation, float value);
+        } break;
+        case XT_COLOR_TINT: { /* ( +color +tint -- Color ) */
+            // RAYLIB: Color ColorTint(Color color, Color tint);
+        } break;
+        case XT_COLOR_BRIGHTNESS: { /* ( +color +factor -- Color ) */
+            // RAYLIB: Color ColorBrightness(Color color, float factor);
+        } break;
+        case XT_COLOR_CONTRAST: { /* ( +color +contrast -- Color ) */
+            // RAYLIB: Color ColorContrast(Color color, float contrast);
+        } break;
+        case XT_COLOR_ALPHA: { /* ( +color +alpha -- Color ) */
+            // RAYLIB: Color ColorAlpha(Color color, float alpha);
+        } break;
+        case XT_COLOR_ALPHA_BLEND: { /* ( +dst +src +tint -- Color ) */
+            // RAYLIB: Color ColorAlphaBlend(Color dst, Color src, Color tint);
+        } break;
+        case XT_GET_COLOR: { /* ( +hexValue -- Color ) */
+            // RAYLIB: Color GetColor(unsigned int hexValue);
+        } break;
+        case XT_GET_PIXEL_COLOR: { /* ( +srcPtr +format -- Color ) */
+            // RAYLIB: Color GetPixelColor(void *srcPtr, int format);
+        } break;
+        case XT_SET_PIXEL_COLOR: { /* ( +dstPtr +color +format -- ) */
+            // RAYLIB: void SetPixelColor(void *dstPtr, Color color, int format);
+        } break;
+        case XT_GET_PIXEL_DATA_SIZE: { /* ( +width +height +format -- int ) */
+            // RAYLIB: int GetPixelDataSize(int width, int height, int format);
+        } break;
+        //
+        // rtext
+        // rtext - Font loading/unloading functions
+        case XT_GET_FONT_DEFAULT: { /* ( -- Font ) */
+            // RAYLIB: Font GetFontDefault(void);
+        } break;
+        case XT_LOAD_FONT: { /* ( +fileName -- Font ) */
+            // RAYLIB: Font LoadFont(const char *fileName);
+        } break;
+        case XT_LOAD_FONT_EX: { /* ( +fileName +fontSize +codepoints +codepointCount -- Font ) */
+            // RAYLIB: Font LoadFontEx(const char *fileName, int fontSize, int *codepoints, int codepointCount);
+        } break;
+        case XT_LOAD_FONT_FROM_IMAGE: { /* ( +image +key +firstChar -- Font ) */
+            // RAYLIB: Font LoadFontFromImage(Image image, Color key, int firstChar);
+        } break;
+        case XT_LOAD_FONT_FROM_MEMORY: { /* ( +fileType +fileData +dataSize +fontSize +codepoints +codepointCount -- Font ) */
+            // RAYLIB: Font LoadFontFromMemory(const char *fileType, const unsigned char *fileData, int dataSize, int fontSize, int *codepoints, int codepointCount);
+        } break;
+        case XT_IS_FONT_READY: { /* ( +font -- bool ) */
+            // RAYLIB: bool IsFontReady(Font font);
+        } break;
+        case XT_LOAD_FONT_DATA: { /* ( +fileData +dataSize +fontSize +codepoints +codepointCount +type -- GlyphInfo* ) */
+            // RAYLIB: GlyphInfo *LoadFontData(const unsigned char *fileData, int dataSize, int fontSize, int *codepoints, int codepointCount, int type);
+        } break;
+        case XT_GEN_IMAGE_FONT_ATLAS: { /* ( +glyphs +glyphRecs +glyphCount +fontSize +padding +packMethod -- Image ) */
+            // RAYLIB: Image GenImageFontAtlas(const GlyphInfo *glyphs, Rectangle **glyphRecs, int glyphCount, int fontSize, int padding, int packMethod);
+        } break;
+        case XT_UNLOAD_FONT_DATA: { /* ( +glyphs +glyphCount -- ) */
+            // RAYLIB: void UnloadFontData(GlyphInfo *glyphs, int glyphCount);
+        } break;
+        case XT_UNLOAD_FONT: { /* ( +font -- ) */
+            // RAYLIB: void UnloadFont(Font font);
+        } break;
+        case XT_EXPORT_FONT_AS_CODE: { /* ( +font +fileName -- bool ) */
+            // RAYLIB: bool ExportFontAsCode(Font font, const char *fileName);
+        } break;
+        // rtext - Text drawing functions
+        case XT_DRAW_FPS: { /* ( +posX +posY -- ) */
+            // RAYLIB: void DrawFPS(int posX, int posY);
+        } break;
+        case XT_DRAW_TEXT: { /* ( +text +posX +posY +fontSize +color -- ) */
+            // RAYLIB: void DrawText(const char *text, int posX, int posY, int fontSize, Color color);
+        } break;
+        case XT_DRAW_TEXT_EX: { /* ( +font +text +position +fontSize +spacing +tint -- ) */
+            // RAYLIB: void DrawTextEx(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color tint);
+        } break;
+        case XT_DRAW_TEXT_PRO: { /* ( +font +text +position +origin +rotation +fontSize +spacing +tint -- ) */
+            // RAYLIB: void DrawTextPro(Font font, const char *text, Vector2 position, Vector2 origin, float rotation, float fontSize, float spacing, Color tint);
+        } break;
+        case XT_DRAW_TEXT_CODEPOINT: { /* ( +font +codepoint +position +fontSize +tint -- ) */
+            // RAYLIB: void DrawTextCodepoint(Font font, int codepoint, Vector2 position, float fontSize, Color tint);
+        } break;
+        case XT_DRAW_TEXT_CODEPOINTS: { /* ( +font +codepoints +codepointCount +position +fontSize +spacing +tint -- ) */
+            // RAYLIB: void DrawTextCodepoints(Font font, const int *codepoints, int codepointCount, Vector2 position, float fontSize, float spacing, Color tint);
+        } break;
+        // rtext - Text font info functions
+        case XT_SET_TEXT_LINE_SPACING: { /* ( +spacing -- ) */
+            // RAYLIB: void SetTextLineSpacing(int spacing);
+        } break;
+        case XT_MEASURE_TEXT: { /* ( +text +fontSize -- int ) */
+            // RAYLIB: int MeasureText(const char *text, int fontSize);
+        } break;
+        case XT_MEASURE_TEXT_EX: { /* ( +font +text +fontSize +spacing -- Vector2 ) */
+            // RAYLIB: Vector2 MeasureTextEx(Font font, const char *text, float fontSize, float spacing);
+        } break;
+        case XT_GET_GLYPH_INDEX: { /* ( +font +codepoint -- int ) */
+            // RAYLIB: int GetGlyphIndex(Font font, int codepoint);
+        } break;
+        case XT_GET_GLYPH_INFO: { /* ( +font +codepoint -- GlyphInfo ) */
+            // RAYLIB: GlyphInfo GetGlyphInfo(Font font, int codepoint);
+        } break;
+        case XT_GET_GLYPH_ATLAS_REC: { /* ( +font +codepoint -- Rectangle ) */
+            // RAYLIB: Rectangle GetGlyphAtlasRec(Font font, int codepoint);
+        } break;
+        // rtext - Text codepoints management functions (unicode characters)
+        case XT_LOAD_UTF8: { /* ( +codepoints +length -- char* ) */
+            // RAYLIB: char *LoadUTF8(const int *codepoints, int length);
+        } break;
+        case XT_UNLOAD_UTF8: { /* ( +text -- ) */
+            // RAYLIB: void UnloadUTF8(char *text);
+        } break;
+        case XT_LOAD_CODEPOINTS: { /* ( +text +count -- int* ) */
+            // RAYLIB: int *LoadCodepoints(const char *text, int *count);
+        } break;
+        case XT_UNLOAD_CODEPOINTS: { /* ( +codepoints -- ) */
+            // RAYLIB: void UnloadCodepoints(int *codepoints);
+        } break;
+        case XT_GET_CODEPOINT_COUNT: { /* ( +text -- int ) */
+            // RAYLIB: int GetCodepointCount(const char *text);
+        } break;
+        case XT_GET_CODEPOINT: { /* ( +text +codepointSize -- int ) */
+            // RAYLIB: int GetCodepoint(const char *text, int *codepointSize);
+        } break;
+        case XT_GET_CODEPOINT_NEXT: { /* ( +text +codepointSize -- int ) */
+            // RAYLIB: int GetCodepointNext(const char *text, int *codepointSize);
+        } break;
+        case XT_GET_CODEPOINT_PREVIOUS: { /* ( +text +codepointSize -- int ) */
+            // RAYLIB: int GetCodepointPrevious(const char *text, int *codepointSize);
+        } break;
+        case XT_CODEPOINT_TO_UTF8: { /* ( +codepoint +utf8Size -- char* ) */
+            // RAYLIB: const char *CodepointToUTF8(int codepoint, int *utf8Size);
+        } break;
+        //
+        // rtext - Text strings management functions (no UTF-8 strings, only byte chars)
+        case XT_TEXT_COPY: { /* ( +dst +src -- int ) */
+            // RAYLIB: int TextCopy(char *dst, const char *src);
+        } break;
+        case XT_TEXT_IS_EQUAL: { /* ( +text1 +text2 -- bool ) */
+            // RAYLIB: bool TextIsEqual(const char *text1, const char *text2);
+        } break;
+        case XT_TEXT_LENGTH: { /* ( +text -- unsigned int ) */
+            // RAYLIB: unsigned int TextLength(const char *text);
+        } break;
+        case XT_TEXT_FORMAT: { /* ( +text ... -- const char* ) */
+            // RAYLIB: const char *TextFormat(const char *text, ...);
+        } break;
+        case XT_TEXT_SUBTEXT: { /* ( +text +position +length -- const char* ) */
+            // RAYLIB: const char *TextSubtext(const char *text, int position, int length);
+        } break;
+        case XT_TEXT_REPLACE: { /* ( +text +replace +by -- char* ) */
+            // RAYLIB: char *TextReplace(char *text, const char *replace, const char *by);
+        } break;
+        case XT_TEXT_INSERT: { /* ( +text +insert +position -- char* ) */
+            // RAYLIB: char *TextInsert(const char *text, const char *insert, int position);
+        } break;
+        case XT_TEXT_JOIN: { /* ( +textList +count +delimiter -- const char* ) */
+            // RAYLIB: const char *TextJoin(const char **textList, int count, const char *delimiter);
+        } break;
+        case XT_TEXT_SPLIT: { /* ( +text +delimiter +count -- const char** ) */
+            // RAYLIB: const char **TextSplit(const char *text, char delimiter, int *count);
+        } break;
+        case XT_TEXT_APPEND: { /* ( +text +append +position -- ) */
+            // RAYLIB: void TextAppend(char *text, const char *append, int *position);
+        } break;
+        case XT_TEXT_FIND_INDEX: { /* ( +text +find -- int ) */
+            // RAYLIB: int TextFindIndex(const char *text, const char *find);
+        } break;
+        case XT_TEXT_TO_UPPER: { /* ( +text -- const char* ) */
+            // RAYLIB: const char *TextToUpper(const char *text);
+        } break;
+        case XT_TEXT_TO_LOWER: { /* ( +text -- const char* ) */
+            // RAYLIB: const char *TextToLower(const char *text);
+        } break;
+        case XT_TEXT_TO_PASCAL: { /* ( +text -- const char* ) */
+            // RAYLIB: const char *TextToPascal(const char *text);
+        } break;
+        case XT_TEXT_TO_INTEGER: { /* ( +text -- int ) */
+            // RAYLIB: int TextToInteger(const char *text);
+        } break;
+        //
+        // rmodels
+        // rmodels - Basic geometric 3D shapes drawing functions
+        case XT_DRAW_LINE_3D: { /* ( +startPos +endPos +color -- ) */
+            // RAYLIB: void DrawLine3D(Vector3 startPos, Vector3 endPos, Color color);
+        } break;
+        case XT_DRAW_POINT_3D: { /* ( +position +color -- ) */
+            // RAYLIB: void DrawPoint3D(Vector3 position, Color color);
+        } break;
+        case XT_DRAW_CIRCLE_3D: { /* ( +center +radius +rotationAxis +rotationAngle +color -- ) */
+            // RAYLIB: void DrawCircle3D(Vector3 center, float radius, Vector3 rotationAxis, float rotationAngle, Color color);
+        } break;
+        case XT_DRAW_TRIANGLE_3D: { /* ( +v1 +v2 +v3 +color -- ) */
+            // RAYLIB: void DrawTriangle3D(Vector3 v1, Vector3 v2, Vector3 v3, Color color);
+        } break;
+        case XT_DRAW_TRIANGLE_STRIP_3D: { /* ( +points +pointCount +color -- ) */
+            // RAYLIB: void DrawTriangleStrip3D(Vector3 *points, int pointCount, Color color);
+        } break;
+        case XT_DRAW_CUBE: { /* ( +position +width +height +length +color -- ) */
+            // RAYLIB: void DrawCube(Vector3 position, float width, float height, float length, Color color);
+        } break;
+        case XT_DRAW_CUBE_V: { /* ( +position +size +color -- ) */
+            // RAYLIB: void DrawCubeV(Vector3 position, Vector3 size, Color color);
+        } break;
+        case XT_DRAW_CUBE_WIRES: { /* ( +position +width +height +length +color -- ) */
+            // RAYLIB: void DrawCubeWires(Vector3 position, float width, float height, float length, Color color);
+        } break;
+        case XT_DRAW_CUBE_WIRES_V: { /* ( +position +size +color -- ) */
+            // RAYLIB: void DrawCubeWiresV(Vector3 position, Vector3 size, Color color);
+        } break;
+        case XT_DRAW_SPHERE: { /* ( +centerPos +radius +color -- ) */
+            // RAYLIB: void DrawSphere(Vector3 centerPos, float radius, Color color);
+        } break;
+        case XT_DRAW_SPHERE_EX: { /* ( +centerPos +radius +rings +slices +color -- ) */
+            // RAYLIB: void DrawSphereEx(Vector3 centerPos, float radius, int rings, int slices, Color color);
+        } break;
+        case XT_DRAW_SPHERE_WIRES: { /* ( +centerPos +radius +rings +slices +color -- ) */
+            // RAYLIB: void DrawSphereWires(Vector3 centerPos, float radius, int rings, int slices, Color color);
+        } break;
+        case XT_DRAW_CYLINDER: { /* ( +position +radiusTop +radiusBottom +height +slices +color -- ) */
+            // RAYLIB: void DrawCylinder(Vector3 position, float radiusTop, float radiusBottom, float height, int slices, Color color);
+        } break;
+        case XT_DRAW_CYLINDER_EX: { /* ( +startPos +endPos +startRadius +endRadius +sides +color -- ) */
+            // RAYLIB: void DrawCylinderEx(Vector3 startPos, Vector3 endPos, float startRadius, float endRadius, int sides, Color color);
+        } break;
+        case XT_DRAW_CYLINDER_WIRES: { /* ( +position +radiusTop +radiusBottom +height +slices +color -- ) */
+            // RAYLIB: void DrawCylinderWires(Vector3 position, float radiusTop, float radiusBottom, float height, int slices, Color color);
+        } break;
+        case XT_DRAW_CYLINDER_WIRES_EX: { /* ( +startPos +endPos +startRadius +endRadius +sides +color -- ) */
+            // RAYLIB: void DrawCylinderWiresEx(Vector3 startPos, Vector3 endPos, float startRadius, float endRadius, int sides, Color color);
+        } break;
+        case XT_DRAW_CAPSULE: { /* ( +startPos +endPos +radius +slices +rings +color -- ) */
+            // RAYLIB: void DrawCapsule(Vector3 startPos, Vector3 endPos, float radius, int slices, int rings, Color color);
+        } break;
+        case XT_DRAW_CAPSULE_WIRES: { /* ( +startPos +endPos +radius +slices +rings +color -- ) */
+            // RAYLIB: void DrawCapsuleWires(Vector3 startPos, Vector3 endPos, float radius, int slices, int rings, Color color);
+        } break;
+        case XT_DRAW_PLANE: { /* ( +centerPos +size +color -- ) */
+            // RAYLIB: void DrawPlane(Vector3 centerPos, Vector2 size, Color color);
+        } break;
+        case XT_DRAW_RAY: { /* ( +ray +color -- ) */
+            // RAYLIB: void DrawRay(Ray ray, Color color);
+        } break;
+        case XT_DRAW_GRID: { /* ( +slices +spacing -- ) */
+            // RAYLIB: void DrawGrid(int slices, float spacing);
+        } break;
+        // rmodels - Model management functions
+        case XT_LOAD_MODEL: { /* ( +fileName -- Model ) */
+            // RAYLIB: Model LoadModel(const char *fileName);
+        } break;
+        case XT_LOAD_MODEL_FROM_MESH: { /* ( +mesh -- Model ) */
+            // RAYLIB: Model LoadModelFromMesh(Mesh mesh);
+        } break;
+        case XT_IS_MODEL_READY: { /* ( +model -- bool ) */
+            // RAYLIB: bool IsModelReady(Model model);
+        } break;
+        case XT_UNLOAD_MODEL: { /* ( +model -- ) */
+            // RAYLIB: void UnloadModel(Model model);
+        } break;
+        case XT_GET_MODEL_BOUNDING_BOX: { /* ( +model -- BoundingBox ) */
+            // RAYLIB: BoundingBox GetModelBoundingBox(Model model);
+        } break;
+        // rmodels - Model drawing functions
+        case XT_DRAW_MODEL: { /* ( +model +position +scale +tint -- ) */
+            // RAYLIB: void DrawModel(Model model, Vector3 position, float scale, Color tint);
+        } break;
+        case XT_DRAW_MODEL_EX: { /* ( +model +position +rotationAxis +rotationAngle +scale +tint -- ) */
+            // RAYLIB: void DrawModelEx(Model model, Vector3 position, Vector3 rotationAxis, float rotationAngle, Vector3 scale, Color tint);
+        } break;
+        case XT_DRAW_MODEL_WIRES: { /* ( +model +position +scale +tint -- ) */
+            // RAYLIB: void DrawModelWires(Model model, Vector3 position, float scale, Color tint);
+        } break;
+        case XT_DRAW_MODEL_WIRES_EX: { /* ( +model +position +rotationAxis +rotationAngle +scale +tint -- ) */
+            // RAYLIB: void DrawModelWiresEx(Model model, Vector3 position, Vector3 rotationAxis, float rotationAngle, Vector3 scale, Color tint);
+        } break;
+        case XT_DRAW_BOUNDING_BOX: { /* ( +box +color -- ) */
+            // RAYLIB: void DrawBoundingBox(BoundingBox box, Color color);
+        } break;
+        case XT_DRAW_BILLBOARD: { /* ( +camera +texture +position +size +tint -- ) */
+            // RAYLIB: void DrawBillboard(Camera camera, Texture2D texture, Vector3 position, float size, Color tint);
+        } break;
+        case XT_DRAW_BILLBOARD_REC: { /* ( +camera +texture +source +position +size +tint -- ) */
+            // RAYLIB: void DrawBillboardRec(Camera camera, Texture2D texture, Rectangle source, Vector3 position, Vector2 size, Color tint);
+        } break;
+        case XT_DRAW_BILLBOARD_PRO: { /* ( +camera +texture +source +position +up +size +origin +rotation +tint -- ) */
+            // RAYLIB: void DrawBillboardPro(Camera camera, Texture2D texture, Rectangle source, Vector3 position, Vector3 up, Vector2 size, Vector2 origin, float rotation, Color tint);
+        } break;
+        // rmodels - Mesh management functions
+        case XT_UPLOAD_MESH: { /* ( +mesh +dynamic -- ) */
+            // RAYLIB: void UploadMesh(Mesh *mesh, bool dynamic);
+        } break;
+        case XT_UPDATE_MESH_BUFFER: { /* ( +mesh +index +data +dataSize +offset -- ) */
+            // RAYLIB: void UpdateMeshBuffer(Mesh mesh, int index, const void *data, int dataSize, int offset);
+        } break;
+        case XT_UNLOAD_MESH: { /* ( +mesh -- ) */
+            // RAYLIB: void UnloadMesh(Mesh mesh);
+        } break;
+        case XT_DRAW_MESH: { /* ( +mesh +material +transform -- ) */
+            // RAYLIB: void DrawMesh(Mesh mesh, Material material, Matrix transform);
+        } break;
+        case XT_DRAW_MESH_INSTANCED: { /* ( +mesh +material +transforms +instances -- ) */
+            // RAYLIB: void DrawMeshInstanced(Mesh mesh, Material material, const Matrix *transforms, int instances);
+        } break;
+        case XT_EXPORT_MESH: { /* ( +mesh +fileName -- bool ) */
+            // RAYLIB: bool ExportMesh(Mesh mesh, const char *fileName);
+        } break;
+        case XT_GET_MESH_BOUNDING_BOX: { /* ( +mesh -- BoundingBox ) */
+            // RAYLIB: BoundingBox GetMeshBoundingBox(Mesh mesh);
+        } break;
+        case XT_GEN_MESH_TANGENTS: { /* ( +mesh -- ) */
+            // RAYLIB: void GenMeshTangents(Mesh *mesh);
+        } break;
+        // rmodels - Mesh generation functions
+        case XT_GEN_MESH_POLY: { /* ( +sides +radius -- Mesh ) */
+            // RAYLIB: Mesh GenMeshPoly(int sides, float radius);
+        } break;
+        case XT_GEN_MESH_PLANE: { /* ( +width +length +resX +resZ -- Mesh ) */
+            // RAYLIB: Mesh GenMeshPlane(float width, float length, int resX, int resZ);
+        } break;
+        case XT_GEN_MESH_CUBE: { /* ( +width +height +length -- Mesh ) */
+            // RAYLIB: Mesh GenMeshCube(float width, float height, float length);
+        } break;
+        case XT_GEN_MESH_SPHERE: { /* ( +radius +rings +slices -- Mesh ) */
+            // RAYLIB: Mesh GenMeshSphere(float radius, int rings, int slices);
+        } break;
+        case XT_GEN_MESH_HEMI_SPHERE: { /* ( +radius +rings +slices -- Mesh ) */
+            // RAYLIB: Mesh GenMeshHemiSphere(float radius, int rings, int slices);
+        } break;
+        case XT_GEN_MESH_CYLINDER: { /* ( +radius +height +slices -- Mesh ) */
+            // RAYLIB: Mesh GenMeshCylinder(float radius, float height, int slices);
+        } break;
+        case XT_GEN_MESH_CONE: { /* ( +radius +height +slices -- Mesh ) */
+            // RAYLIB: Mesh GenMeshCone(float radius, float height, int slices);
+        } break;
+        case XT_GEN_MESH_TORUS: { /* ( +radius +size +radSeg +sides -- Mesh ) */
+            // RAYLIB: Mesh GenMeshTorus(float radius, float size, int radSeg, int sides);
+        } break;
+        case XT_GEN_MESH_KNOT: { /* ( +radius +size +radSeg +sides -- Mesh ) */
+            // RAYLIB: Mesh GenMeshKnot(float radius, float size, int radSeg, int sides);
+        } break;
+        case XT_GEN_MESH_HEIGHTMAP: { /* ( +heightmap +size -- Mesh ) */
+            // RAYLIB: Mesh GenMeshHeightmap(Image heightmap, Vector3 size);
+        } break;
+        case XT_GEN_MESH_CUBICMAP: { /* ( +cubicmap +cubeSize -- Mesh ) */
+            // RAYLIB: Mesh GenMeshCubicmap(Image cubicmap, Vector3 cubeSize);
+        } break;
+        // rmodels - Material loading/unloading functions
+        case XT_LOAD_MATERIALS: { /* ( +fileName +materialCount -- Material* ) */
+            // RAYLIB: Material *LoadMaterials(const char *fileName, int *materialCount);
+        } break;
+        case XT_LOAD_MATERIAL_DEFAULT: { /* ( -- Material ) */
+            // RAYLIB: Material LoadMaterialDefault(void);
+        } break;
+        case XT_IS_MATERIAL_READY: { /* ( +material -- bool ) */
+            // RAYLIB: bool IsMaterialReady(Material material);
+        } break;
+        case XT_UNLOAD_MATERIAL: { /* ( +material -- ) */
+            // RAYLIB: void UnloadMaterial(Material material);
+        } break;
+        case XT_SET_MATERIAL_TEXTURE: { /* ( +material +mapType +texture -- ) */
+            // RAYLIB: void SetMaterialTexture(Material *material, int mapType, Texture2D texture);
+        } break;
+        case XT_SET_MODEL_MESH_MATERIAL: { /* ( +model +meshId +materialId -- ) */
+            // RAYLIB: void SetModelMeshMaterial(Model *model, int meshId, int materialId);
+        } break;
+        // rmodles - Model animations loading/unloading functions
+        case XT_LOAD_MODEL_ANIMATIONS: { /* ( +fileName +animCount -- ModelAnimation* ) */
+            // RAYLIB: ModelAnimation *LoadModelAnimations(const char *fileName, int *animCount);
+        } break;
+        case XT_UPDATE_MODEL_ANIMATION: { /* ( +model +anim +frame -- ) */
+            // RAYLIB: void UpdateModelAnimation(Model model, ModelAnimation anim, int frame);
+        } break;
+        case XT_UNLOAD_MODEL_ANIMATION: { /* ( +anim -- ) */
+            // RAYLIB: void UnloadModelAnimation(ModelAnimation anim);
+        } break;
+        case XT_UNLOAD_MODEL_ANIMATIONS: { /* ( +animations +animCount -- ) */
+            // RAYLIB: void UnloadModelAnimations(ModelAnimation *animations, int animCount);
+        } break;
+        case XT_IS_MODEL_ANIMATION_VALID: { /* ( +model +anim -- bool ) */
+            // RAYLIB: bool IsModelAnimationValid(Model model, ModelAnimation anim);
+        } break;
+        // rmodels - Collision detection functions
+        case XT_CHECK_COLLISION_SPHERES: { /* ( +center1 +radius1 +center2 +radius2 -- bool ) */
+            // RAYLIB: bool CheckCollisionSpheres(Vector3 center1, float radius1, Vector3 center2, float radius2);
+        } break;
+        case XT_CHECK_COLLISION_BOXES: { /* ( +box1 +box2 -- bool ) */
+            // RAYLIB: bool CheckCollisionBoxes(BoundingBox box1, BoundingBox box2);
+        } break;
+        case XT_CHECK_COLLISION_BOX_SPHERE: { /* ( +box +center +radius -- bool ) */
+            // RAYLIB: bool CheckCollisionBoxSphere(BoundingBox box, Vector3 center, float radius);
+        } break;
+        case XT_GET_RAY_COLLISION_SPHERE: { /* ( +ray +center +radius -- RayCollision ) */
+            // RAYLIB: RayCollision GetRayCollisionSphere(Ray ray, Vector3 center, float radius);
+        } break;
+        case XT_GET_RAY_COLLISION_BOX: { /* ( +ray +box -- RayCollision ) */
+            // RAYLIB: RayCollision GetRayCollisionBox(Ray ray, BoundingBox box);
+        } break;
+        case XT_GET_RAY_COLLISION_MESH: { /* ( +ray +mesh +transform -- RayCollision ) */
+            // RAYLIB: RayCollision GetRayCollisionMesh(Ray ray, Mesh mesh, Matrix transform);
+        } break;
+        case XT_GET_RAY_COLLISION_TRIANGLE: { /* ( +ray +p1 +p2 +p3 -- RayCollision ) */
+            // RAYLIB: RayCollision GetRayCollisionTriangle(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3);
+        } break;
+        case XT_GET_RAY_COLLISION_QUAD: { /* ( +ray +p1 +p2 +p3 +p4 -- RayCollision ) */
+            // RAYLIB: RayCollision GetRayCollisionQuad(Ray ray, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4);
+        } break;
+        // 
+        // raudio
+        // raudio - Audio device management functions
+        case XT_INIT_AUDIO_DEVICE: { /* ( -- void ) */
+            // RAYLIB: void InitAudioDevice(void);
+        } break;
+        case XT_CLOSE_AUDIO_DEVICE: { /* ( -- void ) */
+            // RAYLIB: void CloseAudioDevice(void);
+        } break;
+        case XT_IS_AUDIO_DEVICE_READY: { /* ( -- bool ) */
+            // RAYLIB: bool IsAudioDeviceReady(void);
+        } break;
+        case XT_SET_MASTER_VOLUME: { /* ( +volume -- void ) */
+            // RAYLIB: void SetMasterVolume(float volume);
+        } break;
+        case XT_GET_MASTER_VOLUME: { /* ( -- float ) */
+            // RAYLIB: float GetMasterVolume(void);
+        } break;
+        // raudio - Wave/Sound loading/unloading functions
+        case XT_LOAD_WAVE: { /* ( +fileName -- Wave ) */
+            // RAYLIB: Wave LoadWave(const char *fileName);
+        } break;
+        case XT_LOAD_WAVE_FROM_MEMORY: { /* ( +fileType +fileData +dataSize -- Wave ) */
+            // RAYLIB: Wave LoadWaveFromMemory(const char *fileType, const unsigned char *fileData, int dataSize);
+        } break;
+        case XT_IS_WAVE_READY: { /* ( +wave -- bool ) */
+            // RAYLIB: bool IsWaveReady(Wave wave);
+        } break;
+        case XT_LOAD_SOUND: { /* ( +fileName -- Sound ) */
+            // RAYLIB: Sound LoadSound(const char *fileName);
+        } break;
+        case XT_LOAD_SOUND_FROM_WAVE: { /* ( +wave -- Sound ) */
+            // RAYLIB: Sound LoadSoundFromWave(Wave wave);
+        } break;
+        case XT_LOAD_SOUND_ALIAS: { /* ( +source -- Sound ) */
+            // RAYLIB: Sound LoadSoundAlias(Sound source);
+        } break;
+        case XT_IS_SOUND_READY: { /* ( +sound -- bool ) */
+            // RAYLIB: bool IsSoundReady(Sound sound);
+        } break;
+        case XT_UPDATE_SOUND: { /* ( +sound +data +sampleCount -- void ) */
+            // RAYLIB: void UpdateSound(Sound sound, const void *data, int sampleCount);
+        } break;
+        case XT_UNLOAD_WAVE: { /* ( +wave -- void ) */
+            // RAYLIB: void UnloadWave(Wave wave);
+        } break;
+        case XT_UNLOAD_SOUND: { /* ( +sound -- void ) */
+            // RAYLIB: void UnloadSound(Sound sound);
+        } break;
+        case XT_UNLOAD_SOUND_ALIAS: { /* ( +alias -- void ) */
+            // RAYLIB: void UnloadSoundAlias(Sound alias);
+        } break;
+        case XT_EXPORT_WAVE: { /* ( +wave +fileName -- bool ) */
+            // RAYLIB: bool ExportWave(Wave wave, const char *fileName);
+        } break;
+        case XT_EXPORT_WAVE_AS_CODE: { /* ( +wave +fileName -- bool ) */
+            // RAYLIB: bool ExportWaveAsCode(Wave wave, const char *fileName);
+        } break;
+        // raudio - Wave/Sound management functions
+        case XT_PLAY_SOUND: { /* ( +sound -- void ) */
+            // RAYLIB: void PlaySound(Sound sound);
+        } break;
+        case XT_STOP_SOUND: { /* ( +sound -- void ) */
+            // RAYLIB: void StopSound(Sound sound);
+        } break;
+        case XT_PAUSE_SOUND: { /* ( +sound -- void ) */
+            // RAYLIB: void PauseSound(Sound sound);
+        } break;
+        case XT_RESUME_SOUND: { /* ( +sound -- void ) */
+            // RAYLIB: void ResumeSound(Sound sound);
+        } break;
+        case XT_IS_SOUND_PLAYING: { /* ( +sound -- bool ) */
+            // RAYLIB: bool IsSoundPlaying(Sound sound);
+        } break;
+        case XT_SET_SOUND_VOLUME: { /* ( +sound +volume -- void ) */
+            // RAYLIB: void SetSoundVolume(Sound sound, float volume);
+        } break;
+        case XT_SET_SOUND_PITCH: { /* ( +sound +pitch -- void ) */
+            // RAYLIB: void SetSoundPitch(Sound sound, float pitch);
+        } break;
+        case XT_SET_SOUND_PAN: { /* ( +sound +pan -- void ) */
+            // RAYLIB: void SetSoundPan(Sound sound, float pan);
+        } break;
+        case XT_WAVE_COPY: { /* ( +wave -- Wave ) */
+            // RAYLIB: Wave WaveCopy(Wave wave);
+        } break;
+        case XT_WAVE_CROP: { /* ( +wave +initSample +finalSample -- void ) */
+            // RAYLIB: void WaveCrop(Wave *wave, int initSample, int finalSample);
+        } break;
+        case XT_WAVE_FORMAT: { /* ( +wave +sampleRate +sampleSize +channels -- void ) */
+            // RAYLIB: void WaveFormat(Wave *wave, int sampleRate, int sampleSize, int channels);
+        } break;
+        case XT_LOAD_WAVE_SAMPLES: { /* ( +wave -- float* ) */
+            // RAYLIB: float *LoadWaveSamples(Wave wave);
+        } break;
+        case XT_UNLOAD_WAVE_SAMPLES: { /* ( +samples -- void ) */
+            // RAYLIB: void UnloadWaveSamples(float *samples);
+        } break;
+        // raudio - Music management functions
+        case XT_LOAD_MUSIC_STREAM: { /* ( +fileName -- Music ) */
+            // RAYLIB: Music LoadMusicStream(const char *fileName);
+        } break;
+        case XT_LOAD_MUSIC_STREAM_FROM_MEMORY: { /* ( +fileType +data +dataSize -- Music ) */
+            // RAYLIB: Music LoadMusicStreamFromMemory(const char *fileType, const unsigned char *data, int dataSize);
+        } break;
+        case XT_IS_MUSIC_READY: { /* ( +music -- bool ) */
+            // RAYLIB: bool IsMusicReady(Music music);
+        } break;
+        case XT_UNLOAD_MUSIC_STREAM: { /* ( +music -- void ) */
+            // RAYLIB: void UnloadMusicStream(Music music);
+        } break;
+        case XT_PLAY_MUSIC_STREAM: { /* ( +music -- void ) */
+            // RAYLIB: void PlayMusicStream(Music music);
+        } break;
+        case XT_IS_MUSIC_STREAM_PLAYING: { /* ( +music -- bool ) */
+            // RAYLIB: bool IsMusicStreamPlaying(Music music);
+        } break;
+        case XT_UPDATE_MUSIC_STREAM: { /* ( +music -- void ) */
+            // RAYLIB: void UpdateMusicStream(Music music);
+        } break;
+        case XT_STOP_MUSIC_STREAM: { /* ( +music -- void ) */
+            // RAYLIB: void StopMusicStream(Music music);
+        } break;
+        case XT_PAUSE_MUSIC_STREAM: { /* ( +music -- void ) */
+            // RAYLIB: void PauseMusicStream(Music music);
+        } break;
+        case XT_RESUME_MUSIC_STREAM: { /* ( +music -- void ) */
+            // RAYLIB: void ResumeMusicStream(Music music);
+        } break;
+        case XT_SEEK_MUSIC_STREAM: { /* ( +music +position -- void ) */
+            // RAYLIB: void SeekMusicStream(Music music, float position);
+        } break;
+        case XT_SET_MUSIC_VOLUME: { /* ( +music +volume -- void ) */
+            // RAYLIB: void SetMusicVolume(Music music, float volume);
+        } break;
+        case XT_SET_MUSIC_PITCH: { /* ( +music +pitch -- void ) */
+            // RAYLIB: void SetMusicPitch(Music music, float pitch);
+        } break;
+        case XT_SET_MUSIC_PAN: { /* ( +music +pan -- void ) */
+            // RAYLIB: void SetMusicPan(Music music, float pan);
+        } break;
+        case XT_GET_MUSIC_TIME_LENGTH: { /* ( +music -- float ) */
+            // RAYLIB: float GetMusicTimeLength(Music music);
+        } break;
+        case XT_GET_MUSIC_TIME_PLAYED: { /* ( +music -- float ) */
+            // RAYLIB: float GetMusicTimePlayed(Music music);
+        } break;
+        // raudio - AudioStream management functions
+        case XT_LOAD_AUDIO_STREAM: { /* ( +sampleRate +sampleSize +channels -- AudioStream ) */
+            // RAYLIB: AudioStream LoadAudioStream(unsigned int sampleRate, unsigned int sampleSize, unsigned int channels);
+        } break;
+        case XT_IS_AUDIO_STREAM_READY: { /* ( +stream -- bool ) */
+            // RAYLIB: bool IsAudioStreamReady(AudioStream stream);
+        } break;
+        case XT_UNLOAD_AUDIO_STREAM: { /* ( +stream -- void ) */
+            // RAYLIB: void UnloadAudioStream(AudioStream stream);
+        } break;
+        case XT_UPDATE_AUDIO_STREAM: { /* ( +stream +data +frameCount -- void ) */
+            // RAYLIB: void UpdateAudioStream(AudioStream stream, const void *data, int frameCount);
+        } break;
+        case XT_IS_AUDIO_STREAM_PROCESSED: { /* ( +stream -- bool ) */
+            // RAYLIB: bool IsAudioStreamProcessed(AudioStream stream);
+        } break;
+        case XT_PLAY_AUDIO_STREAM: { /* ( +stream -- void ) */
+            // RAYLIB: void PlayAudioStream(AudioStream stream);
+        } break;
+        case XT_PAUSE_AUDIO_STREAM: { /* ( +stream -- void ) */
+            // RAYLIB: void PauseAudioStream(AudioStream stream);
+        } break;
+        case XT_RESUME_AUDIO_STREAM: { /* ( +stream -- void ) */
+            // RAYLIB: void ResumeAudioStream(AudioStream stream);
+        } break;
+        case XT_IS_AUDIO_STREAM_PLAYING: { /* ( +stream -- bool ) */
+            // RAYLIB: bool IsAudioStreamPlaying(AudioStream stream);
+        } break;
+        case XT_STOP_AUDIO_STREAM: { /* ( +stream -- void ) */
+            // RAYLIB: void StopAudioStream(AudioStream stream);
+        } break;
+        case XT_SET_AUDIO_STREAM_VOLUME: { /* ( +stream +volume -- void ) */
+            // RAYLIB: void SetAudioStreamVolume(AudioStream stream, float volume);
+        } break;
+        case XT_SET_AUDIO_STREAM_PITCH: { /* ( +stream +pitch -- void ) */
+            // RAYLIB: void SetAudioStreamPitch(AudioStream stream, float pitch);
+        } break;
+        case XT_SET_AUDIO_STREAM_PAN: { /* ( +stream +pan -- void ) */
+            // RAYLIB: void SetAudioStreamPan(AudioStream stream, float pan);
+        } break;
+        case XT_SET_AUDIO_STREAM_BUFFER_SIZE_DEFAULT: { /* ( +size -- void ) */
+            // RAYLIB: void SetAudioStreamBufferSizeDefault(int size);
+        } break;
+        case XT_SET_AUDIO_STREAM_CALLBACK: { /* ( +stream +callback -- void ) */
+            // RAYLIB: void SetAudioStreamCallback(AudioStream stream, AudioCallback callback);
+        } break;
+        case XT_ATTACH_AUDIO_STREAM_PROCESSOR: { /* ( +stream +processor -- void ) */
+            // RAYLIB: void AttachAudioStreamProcessor(AudioStream stream, AudioCallback processor);
+        } break;
+        case XT_DETACH_AUDIO_STREAM_PROCESSOR: { /* ( +stream +processor -- void ) */
+            // RAYLIB: void DetachAudioStreamProcessor(AudioStream stream, AudioCallback processor);
+        } break;
+        case XT_ATTACH_AUDIO_MIXED_PROCESSOR: { /* ( +processor -- void ) */
+            // RAYLIB: void AttachAudioMixedProcessor(AudioCallback processor);
+        } break;
+        case XT_DETACH_AUDIO_MIXED_PROCESSOR: { /* ( +processor -- void ) */
+            // RAYLIB: void DetachAudioMixedProcessor(AudioCallback processor);
+        } break;
 
-            RAYLIB_WORDS
 
-            default:
-                // ExceptionReturnCode = THROW_UNDEFINED_WORD;
-                ERR("pfCatch: Unrecognised token = 0x");
-                ffDotHex(Token);
-                ERR(" at 0x");
-                ffDotHex((cell_t)InsPtr);
-                EMIT_CR;
-                InsPtr = 0;
+
+
+          //************************************************************
+          // End of Raylib words
+          //************************************************************
+
+        default:
+          ERR("pfCatch: Unrecognised token = 0x");
+          ffDotHex(Token);
+          ERR(" at 0x");
+          ffDotHex((cell_t)InsPtr);
+          EMIT_CR;
+          InsPtr = 0;
         } // switch(Token)
-
-        // Try Raylib words.
-        // ExceptionReturnCode = pfRaylibCatch(XT, &TopOfStack, DataStackPtr, ReturnStackPtr);
-
-        // if (ExceptionReturnCode == THROW_UNDEFINED_WORD) {
-        //   ERR("pfCatch: Unrecognised token = 0x");
-        //   ffDotHex(Token);
-        //   ERR(" at 0x");
-        //   ffDotHex((cell_t)InsPtr);
-        //   EMIT_CR;
-        //   InsPtr = 0;
-        // }
 
         if (InsPtr) {
           Token = READ_CELL_DIC(

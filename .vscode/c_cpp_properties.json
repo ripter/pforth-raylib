@@ -11,7 +11,7 @@
                 "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
             ],
             "compilerPath": null,
-            "cStandard": "c17",
+            "cStandard": "c99",
             "cppStandard": "c++17",
             "intelliSenseMode": "macos-clang-arm64"
         }
