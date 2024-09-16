@@ -17,4 +17,4 @@ target-fps set-target-fps
     close-window
 ;
 
-19 game-loop
+\ game-loop

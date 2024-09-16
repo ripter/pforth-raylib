@@ -104,16 +104,6 @@ On Unix and MacOS using Makefile:
     
 For more details, see the [Wiki](https://github.com/philburk/pforth/wiki/Compiling-on-Unix)
 
-Using CMake:
-
-    cmake .
-    make
-    cd fth
-    ./pforth_standalone
-
-For embedded systems, see the pForth reference manual at:
-
-  http://www.softsynth.com/pforth/pf_ref.php
 
 ## How to Run pForth
 
@@ -157,15 +147,6 @@ On Unix and MacOS using Makefile:
 
     cd platforms/unix
     make test
-
-Using CMake:
-
-    cmake .
-    make
-    cd fth
-    ./pforth
-    include tester.fth
-    include coretest.fth
 
 To run the other tests, enter:
 

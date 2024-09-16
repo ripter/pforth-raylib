@@ -8,6 +8,8 @@
 #include "pf_raylib.h"
 #include "pf_words.h"
 
+#include "debugger.h"
+
 #define STKPTR     (*DataStackPtr)
 #define M_POP      (*(STKPTR++))
 #define M_PUSH(n)  *(--(STKPTR)) = (cell_t) (n)
@@ -672,6 +674,7 @@ bool TryRaylibWord(ExecToken XT, cell_t *TopOfStack, cell_t **DataStackPtr,
   default:
     printf("\nINFO: Word not found in Raylib words. 0x");
     ffDotHex(XT);
+    sprintf(", %s", GetTokenNameFromXT(XT));
     EMIT_CR;
     return false; // Didn't find the word.
   }

@@ -24,6 +24,7 @@
 ** 950320 RDG Added underflow checking for FP stack
 ***************************************************************/
 
+#include "debugger.h"
 #include "pf_all.h"
 #include "pfcompil.h"
 
@@ -99,6 +100,7 @@ void CreateDicEntry( ExecToken XT, const ForthStringPtr FName, ucell_t Flags )
 */
 void CreateDicEntryC( ExecToken XT, const char *CName, ucell_t Flags )
 {
+    REGISTER_NAME(XT, CName);
     ForthString FName[40];
     CStringToForth( FName, CName, sizeof(FName) );
     CreateDicEntry( XT, FName, Flags );
