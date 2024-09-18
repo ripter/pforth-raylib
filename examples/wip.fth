@@ -10,12 +10,12 @@
 screen-width screen-height s" raylib [textures] example - image loading" init-window
 
 \ Load the image and create texture
-s" ../../examples/resources/raylib_logo.png" load-image constant image
+\ s" ../../examples/resources/raylib_logo.png" load-image constant image
 \ image set-window-icon
 
 \ Create the texture from the image
-variable texture
-image load-texture-from-image texture !
+\ variable texture
+\ image load-texture-from-image texture !
 \ image unload-image  \ Unload image from RAM after uploading to VRAM
 
 \ Set target FPS
@@ -28,7 +28,7 @@ target-fps set-target-fps
     WHILE
         \ Draw
         begin-drawing
-            RAYWHITE clear-background
+            DARKBROWN clear-background
 
             \ ." Stack should be empty" cr .s cr
 
@@ -45,10 +45,10 @@ target-fps set-target-fps
         end-drawing
     REPEAT
 
-    \ De-Initialization
-    texture @ unload-texture  \ Unload texture from VRAM
+    \ \ De-Initialization
+    \ texture @ unload-texture  \ Unload texture from VRAM
     close-window
 ;
 
 \ Start the game
-\ game-loop
+game-loop

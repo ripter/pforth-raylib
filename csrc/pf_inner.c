@@ -86,6 +86,43 @@
 #define M_R_PUSH(n) {*(--(TORPTR)) = (cell_t) (n);}
 
 /***************************************************************
+** Macros for debugging
+***************************************************************/
+
+#define DUMP_STACK2() { \
+  printf("\nData Stack: "); \
+  printf("TOS = %ld, ", TOS); \
+  printf("STKPTR = %ld, ", *STKPTR); \
+  printf("TORPTR = %ld\n", *TORPTR); \
+} \
+
+#define DUMP_STACK() { \
+  printf("\nData Stack:\n"); \
+  printf("  TOS (Value)      : %ld\n", TOS); \
+  printf("  STKPTR (Address) : %p\n", (void*)STKPTR); \
+  printf("  *STKPTR (Value)  : %ld\n", *STKPTR); \
+  printf("  TORPTR (Address) : %p\n", (void*)TORPTR); \
+  printf("  *TORPTR (Value)  : %ld\n", *TORPTR); \
+}
+
+#define LOG_CHANGE(variable) { \
+  printf("Changed %s at %s:%d: New Value = %ld\n", #variable, __FILE__, __LINE__, (long)variable); \
+}
+
+// Macro to print an ASCII memory diagram of x values before and after a pointer, 
+// displaying both hexadecimal and decimal representations
+#define PrintMemoryDiagram(ptr, x) do {                              \
+    intptr_t *p = (intptr_t *)(ptr);                                 \
+    printf("Memory Diagram (before and after pointer):\n");          \
+    for (int i = -(x); i <= (x); i++) {                              \
+        printf("%s %p : %016lx  (%ld)\n",                            \
+               (i == 0) ? "->" : "  ",                               \
+               (void *)(p + i), *(p + i), (long)*(p + i));           \
+    }                                                                \
+} while (0)
+
+
+/***************************************************************
 ** Misc Forth macros
 ***************************************************************/
 
@@ -112,20 +149,18 @@
      }
 
 #else
-/* Cache top of data stack like in JForth. */
-#define LOAD_REGISTERS \
-    { \
-        STKPTR = gCurrentTask->td_StackPtr; \
-        TOS = M_POP; \
-        TORPTR = gCurrentTask->td_ReturnPtr; \
-     }
+  /* Cache top of data stack like in JForth. */
+  #define LOAD_REGISTERS { \
+    STKPTR = gCurrentTask->td_StackPtr; \
+    TOS = M_POP; \
+    TORPTR = gCurrentTask->td_ReturnPtr; \
+  }
 
-#define SAVE_REGISTERS \
-    { \
-        gCurrentTask->td_ReturnPtr = TORPTR; \
-        M_PUSH( TOS ); \
-        gCurrentTask->td_StackPtr = STKPTR; \
-     }
+  #define SAVE_REGISTERS { \
+    gCurrentTask->td_ReturnPtr = TORPTR; \
+    M_PUSH( TOS ); \
+    gCurrentTask->td_StackPtr = STKPTR; \
+  }
 #endif
 
 #define M_DOTS \
@@ -336,39 +371,35 @@ ThrowCode pfCatch( ExecToken XT )
 
     Token = XT;
 
-    do
-    {
-DBUG(("pfCatch: Token = 0x%x\n", Token ));
+    do {
+      DBUG(("pfCatch: Token = 0x%x\n", Token));
 
-/* --------------------------------------------------------------- */
-/* If secondary, thread down code tree until we hit a primitive. */
-        while( !IsTokenPrimitive( Token ) )
-        {
+      /* --------------------------------------------------------------- */
+      /* If secondary, thread down code tree until we hit a primitive. */
+      while (!IsTokenPrimitive(Token)) {
 #ifdef PF_SUPPORT_TRACE
-            if((gVarTraceFlags & TRACE_INNER) )
-            {
-                MSG("pfCatch: Secondary Token = 0x");
-                ffDotHex(Token);
-                MSG_NUM_H(", InsPtr = 0x", InsPtr);
-            }
-            TRACENAMES;
-#endif
-
-/* Save IP on return stack like a JSR. */
-            M_R_PUSH( InsPtr );
-
-/* Convert execution token to absolute address. */
-            InsPtr = (cell_t *) ( LOCAL_CODEREL_TO_ABS(Token) );
-
-/* Fetch token at IP. */
-            Token = READ_CELL_DIC(InsPtr++);
-
-#ifdef PF_SUPPORT_TRACE
-/* Bump level for trace display */
-            Level++;
-#endif
+        if ((gVarTraceFlags & TRACE_INNER)) {
+          MSG("pfCatch: Secondary Token = 0x");
+          ffDotHex(Token);
+          MSG_NUM_H(", InsPtr = 0x", InsPtr);
         }
+        TRACENAMES;
+#endif
 
+        /* Save IP on return stack like a JSR. */
+        M_R_PUSH(InsPtr);
+
+        /* Convert execution token to absolute address. */
+        InsPtr = (cell_t *)(LOCAL_CODEREL_TO_ABS(Token));
+
+        /* Fetch token at IP. */
+        Token = READ_CELL_DIC(InsPtr++);
+
+#ifdef PF_SUPPORT_TRACE
+        /* Bump level for trace display */
+        Level++;
+#endif
+      }
 
 #ifdef PF_SUPPORT_TRACE
         TRACENAMES;
@@ -381,12 +412,12 @@ DBUG(("pfCatch: Token = 0x%x\n", Token ));
     /* Pop up a level in Forth inner interpreter.
     ** Used to implement semicolon.
     ** Put first in switch because ID_EXIT==0 */
-        case ID_EXIT:
-            InsPtr = ( cell_t *) M_R_POP;
+        case ID_EXIT: {
+          InsPtr = (cell_t *)M_R_POP;
 #ifdef PF_SUPPORT_TRACE
-            Level--;
+          Level--;
 #endif
-            endcase;
+        } break;
 
         case ID_1MINUS:  TOS--; endcase;
 
@@ -445,11 +476,12 @@ DBUG(("pfCatch: Token = 0x%x\n", Token ));
             M_PUSH( M_R_POP );
             endcase;
 
-        case ID_2_TO_R:
-            M_R_PUSH( M_POP );
-            M_R_PUSH( TOS );
-            M_DROP;
-            endcase;
+        case ID_2_TO_R: {
+          cell_t Tmp = M_POP;
+          M_R_PUSH(Tmp);
+          M_R_PUSH(TOS);
+          M_DROP;
+        } break;
 
         case ID_ACCEPT_P: /* ( c-addr +n1 -- +n2 ) */
             CharPtr = (char *) M_POP;
@@ -481,7 +513,7 @@ DBUG(("pfCatch: Token = 0x%x\n", Token ));
                 Temp = TOS;
             }
             /* Allocate extra cells worth because we store validation info. */
-            CellPtr = (cell_t *) pfAllocMem( Temp + sizeof(cell_t) );
+            CellPtr = (cell_t *) MemAlloc( Temp + sizeof(cell_t) );
             if( CellPtr )
             {
 /* This was broken into two steps because different compilers incremented
@@ -909,11 +941,13 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
 
         case ID_DUP:   M_DUP; endcase;
 
-        case ID_DO_P: /* ( limit start -- ) ( R: -- start limit ) */
-            M_R_PUSH( TOS );
-            M_R_PUSH( M_POP );
-            M_DROP;
-            endcase;
+        case ID_DO_P: { /* ( limit start -- ) ( R: -- start limit ) */
+          cell_t limit = TOS;
+          cell_t start = M_POP;
+          M_R_PUSH(limit);
+          M_R_PUSH(start);
+          M_DROP;
+        } break;
 
         case ID_EOL:    /* ( -- end_of_line_char ) */
             PUSH_TOS;
@@ -938,24 +972,21 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             M_DROP;
             endcase;
 
-        case ID_EXECUTE:
-/* Save IP on return stack like a JSR. */
-            M_R_PUSH( InsPtr );
+        case ID_EXECUTE: {
+          /* Save IP on return stack like a JSR. */
+          M_R_PUSH(InsPtr);
 #ifdef PF_SUPPORT_TRACE
-/* Bump level for trace. */
-            Level++;
+          /* Bump level for trace. */
+          Level++;
 #endif
-            if( IsTokenPrimitive( TOS ) )
-            {
-                WRITE_CELL_DIC( (cell_t *) &FakeSecondary[0], TOS);   /* Build a fake secondary and execute it. */
-                InsPtr = &FakeSecondary[0];
-            }
-            else
-            {
-                InsPtr = (cell_t *) LOCAL_CODEREL_TO_ABS(TOS);
-            }
-            M_DROP;
-            endcase;
+          if (IsTokenPrimitive(TOS)) {
+            WRITE_CELL_DIC((cell_t *)&FakeSecondary[0], TOS); /* Build a fake secondary and execute it. */
+            InsPtr = &FakeSecondary[0];
+          } else {
+            InsPtr = (cell_t *)LOCAL_CODEREL_TO_ABS(TOS);
+          }
+          M_DROP;
+        } break;
 
         case ID_FETCH:
 #if (defined(PF_BIG_ENDIAN_DIC) || defined(PF_LITTLE_ENDIAN_DIC))
@@ -1220,7 +1251,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
                 else
                 {
                     CellPtr[0] = 0xDeadBeef;
-                    pfFreeMem((char *)CellPtr);
+                    MemFree((char *)CellPtr);
                     TOS = 0;
                 }
             }
@@ -1343,28 +1374,26 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             M_DROP;
             endcase;
 
-        case ID_LOCAL_ENTRY: /* ( x0 x1 ... xn n -- ) */
-        /* create local stack frame */
-            {
-                cell_t i = TOS;
-                cell_t *lp;
-                DBUG(("LocalEntry: n = %d\n", TOS));
-                /* End of locals. Create stack frame */
-                DBUG(("LocalEntry: before RP@ = 0x%x, LP = 0x%x\n",
-                    TORPTR, LocalsPtr));
-                M_R_PUSH(LocalsPtr);
-                LocalsPtr = TORPTR;
-                TORPTR -= TOS;
-                DBUG(("LocalEntry: after RP@ = 0x%x, LP = 0x%x\n",
-                    TORPTR, LocalsPtr));
-                lp = TORPTR;
-                while(i-- > 0)
-                {
-                    *lp++ = M_POP;    /* Load local vars from stack */
-                }
-                M_DROP;
-            }
-            endcase;
+        case ID_LOCAL_ENTRY: { /* ( x0 x1 ... xn n -- ) */
+          /* create local stack frame */
+          cell_t i = TOS;
+          cell_t *lp;
+          DBUG(("LocalEntry: n = %d\n", TOS));
+        //   printf("LocalEntry: n = %d\n", TOS);
+          /* End of locals. Create stack frame */
+          DBUG(("LocalEntry: before RP@ = 0x%x, LP = 0x%x\n", TORPTR, LocalsPtr));
+        //   printf("LocalEntry: before RP@ = 0x%x, LP = 0x%x\n", TORPTR, LocalsPtr);
+          M_R_PUSH(LocalsPtr);
+          LocalsPtr = TORPTR;
+          TORPTR -= TOS;
+          DBUG(
+              ("LocalEntry: after RP@ = 0x%x, LP = 0x%x\n", TORPTR, LocalsPtr));
+          lp = TORPTR;
+          while (i-- > 0) {
+            *lp++ = M_POP; /* Load local vars from stack */
+          }
+          M_DROP;
+        } break;
 
         case ID_LOCAL_EXIT: /* cleanup up local stack frame */
             DBUG(("LocalExit: before RP@ = 0x%x, LP = 0x%x\n",
@@ -1399,22 +1428,19 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             M_BRANCH;
             endcase;
 
-        case ID_LOOP_P: /* ( R: index limit -- | index limit ) */
-            Temp = M_R_POP; /* limit */
-            Scratch = M_R_POP + 1; /* index */
-            if( Scratch == Temp )
-            {
-                InsPtr++;   /* skip branch offset, exit loop */
-            }
-            else
-            {
-/* Push index and limit back to R */
-                M_R_PUSH( Scratch );
-                M_R_PUSH( Temp );
-/* Branch back to just after (DO) */
-                M_BRANCH;
-            }
-            endcase;
+        case ID_LOOP_P: {        /* ( R: index limit -- | index limit ) */
+          Temp = M_R_POP;        /* limit */
+          Scratch = M_R_POP + 1; /* index */
+          if (Scratch == Temp) {
+            InsPtr++; /* skip branch offset, exit loop */
+          } else {
+            /* Push index and limit back to R */
+            M_R_PUSH(Scratch);
+            M_R_PUSH(Temp);
+            /* Branch back to just after (DO) */
+            M_BRANCH;
+          }
+        } break;
 
         case ID_LSHIFT:     BINARY_OP( << ); endcase;
 
@@ -1474,49 +1500,41 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             M_DROP;
             endcase;
 
-        case ID_PLUSLOOP_P: /* ( delta -- ) ( R: index limit -- | index limit ) */
-            {
-		cell_t Limit = M_R_POP;
-		cell_t OldIndex = M_R_POP;
-		cell_t Delta = TOS; /* add TOS to index, not 1 */
-		cell_t NewIndex = OldIndex + Delta;
-		cell_t OldDiff = OldIndex - Limit;
+        case ID_PLUSLOOP_P: { /* ( delta -- ) ( R: index limit -- | index limit ) */
+          cell_t Limit = M_R_POP;
+          cell_t OldIndex = M_R_POP;
+          cell_t Delta = TOS; /* add TOS to index, not 1 */
+          cell_t NewIndex = OldIndex + Delta;
+          cell_t OldDiff = OldIndex - Limit;
 
-		/* This exploits this idea (lifted from Gforth):
-		   (x^y)<0 is equivalent to (x<0) != (y<0) */
-                if( ((OldDiff ^ (OldDiff + Delta)) /* is the limit crossed? */
-		     & (OldDiff ^ Delta))          /* is it a wrap-around? */
-		    < 0 )
-		{
-                    InsPtr++;   /* skip branch offset, exit loop */
-                }
-                else
-                {
-/* Push index and limit back to R */
-                    M_R_PUSH( NewIndex );
-                    M_R_PUSH( Limit );
-/* Branch back to just after (DO) */
-                    M_BRANCH;
-                }
-                M_DROP;
-            }
-            endcase;
+          /* This exploits this idea (lifted from Gforth):
+             (x^y)<0 is equivalent to (x<0) != (y<0) */
+          if (((OldDiff ^ (OldDiff + Delta)) /* is the limit crossed? */
+               & (OldDiff ^ Delta))          /* is it a wrap-around? */
+              < 0) {
+            InsPtr++; /* skip branch offset, exit loop */
+          } else {
+            /* Push index and limit back to R */
+            M_R_PUSH(NewIndex);
+            M_R_PUSH(Limit);
+            /* Branch back to just after (DO) */
+            M_BRANCH;
+          }
+          M_DROP;
+        } break;
 
-        case ID_QDO_P: /* (?DO) ( limit start -- ) ( R: -- start limit ) */
-            Scratch = M_POP;  /* limit */
-            if( Scratch == TOS )
-            {
-/* Branch to just after (LOOP) */
-                M_BRANCH;
-            }
-            else
-            {
-                M_R_PUSH( TOS );
-                M_R_PUSH( Scratch );
-                InsPtr++;   /* skip branch offset, enter loop */
-            }
-            M_DROP;
-            endcase;
+        case ID_QDO_P: {   /* (?DO) ( limit start -- ) ( R: -- start limit ) */
+          Scratch = M_POP; /* limit */
+          if (Scratch == TOS) {
+            /* Branch to just after (LOOP) */
+            M_BRANCH;
+          } else {
+            M_R_PUSH(TOS);
+            M_R_PUSH(Scratch);
+            InsPtr++; /* skip branch offset, enter loop */
+          }
+          M_DROP;
+        } break;
 
         case ID_QDUP:     if( TOS ) M_DUP; endcase;
 
@@ -1566,7 +1584,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
                 else
                 {
                     /* Try to allocate. */
-                    CellPtr = (cell_t *) pfAllocMem( TOS + sizeof(cell_t) );
+                    CellPtr = (cell_t *) MemAlloc( TOS + sizeof(cell_t) );
                     if( CellPtr )
                     {
                         /* Copy memory including validation. */
@@ -1578,7 +1596,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
                         TOS = 0; /* Result code. */
                         /* Mark old cell as dead so we can't free it twice. */
                         FreePtr[0] = 0xDeadBeef;
-                        pfFreeMem((char *) FreePtr);
+                        MemFree((char *) FreePtr);
                     }
                     else
                     {
@@ -1790,10 +1808,13 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             M_DROP;
             endcase;
 
-        case ID_TO_R:
-            M_R_PUSH( TOS );
-            M_DROP;
-            endcase;
+        case ID_TO_R: {
+          if (TOS == 0xFF) {
+            printf("ID_TO_R: TOS = 0x%ld\n", TOS);
+          }
+          M_R_PUSH(TOS);
+          M_DROP;
+        } break;
 
         case ID_VAR_BASE: DO_VAR(gVarBase); endcase;
         case ID_VAR_BYE_CODE: DO_VAR(gVarByeCode); endcase;
@@ -1900,6 +1921,9 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         } break;
         // RAYLIB: bool WindowShouldClose(void);
         case XT_WINDOW_SHOULD_CLOSE: { /* ( -- bool ) */
+          if (TOS != 0) {
+            printf("\nWINDOW-SHOULD-CLOSE: TOS should be empty, instead got %ld", TOS);
+          }
           M_SET_TOS_BOOL(WindowShouldClose());
         } break;
         // RAYLIB: bool IsWindowReady(void);
@@ -2115,15 +2139,36 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         // RAYLIB: void ClearBackground(Color color);
         case XT_CLEAR_BACKGROUND: { /* ( +color -- ) */
           if (!IsWindowReady()) {
-            ERR("Error: Window is not ready.\nClearBackground() requires a "
+            printf("Error: Window is not ready.\nClearBackground() requires a "
                 "window to be initialized.\n");
             break;
           }
+
+          printf("\nclear-background before pops");
+          EMIT_CR;
+          PrintMemoryDiagram(DataStackPtr, 8);
+          EMIT_CR;
+
           int alpha = TOS;
           int blue = M_POP;
           int green = M_POP;
           int red = M_POP;
           M_DROP;
+
+          printf("\nclear-background after pops");
+          EMIT_CR;
+          PrintMemoryDiagram(DataStackPtr, 8);
+          EMIT_CR;
+
+          if (TOS != 0) {
+            printf("\nColor %d, %d, %d, %d", red, green, blue, alpha);
+            printf("\nError: Stack should be empty.");
+            DUMP_STACK();
+            EMIT_CR;
+            PrintMemoryDiagram(DataStackPtr, 8);
+            EMIT_CR;
+            break;
+          }
           ClearBackground((Color){red, green, blue, alpha});
         } break;
         // RAYLIB: void BeginDrawing(void);
@@ -3834,16 +3879,15 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
           ERR(" at 0x");
           ffDotHex((cell_t)InsPtr);
           EMIT_CR;
+          printf("InsPtr has been reset to 0 because the Toke was not found.");
           InsPtr = 0;
         } // switch(Token)
 
         if (InsPtr) {
-          printf("\nInsPtr: %p\n", InsPtr);
-          Token = READ_CELL_DIC(
-              InsPtr++); /* Traverse to next token in secondary. */
+          Token = READ_CELL_DIC(InsPtr++); /* Traverse to next token in secondary. */
         }
 
-    } while( (InitialReturnStack - TORPTR) > 0 );
+  } while ((InitialReturnStack - TORPTR) > 0);
 
     SAVE_REGISTERS;
 

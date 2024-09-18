@@ -31,6 +31,7 @@
 ***************************************************************/
 
 #include <assert.h>
+#include "raylib.h"
 
 #include "pf_all.h"
 
@@ -582,7 +583,7 @@ DBUG(("pfLoadDictionary( %s )\n", FileName ));
         switch( ChunkID )
         {
         case ID_P4DI:
-            sd = (DictionaryInfoChunk *) pfAllocMem( ChunkSize );
+            sd = (DictionaryInfoChunk *) MemAlloc( ChunkSize );
             if( sd == NULL ) goto nomem_error;
 
             numr = sdReadFile( sd, 1, ChunkSize, fid );
@@ -671,7 +672,7 @@ DBUG(("pfLoadDictionary( %s )\n", FileName ));
             gNumPrimitives = sd->sd_NumPrimitives;  /* Must match compiled dictionary. */
 /* Pass EntryPoint back to caller. */
             if( EntryPointPtr != NULL ) *EntryPointPtr = sd->sd_EntryPoint;
-            pfFreeMem(sd);
+            MemFree(sd);
             break;
 
         case ID_P4NM:

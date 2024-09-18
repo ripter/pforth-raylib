@@ -6,6 +6,7 @@
 **
 ** Author: Phil Burk
 ** Copyright 1994 3DO, Phil Burk, Larry Polansky, David Rosenboom
+** Modified by Chris Richards 2024.
 **
 ** Permission to use, copy, modify, and/or distribute this
 ** software for any purpose with or without fee is hereby granted.
@@ -34,9 +35,13 @@
 ** 941005 PLB Added ANSI locals, LEAVE, modularised
 ** 950320 RDG Added underflow checking for FP stack
 ** 970702 PLB Added STACK_SAFETY to FP stack size.
+** 240918 CR  Added Raylib support, updated to C99.
 ***************************************************************/
 
 #include "pf_all.h"
+#include "raylib.h"
+
+#define STACK_SAFETY 8  // Allocate some extra cells to protect against stack underflows.
 
 /***************************************************************
 ** Global Data
@@ -112,7 +117,6 @@ static void pfInit( void )
     gDepthAtColon = DEPTH_AT_COLON_INVALID;
     gVarTraceStack = 1;
 
-    pfInitMemoryAllocator();
     ioInit();
 }
 static void pfTerm( void )
@@ -129,54 +133,74 @@ void pfDeleteTask( PForthTask task )
     pfTaskData_t *cftd = (pfTaskData_t *)task;
     FREE_VAR( cftd->td_ReturnLimit );
     FREE_VAR( cftd->td_StackLimit );
-    pfFreeMem( cftd );
+    MemFree( cftd );
 }
 
-/* Allocate some extra cells to protect against mild stack underflows. */
-#define STACK_SAFETY  (8)
-PForthTask pfCreateTask( cell_t UserStackDepth, cell_t ReturnStackDepth )
-{
-    pfTaskData_t *cftd;
+/* 
+ * Allocates a new PForth task with user stack, return stack, and (optionally) float stack. 
+ * The task will also allocate some extra cells to protect against mild stack underflows.
+ *
+ * @param UserStackDepth: The depth of the user stack.
+ * @param ReturnStackDepth: The depth of the return stack.
+ *
+ * @return A newly created PForth task (PForthTask) or NULL on failure.
+ */
+PForthTask pfCreateTask(cell_t UserStackDepth, cell_t ReturnStackDepth) {
+  pfTaskData_t *taskData;  // Pointer to hold the task data
 
-    cftd = ( pfTaskData_t * ) pfAllocMem( sizeof( pfTaskData_t ) );
-    if( !cftd ) goto nomem;
-    pfSetMemory( cftd, 0, sizeof( pfTaskData_t ));
+  // Allocate memory for task data structure
+  taskData = (pfTaskData_t *)MemAlloc(sizeof(pfTaskData_t));
+  if (!taskData) {
+    goto nomem;
+  }
 
-/* Allocate User Stack */
-    cftd->td_StackLimit = (cell_t *) pfAllocMem((ucell_t)(sizeof(cell_t) *
-                (UserStackDepth + STACK_SAFETY)));
-    if( !cftd->td_StackLimit ) goto nomem;
-    cftd->td_StackBase = cftd->td_StackLimit + UserStackDepth;
-    cftd->td_StackPtr = cftd->td_StackBase;
+  // Zero out the allocated memory for safety
+  pfSetMemory(taskData, 0, sizeof(pfTaskData_t));
 
-/* Allocate Return Stack */
-    cftd->td_ReturnLimit = (cell_t *) pfAllocMem((ucell_t)(sizeof(cell_t) * ReturnStackDepth) );
-    if( !cftd->td_ReturnLimit ) goto nomem;
-    cftd->td_ReturnBase = cftd->td_ReturnLimit + ReturnStackDepth;
-    cftd->td_ReturnPtr = cftd->td_ReturnBase;
+  /* Allocate User Stack */
+  taskData->td_StackLimit = (cell_t *)MemAlloc((ucell_t)(sizeof(cell_t) * (UserStackDepth + STACK_SAFETY)));
+  if (!taskData->td_StackLimit) {
+    goto nomem;
+  }
+  taskData->td_StackBase = taskData->td_StackLimit + UserStackDepth;
+  taskData->td_StackPtr = taskData->td_StackBase;
 
-/* Allocate Float Stack */
+  /* Allocate Return Stack */
+  taskData->td_ReturnLimit = (cell_t *)MemAlloc((ucell_t)(sizeof(cell_t) * ReturnStackDepth));
+  if (!taskData->td_ReturnLimit) {
+    goto nomem;
+  }
+  taskData->td_ReturnBase = taskData->td_ReturnLimit + ReturnStackDepth;
+  taskData->td_ReturnPtr = taskData->td_ReturnBase;
+
+  /* Allocate Float Stack (if floating-point support is enabled) */
 #ifdef PF_SUPPORT_FP
-/* Allocate room for as many Floats as we do regular data. */
-    cftd->td_FloatStackLimit = (PF_FLOAT *) pfAllocMem((ucell_t)(sizeof(PF_FLOAT) *
-                (UserStackDepth + STACK_SAFETY)));
-    if( !cftd->td_FloatStackLimit ) goto nomem;
-    cftd->td_FloatStackBase = cftd->td_FloatStackLimit + UserStackDepth;
-    cftd->td_FloatStackPtr = cftd->td_FloatStackBase;
+  // Allocate memory for the float stack, similar size to the user stack
+  taskData->td_FloatStackLimit = (PF_FLOAT *)MemAlloc((ucell_t)(sizeof(PF_FLOAT) * (UserStackDepth + STACK_SAFETY)));
+  if (!taskData->td_FloatStackLimit) {
+    goto nomem;
+  }
+  taskData->td_FloatStackBase = taskData->td_FloatStackLimit + UserStackDepth;
+  taskData->td_FloatStackPtr = taskData->td_FloatStackBase;
 #endif
 
-    cftd->td_InputStream = PF_STDIN;
+  // Set up initial input stream (stdin) and source pointer for TIB (Terminal Input Buffer)
+  taskData->td_InputStream = PF_STDIN;
+  taskData->td_SourcePtr = &taskData->td_TIB[0];  // Initialize source pointer
+  taskData->td_SourceNum = 0;  // No characters yet in the source
 
-    cftd->td_SourcePtr = &cftd->td_TIB[0];
-    cftd->td_SourceNum = 0;
-
-    return (PForthTask) cftd;
+  return (PForthTask)taskData;  // Return the newly created task
 
 nomem:
-    ERR("CreateTaskContext: insufficient memory.\n");
-    if( cftd ) pfDeleteTask( (PForthTask) cftd );
-    return NULL;
+  // Error handling: log insufficient memory and clean up if needed
+  ERR("pfCreateTask: insufficient memory.\n");
+  if (taskData) {
+      pfDeleteTask((PForthTask)taskData);  // Clean up allocated task if an error occurred
+  }
+  return NULL;  // Return NULL to indicate failure
 }
+
+
 
 /***************************************************************
 ** Dictionary Management
@@ -209,7 +233,7 @@ void pfDeleteDictionary( PForthDictionary dictionary )
         FREE_VAR( dic->dic_HeaderBaseUnaligned );
         FREE_VAR( dic->dic_CodeBaseUnaligned );
     }
-    pfFreeMem( dic );
+    MemFree( dic );
 }
 
 /***************************************************************
@@ -224,7 +248,7 @@ PForthDictionary pfCreateDictionary( cell_t HeaderSize, cell_t CodeSize )
 /* Allocate memory for initial dictionary. */
     pfDictionary_t *dic;
 
-    dic = ( pfDictionary_t * ) pfAllocMem( sizeof( pfDictionary_t ) );
+    dic = ( pfDictionary_t * ) MemAlloc( sizeof( pfDictionary_t ) );
     if( !dic ) goto nomem;
     pfSetMemory( dic, 0, sizeof( pfDictionary_t ));
 
@@ -240,7 +264,7 @@ PForthDictionary pfCreateDictionary( cell_t HeaderSize, cell_t CodeSize )
 /* Allocate memory for header. */
     if( HeaderSize > 0 )
     {
-        dic->dic_HeaderBaseUnaligned = (ucell_t) pfAllocMem( (ucell_t) HeaderSize + DIC_ALIGNMENT_SIZE );
+        dic->dic_HeaderBaseUnaligned = (ucell_t) MemAlloc( (ucell_t) HeaderSize + DIC_ALIGNMENT_SIZE );
         if( !dic->dic_HeaderBaseUnaligned ) goto nomem;
 /* Align header base. */
         dic->dic_HeaderBase = DIC_ALIGN(dic->dic_HeaderBaseUnaligned);
@@ -254,7 +278,7 @@ PForthDictionary pfCreateDictionary( cell_t HeaderSize, cell_t CodeSize )
     }
 
 /* Allocate memory for code. */
-    dic->dic_CodeBaseUnaligned = (ucell_t) pfAllocMem( (ucell_t) CodeSize + DIC_ALIGNMENT_SIZE );
+    dic->dic_CodeBaseUnaligned = (ucell_t) MemAlloc( (ucell_t) CodeSize + DIC_ALIGNMENT_SIZE );
     if( !dic->dic_CodeBaseUnaligned ) goto nomem;
     dic->dic_CodeBase = DIC_ALIGN(dic->dic_CodeBaseUnaligned);
     pfSetMemory( (char *) dic->dic_CodeBase, 0x5A, (ucell_t) CodeSize);

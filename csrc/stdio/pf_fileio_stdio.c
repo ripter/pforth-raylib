@@ -17,6 +17,7 @@
 **
 ****************************************************************/
 
+#include "raylib.h"
 #include "../pf_all.h"
 
 #ifndef PF_NO_FILEIO
@@ -26,27 +27,26 @@
 typedef int bool_t;
 
 /* Copy SIZE bytes from File FROM to File TO.  Return non-FALSE on error. */
-static bool_t CopyFile( FileStream *From, FileStream *To, long Size)
-{
-    bool_t Error = TRUE;
-    size_t Diff = Size;
-    size_t BufSize = 512;
-    char *Buffer = pfAllocMem( BufSize );
-    if( Buffer != 0 )
-    {
-	while( Diff > 0 )
-	{
-	    size_t N = MIN( Diff, BufSize );
-	    if( fread( Buffer, 1, N, From ) < N ) goto cleanup;
-	    if( fwrite( Buffer, 1, N, To ) < N ) goto cleanup;
-	    Diff -= N;
-	}
-	Error = FALSE;
-
-      cleanup:
-	pfFreeMem( Buffer );
+static bool_t CopyFile(FileStream *From, FileStream *To, long Size) {
+  bool_t Error = TRUE;
+  size_t Diff = Size;
+  size_t BufSize = 512;
+  char *Buffer = MemAlloc(BufSize);
+  if (Buffer != 0) {
+    while (Diff > 0) {
+      size_t N = MIN(Diff, BufSize);
+      if (fread(Buffer, 1, N, From) < N)
+        goto cleanup;
+      if (fwrite(Buffer, 1, N, To) < N)
+        goto cleanup;
+      Diff -= N;
     }
-    return Error;
+    Error = FALSE;
+
+  cleanup:
+    MemFree(Buffer);
+  }
+  return Error;
 }
 
 /* Shrink the file FILE to NEWSIZE.  Return non-FALSE on error.
@@ -88,25 +88,23 @@ static bool_t TruncateFile( FileStream *File, long Newsize )
 }
 
 /* Write DIFF 0 bytes to FILE. Return non-FALSE on error. */
-static bool_t ExtendFile( FileStream *File, size_t Diff )
-{
-    bool_t Error = TRUE;
-    size_t BufSize = 512;
-    char * Buffer = pfAllocMem( BufSize );
-    if( Buffer != 0 )
-    {
-	pfSetMemory( Buffer, 0, BufSize );
-	while( Diff > 0 )
-	{
-	    size_t N = MIN( Diff, BufSize );
-	    if( fwrite( Buffer, 1, N, File ) < N ) goto cleanup;
-	    Diff -= N;
-	}
-	Error = FALSE;
-      cleanup:
-	pfFreeMem( Buffer );
+static bool_t ExtendFile(FileStream *File, size_t Diff) {
+  bool_t Error = TRUE;
+  size_t BufSize = 512;
+  char *Buffer = MemAlloc(BufSize);
+  if (Buffer != 0) {
+    pfSetMemory(Buffer, 0, BufSize);
+    while (Diff > 0) {
+      size_t N = MIN(Diff, BufSize);
+      if (fwrite(Buffer, 1, N, File) < N)
+        goto cleanup;
+      Diff -= N;
     }
-    return Error;
+    Error = FALSE;
+  cleanup:
+    MemFree(Buffer);
+  }
+  return Error;
 }
 
 ThrowCode sdResizeFile( FileStream *File, uint64_t Size )
