@@ -161,7 +161,7 @@
 
 #else
 /* Cache top of data stack like in JForth. */
-#define LOAD_REGISTERS                                                         \
+#define LOAD_REGISTERS \
   {                                                                            \
     STKPTR = gCurrentTask->td_StackPtr;                                        \
     TOS = M_POP;                                                               \
@@ -326,8 +326,8 @@ static const char *pfSelectFileModeOpen(cell_t fam) {
 
 /**************************************************************/
 ThrowCode pfCatch(ExecToken XT) {
-  cell_t TopOfStack;
-  register cell_t *DataStackPtr; /* Cache for faster execution. */
+  register cell_t TopOfStack; /* Cache for faster execution. */
+  cell_t *DataStackPtr; 
   register cell_t *ReturnStackPtr;
   register cell_t *InsPtr = NULL;
   register cell_t Token;
@@ -367,8 +367,13 @@ ThrowCode pfCatch(ExecToken XT) {
   FakeSecondary[0] = 0;
   FakeSecondary[1] = ID_EXIT; /* For EXECUTE */
 
+  printf("\n\n************************************");
+  printf("\n*** pfCatch: XT = 0x%ld          ***\n", XT);
+  PrintMemoryDiagram(DataStackPtr, 4);
+  EMIT_CR;
   /* Move data from task structure to registers for speed. */
   LOAD_REGISTERS;
+
 
   /* Save initial stack depths for THROW */
   InitialReturnStack = TORPTR;
@@ -4084,8 +4089,7 @@ ThrowCode pfCatch(ExecToken XT) {
       // RAYLIB: float GetMusicTimePlayed(Music music);
     } break;
     // raudio - AudioStream management functions
-    case XT_LOAD_AUDIO_STREAM: { /* ( +sampleRate +sampleSize +channels --
-                                    AudioStream ) */
+    case XT_LOAD_AUDIO_STREAM: { /* ( +sampleRate +sampleSize +channels --  AudioStream ) */
       // RAYLIB: AudioStream LoadAudioStream(unsigned int sampleRate, unsigned
       // int sampleSize, unsigned int channels);
     } break;
@@ -4133,13 +4137,11 @@ ThrowCode pfCatch(ExecToken XT) {
       // RAYLIB: void SetAudioStreamCallback(AudioStream stream, AudioCallback
       // callback);
     } break;
-    case XT_ATTACH_AUDIO_STREAM_PROCESSOR: { /* ( +stream +processor -- void )
-                                              */
+    case XT_ATTACH_AUDIO_STREAM_PROCESSOR: { /* ( +stream +processor -- void )  */
       // RAYLIB: void AttachAudioStreamProcessor(AudioStream stream,
       // AudioCallback processor);
     } break;
-    case XT_DETACH_AUDIO_STREAM_PROCESSOR: { /* ( +stream +processor -- void )
-                                              */
+    case XT_DETACH_AUDIO_STREAM_PROCESSOR: { /* ( +stream +processor -- void )  */
       // RAYLIB: void DetachAudioStreamProcessor(AudioStream stream,
       // AudioCallback processor);
     } break;
@@ -4170,18 +4172,24 @@ ThrowCode pfCatch(ExecToken XT) {
       ERR(" at 0x");
       ffDotHex((cell_t)InsPtr);
       EMIT_CR;
-      printf("InsPtr has been reset to 0 because the Toke was not found.");
+      printf("InsPtr has been reset to 0 because the Token was not found.");
       InsPtr = 0;
     } // switch(Token)
 
     if (InsPtr) {
-      Token =
-          READ_CELL_DIC(InsPtr++); /* Traverse to next token in secondary. */
+      Token = READ_CELL_DIC(InsPtr++); /* Traverse to next token in secondary. */
     }
 
   } while ((InitialReturnStack - TORPTR) > 0);
 
+  EMIT_CR;
+  PrintMemoryDiagram(DataStackPtr, 4);
+  printf("\n**** End of pfCatch: XT = 0x%ld *****", XT);
+  printf("\n*************************************");
+  EMIT_CR; EMIT_CR;
+
   SAVE_REGISTERS;
+
 
   return ExceptionReturnCode;
 }
