@@ -59,6 +59,7 @@
   { TOS = M_POP; }
 
 #define M_SET_TOS_BOOL(result) (TOS = ((result) == false ? pfFALSE : pfTRUE))
+#define M_PUSH_BOOL(result) M_PUSH((result) == false ? pfFALSE : pfTRUE)
 
 #define ASCII_EOT (0x04)
 
@@ -96,13 +97,6 @@
 ** Macros for debugging
 ***************************************************************/
 
-#define DUMP_STACK2()                                                          \
-  {                                                                            \
-    printf("\nData Stack: ");                                                  \
-    printf("TOS = %ld, ", TOS);                                                \
-    printf("STKPTR = %ld, ", *STKPTR);                                         \
-    printf("TORPTR = %ld\n", *TORPTR);                                         \
-  }
 
 #define DUMP_STACK()                                                           \
   {                                                                            \
@@ -367,10 +361,10 @@ ThrowCode pfCatch(ExecToken XT) {
   FakeSecondary[0] = 0;
   FakeSecondary[1] = ID_EXIT; /* For EXECUTE */
 
-  printf("\n\n************************************");
-  printf("\n*** pfCatch: XT = 0x%ld          ***\n", XT);
-  PrintMemoryDiagram(DataStackPtr, 4);
-  EMIT_CR;
+  // printf("\n\n************************************");
+  // printf("\n*** pfCatch: XT = 0x%ld          ***\n", XT);
+  // PrintMemoryDiagram(DataStackPtr, 4);
+  // EMIT_CR;
   /* Move data from task structure to registers for speed. */
   LOAD_REGISTERS;
 
@@ -1949,11 +1943,26 @@ ThrowCode pfCatch(ExecToken XT) {
     } break;
     // RAYLIB: bool WindowShouldClose(void);
     case XT_WINDOW_SHOULD_CLOSE: { /* ( -- bool ) */
-      if (TOS != 0) {
-        printf("\nWINDOW-SHOULD-CLOSE: TOS should be empty, instead got %ld",
-               TOS);
+      // bool shouldClose = WindowShouldClose();
+
+      // is there something already at TOS?
+      if (TOS == 0) {
+        printf("\nINFO: TOS is 0");
+        printf("\nINFO: Setting TOS to 19");
+        TOS = 19;
+      } else {
+        printf("\nINFO: TOS is %ld", TOS);
+        printf("\nINFO: Pushing TOS onto the stack");
+        printf("\nINFO: Setting TOS to -19");
+        M_PUSH(TOS);
+        TOS = -19;
       }
-      M_SET_TOS_BOOL(WindowShouldClose());
+
+      // if (TOS != 0) {
+      //   M_PUSH_BOOL(shouldClose);        
+      // } else {
+      //   M_SET_TOS_BOOL(shouldClose);
+      // }
     } break;
     // RAYLIB: bool IsWindowReady(void);
     case XT_IS_WINDOW_READY: { /* ( -- bool ) */
@@ -2172,23 +2181,19 @@ ThrowCode pfCatch(ExecToken XT) {
                "window to be initialized.\n");
         break;
       }
-
-      printf("\nclear-background before pops");
-      EMIT_CR;
-      PrintMemoryDiagram(DataStackPtr, 8);
-      EMIT_CR;
-
+      // printf("\nclear-background before pops");
+      // EMIT_CR;
+      // PrintMemoryDiagram(DataStackPtr, 8);
+      // EMIT_CR;
       int alpha = TOS;
       int blue = M_POP;
       int green = M_POP;
       int red = M_POP;
       M_DROP;
-
-      printf("\nclear-background after pops");
-      EMIT_CR;
-      PrintMemoryDiagram(DataStackPtr, 8);
-      EMIT_CR;
-
+      // printf("\nclear-background after pops");
+      // EMIT_CR;
+      // PrintMemoryDiagram(DataStackPtr, 8);
+      // EMIT_CR;
       if (TOS != 0) {
         printf("\nColor %d, %d, %d, %d", red, green, blue, alpha);
         printf("\nError: Stack should be empty.");
@@ -4182,11 +4187,11 @@ ThrowCode pfCatch(ExecToken XT) {
 
   } while ((InitialReturnStack - TORPTR) > 0);
 
-  EMIT_CR;
-  PrintMemoryDiagram(DataStackPtr, 4);
-  printf("\n**** End of pfCatch: XT = 0x%ld *****", XT);
-  printf("\n*************************************");
-  EMIT_CR; EMIT_CR;
+  // EMIT_CR;
+  // PrintMemoryDiagram(DataStackPtr, 4);
+  // printf("\n**** End of pfCatch: XT = 0x%ld *****", XT);
+  // printf("\n*************************************");
+  // EMIT_CR; EMIT_CR;
 
   SAVE_REGISTERS;
 
